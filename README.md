@@ -1,3 +1,3 @@
 # MavenTest
 
-this is a test demo for maven
+This is a test demo for Maven
