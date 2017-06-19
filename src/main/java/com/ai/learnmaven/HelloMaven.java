@@ -1,4 +1,4 @@
-package com.ai.maventest;
+package com.ai.learnmaven;
 
 public class HelloMaven {
 

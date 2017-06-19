@@ -1,3 +1,3 @@
-# MavenTest
+# LearnMaven
 
-This is a test demo for Maven
+This is a test demo for learning Maven
