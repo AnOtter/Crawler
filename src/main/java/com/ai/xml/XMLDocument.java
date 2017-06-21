@@ -73,8 +73,14 @@ public class XMLDocument {
 	
 	public void loadFromFile(String filePath) throws Exception{
 		File xmlFile=new File(filePath);
-		SAXReader reader =new SAXReader();	    
-		doc=reader.read(xmlFile);
+		if(xmlFile.exists()){
+			SAXReader reader =new SAXReader();	    
+			doc=reader.read(xmlFile);
+		}
+	}
+	
+	public void clearNode(){
+		doc.getRootElement().clearContent();
 	}
 
 	

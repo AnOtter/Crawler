@@ -16,7 +16,8 @@ public class App {
 		try {
 			XMLDocument document=new XMLDocument();
 			document.loadFromFile("D:\\Book.xml");
-			document.addNode("NewNode2", "jiangxu");
+			//document.clearNode();
+			document.addNode("NewNode", "x2x");
 			document.save("d:\\book.xml");
 		} catch (Exception e) {
 			e.printStackTrace();
