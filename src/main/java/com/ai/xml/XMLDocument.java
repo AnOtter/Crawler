@@ -1,10 +1,15 @@
 package com.ai.xml;
 
+import java.io.File;
 import java.io.FileOutputStream;
+
+import javax.print.Doc;
+import javax.sql.rowset.spi.XmlReader;
 
 import org.dom4j.Document;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
+import org.dom4j.io.SAXReader;
 import org.dom4j.io.XMLWriter;
 import static com.ai.util.DateTime.*;
 
@@ -16,8 +21,8 @@ import static com.ai.util.DateTime.*;
  */
 public class XMLDocument {
 	
-	private String rootNodeName;
-	private Document doc;
+	private String rootNodeName="";
+	private Document doc=null;
 	
 	private void createDocument(){
 	  if(rootNodeName.equals(""))
@@ -40,6 +45,10 @@ public class XMLDocument {
 		return DocumentHelper.createElement(nodeName);		
 	}
 	
+	public void appendNode(Element node) {
+		doc.getRootElement().add(node);		
+	}
+	
 	public void addNode(String nodeName,String nodeValue) {
 		Element newNode=DocumentHelper.createElement(nodeName);
 		newNode.setText(nodeValue);
@@ -59,8 +68,13 @@ public class XMLDocument {
 		} catch (Exception e) {
 			System.out.println("save exception:"+e.getMessage());
 		}
-		return true;
-		
+		return true;		
+	}
+	
+	public void loadFromFile(String filePath) throws Exception{
+		File xmlFile=new File(filePath);
+		SAXReader reader =new SAXReader();	    
+		doc=reader.read(xmlFile);
 	}
 
 	
