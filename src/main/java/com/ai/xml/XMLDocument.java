@@ -32,6 +32,10 @@ public class XMLDocument {
 	  doc =DocumentHelper.createDocument(rootNode);
 	}
 	
+	/**
+	 *默认构造器
+	 *创建一个根结点为Root的xml文档
+	 */
 	public XMLDocument() {
 		createDocument();
 	}
@@ -56,7 +60,7 @@ public class XMLDocument {
 		appendNode(newNode);		
 	}
 	
-	public boolean save(String filePath){
+	public boolean saveToFile(String filePath){
 		try {
 			FileOutputStream outputStream=new FileOutputStream(filePath,false);		
 			
@@ -66,7 +70,7 @@ public class XMLDocument {
 			writer.close();
 			outputStream.close();
 		} catch (Exception e) {
-			System.out.println("save exception:"+e.getMessage());
+			System.out.println("XML Dcoument save exception:"+e.getMessage());
 		}
 		return true;		
 	}
