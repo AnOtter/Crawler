@@ -28,7 +28,7 @@ public class XMLDocument {
 	  if(rootNodeName.equals(""))
 		  rootNodeName="Root";	  
 	  Element rootNode=DocumentHelper.createElement(rootNodeName);
-	  rootNode.addAttribute("CreateTime",now());
+	  rootNode.addAttribute("DocumentCreateTime",now());
 	  doc =DocumentHelper.createDocument(rootNode);
 	}
 	
@@ -52,8 +52,8 @@ public class XMLDocument {
 	public void addNode(String nodeName,String nodeValue) {
 		Element newNode=DocumentHelper.createElement(nodeName);
 		newNode.setText(nodeValue);
-		newNode.addAttribute("CreateTime", now());
-		doc.getRootElement().add(newNode);		
+		newNode.addAttribute("NodeCreateTime", now());
+		appendNode(newNode);		
 	}
 	
 	public boolean save(String filePath){
