@@ -53,9 +53,9 @@ public class XMLDocument {
 		doc.getRootElement().add(node);		
 	}
 	
-	public void addNode(String nodeName,String nodeValue) {
+	public void addNode(String nodeName,String nodeText) {
 		Element newNode=createNode(nodeName);
-		newNode.setText(nodeValue);
+		newNode.setText(nodeText);
 		newNode.addAttribute("NodeCreateTime", now());
 		appendNode(newNode);		
 	}
