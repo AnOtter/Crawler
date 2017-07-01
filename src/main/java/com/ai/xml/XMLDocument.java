@@ -50,7 +50,7 @@ public class XMLDocument {
 	}
 	
 	public void addNode(String nodeName,String nodeValue) {
-		Element newNode=DocumentHelper.createElement(nodeName);
+		Element newNode=createNode(nodeName);
 		newNode.setText(nodeValue);
 		newNode.addAttribute("NodeCreateTime", now());
 		appendNode(newNode);		
