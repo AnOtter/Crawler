@@ -19,7 +19,7 @@
   <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 </properties>
 <build>
-	<finalName>MavenTest</finalName>
+	<finalName>LearnMaven</finalName>
 	<plugins>
 		<plugin>
 			<groupId>org.apache.maven.plugins</groupId>
@@ -30,7 +30,7 @@
 					<manifest>  
 						<addClasspath>true</addClasspath>  
 						<classpathPrefix>lib/</classpathPrefix>  
-						<mainClass>com.ai.learnmaven.HelloMaven</mainClass>  
+						<mainClass>com.ai.App</mainClass>  
 					</manifest>  
 				</archive>
 			</configuration>

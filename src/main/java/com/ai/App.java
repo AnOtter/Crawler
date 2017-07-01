@@ -4,21 +4,13 @@ import com.ai.xml.XMLDocument;
 public class App {
 
 	public static void main(String[] args) {
-//		XMLDocument document=new XMLDocument("Books");
-//		document.addNode("Java", "English");
-//		document.addNode("C", "Chinese");
-//		document.addNode("Roby", "Japanese");
-//		Element newNode=document.createNode("BookStore");
-//		newNode.setText("XinHua");
-//		newNode.addAttribute("Address", "深圳市南山区后海路1001号");
-//		document.appendNode(newNode);
-//		document.save("D:\\Books.xml");
 		try {
 			XMLDocument document=new XMLDocument();
 			document.loadFromFile("D:\\Book.xml");
-			//document.clearNode();
-			document.addNode("NewNode", "x2x");
-			document.save("d:\\book.xml");
+			document.clearNode();
+			document.addNode("NewNode", "新的结点");
+			document.addNode("NewNode", "如何学习java");
+			document.saveToFile("d:\\book.xml");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
