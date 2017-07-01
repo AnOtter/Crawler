@@ -170,19 +170,23 @@ public class Fetcher implements Runnable {
 	private boolean isURLNeedFetch(String url) {
 		boolean isLastFetchTimeBeforeHalfHour=false;
 		Date fetchTime =null;
-		if(!url.contains(".htm")){
-			synchronized(fetchedList){
-				fetchTime = fetchedList.get(url);
-			}
+
+		synchronized(fetchedList){
+			fetchTime = fetchedList.get(url);
+		}
 			
-			if (fetchTime == null){			
-				isLastFetchTimeBeforeHalfHour= true;
-			}
-			else {
+		if (fetchTime == null){			
+			isLastFetchTimeBeforeHalfHour= true;
+		}
+		else {
+			if(!url.contains(".htm")){
 				long currentTime = new Date().getTime();
 				long pageFetchTime = fetchTime.getTime();			
-				isLastFetchTimeBeforeHalfHour=((currentTime - pageFetchTime) > halfDay);				
-			}
+				isLastFetchTimeBeforeHalfHour=((currentTime - pageFetchTime) > halfDay);	
+			}	
+			else
+				isLastFetchTimeBeforeHalfHour=false;
+				
 		}
 		return isLastFetchTimeBeforeHalfHour;
 	}

@@ -5,9 +5,11 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 
 public class FileOperator {
-	public static void writeContent(String filePath,String content,Boolean append){
+	public static void writeContent(String filePath,String content,Boolean append,Boolean replaceExistFile){
 		   try {		   
 			   File file=new File(filePath);
+			   if((!replaceExistFile) && file.exists())
+				   return;
 			   createLocalFile(file);
 			   FileOutputStream fileOutputStream=new FileOutputStream(file,append);
 			   byte[] bytes=content.getBytes();

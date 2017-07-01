@@ -26,18 +26,18 @@ import com.ai.xml.XMLDocument;
  * @since 20170430
  */
 public class FetchManager {
-	private static Log log =Log.getLog(FetchManager.class.getName());
-	
+	private static Log log = Log.getLog(FetchManager.class.getName());
+
 	private String localSaveDirectory;
 
 	private LinkedList<String> fetchList;
-	private TreeMap<String,Date> fetchedList;
-	
+	private TreeMap<String, Date> fetchedList;
+
 	private List<String> allowList;
 	private List<String> urlList;
-	
-	private int maxThreadCount;	
-	
+
+	private int maxThreadCount;
+
 	private XMLDocument doc;
 
 	private static FetchManager fetchManager;
@@ -54,46 +54,43 @@ public class FetchManager {
 
 	private FetchManager() {
 		fetchList = new LinkedList<>();
-		fetchedList=new TreeMap<>();
-		allowList=new LinkedList<String>();	
-		urlList=new LinkedList<>();
-		maxThreadCount=50;
-		doc=new XMLDocument();
+		fetchedList = new TreeMap<>();
+		allowList = new LinkedList<String>();
+		urlList = new LinkedList<>();
+		maxThreadCount = 50;
+		doc = new XMLDocument();
 		try {
-		File xmlFile=new File(localSaveDirectory+"\\Crawl.xml");
-		if(xmlFile.exists())
-		  doc.loadFromFile(localSaveDirectory+"\\Crawl.xml");
-		}
-		catch (Exception e) {
-			
+			File xmlFile = new File(localSaveDirectory + "\\Crawl.xml");
+			if (xmlFile.exists())
+				doc.loadFromFile(localSaveDirectory + "\\Crawl.xml");
+		} catch (Exception e) {
+
 		}
 	}
-	
-	private void loadAllowList(){
+
+	private void loadAllowList() {
 		log.debug("loadAllowList Begin");
-		String fileContent=readContent(localSaveDirectory+"\\config\\allow.list");
-		if(!fileContent.equals(""))
-		{
-			String[] urlList=fileContent.split("\n");
+		String fileContent = readContent(localSaveDirectory + "\\config\\allow.list");
+		if (!fileContent.equals("")) {
+			String[] urlList = fileContent.split("\n");
 			for (String url : urlList) {
-				url=url.trim();
+				url = url.trim();
 				allowList.add(url);
 			}
 		}
-		log.debug("allowList count:"+allowList.size());
+		log.debug("allowList count:" + allowList.size());
 	}
-	
-	private void loadSeedURLList(){
+
+	private void loadSeedURLList() {
 		log.debug("loadSeedURLList Begin");
-		String fileContent=readContent(localSaveDirectory+"\\config\\urls.list");
-		if(!fileContent.equals(""))
-		{
-			String[] liStrings=fileContent.split("\n");
+		String fileContent = readContent(localSaveDirectory + "\\config\\urls.list");
+		if (!fileContent.equals("")) {
+			String[] liStrings = fileContent.split("\n");
 			for (String string : liStrings) {
 				urlList.add(string);
 			}
 		}
-		log.debug("loadSeedURLList count:"+urlList.size());
+		log.debug("loadSeedURLList count:" + urlList.size());
 	}
 
 	public static FetchManager getInstance() {
@@ -112,40 +109,37 @@ public class FetchManager {
 			log.debug("FetchManager run begin");
 			if (!localSaveDirectory.equals("")) {
 				InitializeFetchList();
-				
-				int fetchTimes=0;
-				ExecutorService executor=Executors.newFixedThreadPool(maxThreadCount);
-				List<Future<?>> futures=new ArrayList<>();
-				while(fetchList.size()>0 )
-				{	
-					for (int i=0;i<futures.size();i++) {
-						if(futures.get(i).isDone())
+
+				int fetchTimes = 0;
+				ExecutorService executor = Executors.newFixedThreadPool(maxThreadCount);
+				List<Future<?>> futures = new ArrayList<>();
+				while (fetchList.size() > 0) {
+					for (int i = 0; i < futures.size(); i++) {
+						if (futures.get(i).isDone())
 							futures.remove(i);
 					}
-					if(futures.size()<maxThreadCount+5)
-					{						
-						String nextFetchURL=fetchList.pollFirst();
-						Fetcher fetcher=new Fetcher(fetchList, fetchedList, allowList);
+					if (futures.size() < maxThreadCount + 5) {
+						String nextFetchURL = fetchList.pollFirst();
+						Fetcher fetcher = new Fetcher(fetchList, fetchedList, allowList);
 						fetcher.setLocalSaveDirectory(localSaveDirectory);
 						fetcher.setFetchURL(nextFetchURL);
 						fetcher.setDocment(doc);
-						Future<?> future= executor.submit(fetcher);
+						Future<?> future = executor.submit(fetcher);
 						futures.add(future);
 					}
-					fetchTimes++;							
-					if((fetchTimes % 1000) ==200)
-					{
+					fetchTimes++;
+					if ((fetchTimes % 1000) == 200) {
 						saveFetchList();
-						doc.saveToFile(localSaveDirectory+"\\Crawl"+today()+".xml");
-						fetchTimes=0;
+						doc.saveToFile(localSaveDirectory + "\\Crawl" + today() + ".xml");
+						fetchTimes = 0;
 					}
 				}
 				try {
 					Thread.currentThread();
 					Thread.sleep(5000);
 				} catch (Exception e) {
-					
-				}				
+
+				}
 				saveFetchList();
 				log.debug("FetchManager run end");
 			} else {
@@ -153,7 +147,7 @@ public class FetchManager {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			log.error("FetchManager run Error:"+e.getMessage());
+			log.error("FetchManager run Error:" + e.getMessage());
 		}
 	}
 
@@ -173,19 +167,18 @@ public class FetchManager {
 			File fetchedListFile = new File(localSaveDirectory + "\\Fetched.List");
 			if (fetchedListFile.exists()) {
 				ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(fetchedListFile));
-				fetchedList = (TreeMap<String,Date>) objectInputStream.readObject();
+				fetchedList = (TreeMap<String, Date>) objectInputStream.readObject();
 				objectInputStream.close();
 			}
-			for(String url:urlList)
-			{
-				if(!fetchList.contains(url))
-				  fetchList.add(url);
+			for (String url : urlList) {
+				if (!fetchList.contains(url))
+					fetchList.add(url);
 			}
 			log.debug("InitializeFetchList end");
-			log.debug("fetchList Count:"+fetchList.size());
-			log.debug("fetchedList Count:"+fetchedList.size());
+			log.debug("fetchList Count:" + fetchList.size());
+			log.debug("fetchedList Count:" + fetchedList.size());
 		} catch (Exception e) {
-			log.error("FetchManager InitializeFetchList Error:"+e.getMessage());
+			log.error("FetchManager InitializeFetchList Error:" + e.getMessage());
 		}
 	}
 
@@ -201,14 +194,13 @@ public class FetchManager {
 				fetchingListFile.delete();
 			}
 
-			ObjectOutputStream saveStream=null;
+			ObjectOutputStream saveStream = null;
 			synchronized (fetchList) {
-				saveStream= new ObjectOutputStream(new FileOutputStream(fetchingListFile));
+				saveStream = new ObjectOutputStream(new FileOutputStream(fetchingListFile));
 				saveStream.writeObject(fetchList);
 				saveStream.close();
 			}
-			
-			
+
 			File fetchedListFile = new File(localSaveDirectory + "\\Fetched.List");
 			if (fetchedListFile.exists()) {
 				fetchedListFile.delete();
@@ -216,19 +208,18 @@ public class FetchManager {
 			synchronized (fetchedList) {
 				saveStream = new ObjectOutputStream(new FileOutputStream(fetchedListFile));
 				saveStream.writeObject(fetchedList);
-				saveStream.close();	
+				saveStream.close();
 			}
-			
+
 		} catch (Exception e) {
-			log.error("FetchManage saveFetchList error:"+e.getMessage());
+			log.error("FetchManage saveFetchList error:" + e.getMessage());
 		}
 	}
 
 	protected void finalize() {
 		saveFetchList();
-	}	
+	}
 
-	
 	public int getMaxThreadCount() {
 		return maxThreadCount;
 	}

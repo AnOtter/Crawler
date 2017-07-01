@@ -113,7 +113,7 @@ public class WebPage implements Comparable<WebPage>, Serializable {
 		if(!localFilePath.equals("") && !articleContent.equals(""))
 		{
 			String content="<html><head>"+getTitle()+"</head><body>"+getArticleContent()+"</body></html>";
-			writeContent(localFilePath, content,false);
+			writeContent(localFilePath, content,false,false);
 		}
 		
 	}
