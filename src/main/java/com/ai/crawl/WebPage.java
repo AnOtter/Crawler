@@ -12,6 +12,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import static com.ai.util.FileOperator.*;
+import static com.ai.util.DateTime.*;
 
 public class WebPage implements Comparable<WebPage>, Serializable {
 	private static final long serialVersionUID = -4054304601865659456L;
@@ -112,7 +113,7 @@ public class WebPage implements Comparable<WebPage>, Serializable {
 	public void save() {
 		if(!localFilePath.equals("") && !articleContent.equals(""))
 		{
-			String content="<html><head>"+getTitle()+"</head><body>"+getArticleContent()+"</body></html>";
+			String content="<html><head fetchTime=\""+now()+"\">"+getTitle()+"</head><body>"+getArticleContent()+"</body></html>";
 			writeContent(localFilePath, content,false,false);
 		}
 		

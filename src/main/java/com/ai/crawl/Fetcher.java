@@ -11,6 +11,7 @@ import org.dom4j.Element;
 
 import com.ai.util.Log;
 import com.ai.xml.XMLDocument;
+import static com.ai.crawl.GlobalVariants.*;
 
 public class Fetcher implements Runnable {
 	private static final long halfDay = 12 * 3600 * 1000;
@@ -20,13 +21,7 @@ public class Fetcher implements Runnable {
 	private TreeMap<String,Date> fetchedList;
 	private List<String> allowList;
 	private XMLDocument document;
-	
-	private String localSaveDirectory;
 	private String fetchURL;
-	
-	public void setLocalSaveDirectory(String localSaveDirectory) {
-		this.localSaveDirectory = localSaveDirectory;
-	}
 	
 	public void setDocment(XMLDocument document) {
 		this.document=document;

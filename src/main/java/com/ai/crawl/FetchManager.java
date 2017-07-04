@@ -15,6 +15,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import static com.ai.util.FileOperator.*;
 import static com.ai.util.DateTime.*;
+import static com.ai.crawl.GlobalVariants.*; 
 import com.ai.util.Log;
 import com.ai.xml.XMLDocument;
 
@@ -28,8 +29,6 @@ import com.ai.xml.XMLDocument;
 public class FetchManager {
 	private static Log log = Log.getLog(FetchManager.class.getName());
 
-	private String localSaveDirectory;
-
 	private LinkedList<String> fetchList;
 	private TreeMap<String, Date> fetchedList;
 
@@ -42,16 +41,6 @@ public class FetchManager {
 
 	private static FetchManager fetchManager;
 
-	public String getLocalSaveDirectory() {
-		return localSaveDirectory;
-	}
-
-	public void setLocalSaveDirectory(String localSaveDirectory) {
-		this.localSaveDirectory = localSaveDirectory;
-		loadAllowList();
-		loadSeedURLList();
-	}
-
 	private FetchManager() {
 		fetchList = new LinkedList<>();
 		fetchedList = new TreeMap<>();
@@ -59,6 +48,8 @@ public class FetchManager {
 		urlList = new LinkedList<>();
 		maxThreadCount = 50;
 		doc = new XMLDocument();
+		loadAllowList();
+		loadSeedURLList();
 		try {
 			File xmlFile = new File(localSaveDirectory + "\\Crawl.xml");
 			if (xmlFile.exists())
@@ -121,7 +112,6 @@ public class FetchManager {
 					if (futures.size() < maxThreadCount + 5) {
 						String nextFetchURL = fetchList.pollFirst();
 						Fetcher fetcher = new Fetcher(fetchList, fetchedList, allowList);
-						fetcher.setLocalSaveDirectory(localSaveDirectory);
 						fetcher.setFetchURL(nextFetchURL);
 						fetcher.setDocment(doc);
 						Future<?> future = executor.submit(fetcher);
