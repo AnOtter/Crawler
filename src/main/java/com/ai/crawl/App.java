@@ -1,14 +1,12 @@
 package com.ai.crawl;
 
-import com.ai.util.Log;
+import static com.ai.util.Log.*;
 import static com.ai.crawl.GlobalVariants.*;
 
 public class App {
-	private static Log log = Log.getLog(App.class.getName());
-
-	public static void main(String[] args) {
+		public static void main(String[] args) {
 		try {
-			log.debug("main begin");
+			logDebug("main begin");
 			String localSaveDir = "";
 			
 			if (args.length == 1)
@@ -17,17 +15,17 @@ public class App {
 				localSaveDirectory=localSaveDir;
 				crawl();
 			}
-			log.debug("main end");
+			logDebug("main end");
 		} catch (Exception e) {
-			log.error(e);
+			logError(e.getMessage());
 			e.printStackTrace();
 		}
 	}
 
 	public static void crawl() {
-		log.info("LocalSaveDirectory:" + localSaveDirectory);
+		logInfo("LocalSaveDirectory:" + localSaveDirectory);
 		if (localSaveDirectory.equals("")) {
-			log.error("Illegal input parameter");
+			logError("Illegal input parameter");
 			return;
 		}
 		FetchManager fetchManager = FetchManager.getInstance();

@@ -12,10 +12,10 @@ import org.dom4j.Element;
 import com.ai.util.Log;
 import com.ai.xml.XMLDocument;
 import static com.ai.crawl.GlobalVariants.*;
+import static com.ai.util.Log.*;
 
 public class Fetcher implements Runnable {
 	private static final long halfDay = 12 * 3600 * 1000;
-	private Log log =Log.getLog(FetchManager.class.getName());
 
 	private LinkedList<String> fetchList;
 	private TreeMap<String,Date> fetchedList;
@@ -52,7 +52,7 @@ public class Fetcher implements Runnable {
 	 */
 	private void fetchPage(String url) {
 		try {
-			log.debug("fetching "+url);			
+			logDebug("fetching "+url);			
 			if (isURLNeedFetch(url)) {	
 				synchronized(fetchedList){
 					fetchedList.put(url,new Date());
@@ -71,13 +71,13 @@ public class Fetcher implements Runnable {
 							newNode.setText(page.getTitle());
 							document.appendNode(newNode);
 						}
-						log.info(page.getUrl().toString()+" -> "+page.getLocalFilePath());						
+						logInfo(page.getUrl().toString()+" -> "+page.getLocalFilePath());						
 					}					
 					addSubPageToFetchList(page);
 				}
 			}
 		} catch (Exception e) {
-			log.error("Fetcher fetchPage error:"+url);
+			logError("Fetcher fetchPage error:"+url);
 		}
 	}
 	
@@ -96,13 +96,13 @@ public class Fetcher implements Runnable {
 				synchronized(fetchList){					
 					if (!fetchList.contains(subURL))
 					{
-						log.debug("add "+subURL);
+						logDebug("add "+subURL);
 						fetchList.addLast(subURL);
 					}
 				}
 			}
 		}
-		log.debug("fetchList Count:"+fetchList.size());
+		logDebug("fetchList Count:"+fetchList.size());
 	}
 	
 	
@@ -148,7 +148,7 @@ public class Fetcher implements Runnable {
 				path += "index.html";
 			return Paths.get(localRootDirectory, domain, path).toFile().toString();
 		} catch (Exception e) {
-			log.error("getLocalSavePath Error:"+url.toString());
+			logError("getLocalSavePath Error:"+url.toString());
 			return "";
 		}
 	}

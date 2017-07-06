@@ -15,6 +15,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import static com.ai.util.FileOperator.*;
 import static com.ai.util.DateTime.*;
+import static com.ai.util.Log.*;
 import static com.ai.crawl.GlobalVariants.*; 
 import com.ai.util.Log;
 import com.ai.xml.XMLDocument;
@@ -27,8 +28,6 @@ import com.ai.xml.XMLDocument;
  * @since 20170430
  */
 public class FetchManager {
-	private static Log log = Log.getLog(FetchManager.class.getName());
-
 	private LinkedList<String> fetchList;
 	private TreeMap<String, Date> fetchedList;
 
@@ -60,7 +59,7 @@ public class FetchManager {
 	}
 
 	private void loadAllowList() {
-		log.debug("loadAllowList Begin");
+		logDebug("loadAllowList Begin");
 		String fileContent = readContent(localSaveDirectory + "\\config\\allow.list");
 		if (!fileContent.equals("")) {
 			String[] urlList = fileContent.split("\n");
@@ -69,11 +68,11 @@ public class FetchManager {
 				allowList.add(url);
 			}
 		}
-		log.debug("allowList count:" + allowList.size());
+		logDebug("allowList count:" + allowList.size());
 	}
 
 	private void loadSeedURLList() {
-		log.debug("loadSeedURLList Begin");
+		logDebug("loadSeedURLList Begin");
 		String fileContent = readContent(localSaveDirectory + "\\config\\urls.list");
 		if (!fileContent.equals("")) {
 			String[] liStrings = fileContent.split("\n");
@@ -81,7 +80,7 @@ public class FetchManager {
 				urlList.add(string);
 			}
 		}
-		log.debug("loadSeedURLList count:" + urlList.size());
+		logDebug("loadSeedURLList count:" + urlList.size());
 	}
 
 	public static FetchManager getInstance() {
@@ -97,7 +96,7 @@ public class FetchManager {
 	 */
 	public void run() {
 		try {
-			log.debug("FetchManager run begin");
+			logDebug("FetchManager run begin");
 			if (!localSaveDirectory.equals("")) {
 				InitializeFetchList();
 
@@ -131,13 +130,13 @@ public class FetchManager {
 
 				}
 				saveFetchList();
-				log.debug("FetchManager run end");
+				logDebug("FetchManager run end");
 			} else {
-				log.error("fetchURL or localSaveDirectory not given");
+				logError("fetchURL or localSaveDirectory not given");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			log.error("FetchManager run Error:" + e.getMessage());
+			logError("FetchManager run Error:" + e.getMessage());
 		}
 	}
 
@@ -164,11 +163,11 @@ public class FetchManager {
 				if (!fetchList.contains(url))
 					fetchList.add(url);
 			}
-			log.debug("InitializeFetchList end");
-			log.debug("fetchList Count:" + fetchList.size());
-			log.debug("fetchedList Count:" + fetchedList.size());
+			logDebug("InitializeFetchList end");
+			logDebug("fetchList Count:" + fetchList.size());
+			logDebug("fetchedList Count:" + fetchedList.size());
 		} catch (Exception e) {
-			log.error("FetchManager InitializeFetchList Error:" + e.getMessage());
+			logError("FetchManager InitializeFetchList Error:" + e.getMessage());
 		}
 	}
 
@@ -202,7 +201,7 @@ public class FetchManager {
 			}
 
 		} catch (Exception e) {
-			log.error("FetchManage saveFetchList error:" + e.getMessage());
+			logError("FetchManage saveFetchList error:" + e.getMessage());
 		}
 	}
 

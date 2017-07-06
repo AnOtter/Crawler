@@ -5,30 +5,24 @@ import org.apache.log4j.PropertyConfigurator;
 
 public class Log {
 	private static Logger defaultLogger;
-	private static Log logInstance;
-	public Log(){
+	private Log(){
 		PropertyConfigurator.configure("config/log4j.properties");
+		defaultLogger=Logger.getLogger("Crawler");
 	}
 	
-	public static Log getLog(String clazz){		
-		logInstance=new Log();
-		defaultLogger=Logger.getLogger(clazz);
-		return logInstance;
-	}
-	
-	public void debug(Object obj){
+	public static void logDebug(Object obj){
 		defaultLogger.debug(obj);
 	}
 	
-	public void info(Object obj){
+	public static void logInfo(Object obj){
 		defaultLogger.info(obj);
 	}
 	
-	public void warn(Object obj){
+	public static void logWarn(Object obj){
 		defaultLogger.warn(obj);
 	}
 	
-	public void error(Object obj){
+	public static void logError(Object obj){
 		defaultLogger.error(obj);
 	}
 }

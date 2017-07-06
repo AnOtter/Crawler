@@ -110,13 +110,14 @@ public class WebPage implements Comparable<WebPage>, Serializable {
 		}
 	}
 	
-	public void save() {
+	public boolean save() {
 		if(!localFilePath.equals("") && !articleContent.equals(""))
 		{
 			String content="<html><head fetchTime=\""+now()+"\">"+getTitle()+"</head><body>"+getArticleContent()+"</body></html>";
 			writeContent(localFilePath, content,false,false);
+			return true;
 		}
-		
+		return false;		
 	}
 	
 	public boolean fetch() throws Exception {
