@@ -6,8 +6,9 @@ import org.apache.log4j.PropertyConfigurator;
 public class Log {
 	private static Logger defaultLogger;
 	private static void initializeLog(){
+		String currentPath=Log.class.getResource("/").getPath();
 		if(defaultLogger==null){
-			PropertyConfigurator.configure("config/log4j.properties");
+			PropertyConfigurator.configure(currentPath+System.getProperty("file.separator")+"config/log4j.properties");
 			defaultLogger=Logger.getLogger("Crawler");
 		}
 	}
