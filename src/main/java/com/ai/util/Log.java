@@ -8,7 +8,7 @@ public class Log {
 	private static void initializeLog(){
 		String currentPath=Log.class.getResource("/").getPath();
 		if(defaultLogger==null){
-			PropertyConfigurator.configure(currentPath+System.getProperty("file.separator")+"config/log4j.properties");
+			PropertyConfigurator.configure(currentPath+"config/log4j.properties");
 			defaultLogger=Logger.getLogger("Crawler");
 		}
 	}
