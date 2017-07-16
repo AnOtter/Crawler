@@ -9,7 +9,7 @@ public class App {
 			//TODO 使用spring自动将初始目录加载进来
 			
 			logDebug("main begin");
-			String localSaveDir = "";			
+			String localSaveDir = "d:\\webpages";			
 			if (args.length == 1)
 				localSaveDir = args[0];
 			if (!localSaveDir.equals("")) {

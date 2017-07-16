@@ -1,25 +1,28 @@
 package com.ai;
 
-import com.ai.xml.XMLDocument;;
+import java.net.MalformedURLException;
+import java.net.URL;
+
+import com.ai.crawl.WebPage;
+import com.ai.crawl.XinHuaPage;;
 
 public class App {	
 	
 	public static void main(String[] args) {
-		testXML();			
-	}
-	
-	public static void testXML(){
+		WebPage page=new XinHuaPage();
 		try {
-			XMLDocument document=new XMLDocument();
-			document.loadFromFile("Book.xml");
-			document.clearNode();
-			document.addNode("NewNode", "新的结点");
-			document.addNode("NewNode", "如何学习java");
-			document.saveToFile("book.xml");
-		} catch (Exception e) {
+			page.setUrl(new URL("http://news.xinhuanet.com/politics/2017-07/16/c_1121327252.htm"));
+			if(page.fetch())
+			{
+				page.getTitle();
+				page.getArticleContent();
+				page.save();
+			}
+		} catch (Exception e) {			
 			e.printStackTrace();
 		}
-	}	
-		
+	}
+	
+			
 
 }

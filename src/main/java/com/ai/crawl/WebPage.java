@@ -12,27 +12,28 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import static com.ai.util.FileOperator.*;
+import static com.ai.util.Log.logInfo;
 import static com.ai.util.DateTime.*;
 
 public class WebPage implements Comparable<WebPage>, Serializable {
 	private static final long serialVersionUID = -4054304601865659456L;
 	private URL url;
-	private String title;
+	protected String title;
 	private Date lastFetchTime;
 	private URL parentPage;
 	private String articleContent;
 	private String localFilePath;
 	private List<String> outerLinks;
-	private String articleMatchPattern;
+	protected String articleMatchPattern;
 	
-	private Document document;
+	protected Document document;
 	
 	
 	public WebPage() {
 		outerLinks=new LinkedList<>();
 		title="";
 		articleContent="";
-		articleMatchPattern="id=Cnt-Main-Article-QQ";	
+		articleMatchPattern="";	
 		document=null;
 	}
 	
@@ -115,6 +116,7 @@ public class WebPage implements Comparable<WebPage>, Serializable {
 		{
 			String content="<html><head fetchTime=\""+now()+"\">"+getTitle()+"</head><body>"+getArticleContent()+"</body></html>";
 			writeContent(localFilePath, content,false,false);
+			logInfo(getUrl().toString()+" -> "+getLocalFilePath());	
 			return true;
 		}
 		return false;		
@@ -132,18 +134,19 @@ public class WebPage implements Comparable<WebPage>, Serializable {
 				
 	}
 	
-	private void parserTitle(){
+	protected void parserTitle(){
 		if(document!=null)
 		{
 			Elements titles=document.select("h1");
-			if(titles.size()==0)
+			if(titles.size()==0){
 				titles=document.select("title");
+			}
 			if(titles.size()>=0)
 				title=titles.get(0).text();				
 		}
 	}
 	
-	private void parseOuterLinks(){
+	protected void parseOuterLinks(){
 		if(document!=null)
 		{
 			Elements links=document.select("a[href~=(i?)http.+]");				
@@ -153,7 +156,7 @@ public class WebPage implements Comparable<WebPage>, Serializable {
 		}		
 	}
 	
-	private void parseArticle(){
+	protected void parseArticle(){
 		if(document!=null && !articleMatchPattern.equals(""))
 		{
 			Elements articles=document.select("div["+articleMatchPattern+"]");

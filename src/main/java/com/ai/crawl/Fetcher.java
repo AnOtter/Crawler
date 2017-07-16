@@ -57,8 +57,14 @@ public class Fetcher implements Runnable {
 				synchronized(fetchedList){
 					fetchedList.put(url,new Date());
 				}
-				WebPage page=new WebPage();
-				page.setUrl(new URL(url));
+				WebPage page=null;
+				URL url2=new URL(url);
+				String authority=url2.getAuthority();
+				if(authority.contains("xinhuanet.com"))
+					page=new XinHuaPage();
+				else if(authority.contains("qq.com"))
+					page=new TencentPage();
+				page.setUrl(url2);
 				page.setLocalFilePath(getLocalSaveFile(page.getUrl(), localSaveDirectory));
 				if(page.fetch()) {						
 					if(!page.getArticleContent().equals(""))
@@ -70,8 +76,7 @@ public class Fetcher implements Runnable {
 							newNode.addAttribute("LocalFile", page.getLocalFilePath());
 							newNode.setText(page.getTitle());
 							document.appendNode(newNode);
-						}
-						logInfo(page.getUrl().toString()+" -> "+page.getLocalFilePath());						
+						}											
 					}					
 					addSubPageToFetchList(page);
 				}
@@ -161,6 +166,7 @@ public class Fetcher implements Runnable {
 	 * @return boolean
 	 * @author OTTER
 	 * @since 20170430
+	 * @ 非htm页面且上次获取时间超过半小时
 	 */
 	private boolean isURLNeedFetch(String url) {
 		boolean isLastFetchTimeBeforeHalfHour=false;
@@ -180,8 +186,7 @@ public class Fetcher implements Runnable {
 				isLastFetchTimeBeforeHalfHour=((currentTime - pageFetchTime) > halfDay);	
 			}	
 			else
-				isLastFetchTimeBeforeHalfHour=false;
-				
+				isLastFetchTimeBeforeHalfHour=false;				
 		}
 		return isLastFetchTimeBeforeHalfHour;
 	}

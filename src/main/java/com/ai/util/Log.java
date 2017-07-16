@@ -14,6 +14,7 @@ public class Log {
 				String currentDirectory = new File(currentPath).getParent();
 				PropertyConfigurator.configure(currentDirectory + "/config/log4j.properties");
 				defaultLogger = Logger.getLogger("Crawler");
+				logInfo("Log setting file:"+currentDirectory + "/config/log4j.properties");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
