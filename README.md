@@ -1,3 +1,3 @@
-# LearnMaven
+# Crawwler
 
-This is a test demo for learning Maven
+This is an easy web crawler based on JSoup,mostly crawl some news pages from qq.com/xinhuanet.com for analysis.
