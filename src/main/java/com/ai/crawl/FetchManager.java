@@ -163,8 +163,8 @@ public class FetchManager {
 					fetchList.add(url);
 			}
 			logDebug("InitializeFetchList end");
-			logDebug("fetchList Count:" + fetchList.size());
-			logDebug("fetchedList Count:" + fetchedList.size());
+			logInfo("fetchList Count:" + fetchList.size());
+			logInfo("fetchedList Count:" + fetchedList.size());
 		} catch (Exception e) {
 			logError("FetchManager InitializeFetchList Error:" + e.getMessage());
 		}

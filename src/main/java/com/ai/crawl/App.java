@@ -8,7 +8,7 @@ public class App {
 		try {
 			//TODO 使用spring自动将初始目录加载进来
 			
-			logDebug("main begin");
+			logInfo("Crawler main begin");
 			String localSaveDir = "";			
 			if (args.length == 1)
 				localSaveDir = args[0];
@@ -16,7 +16,7 @@ public class App {
 				localSaveDirectory=localSaveDir;
 				crawl();
 			}
-			logDebug("main end");
+			logDebug("Crawler main end");
 		} catch (Exception e) {
 			logError(e.getMessage());
 			e.printStackTrace();
