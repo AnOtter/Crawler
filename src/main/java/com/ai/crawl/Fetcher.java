@@ -9,7 +9,6 @@ import java.util.TreeMap;
 import java.lang.Runnable;
 import org.dom4j.Element;
 
-import com.ai.util.Log;
 import com.ai.xml.XMLDocument;
 import static com.ai.crawl.GlobalVariants.*;
 import static com.ai.util.Log.*;

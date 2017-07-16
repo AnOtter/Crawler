@@ -1,6 +1,5 @@
 package com.ai;
 
-import java.net.MalformedURLException;
 import java.net.URL;
 
 import com.ai.crawl.WebPage;
