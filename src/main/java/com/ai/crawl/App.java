@@ -6,9 +6,10 @@ import static com.ai.crawl.GlobalVariants.*;
 public class App {
 		public static void main(String[] args) {
 		try {
-			logDebug("main begin");
-			String localSaveDir = "";
+			//TODO 使用spring自动将初始目录加载进来
 			
+			logDebug("main begin");
+			String localSaveDir = "";			
 			if (args.length == 1)
 				localSaveDir = args[0];
 			if (!localSaveDir.equals("")) {
