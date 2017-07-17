@@ -45,13 +45,13 @@ public class FetchManager {
 		allowList = new LinkedList<String>();
 		urlList = new LinkedList<>();
 		maxThreadCount = 100;
-		doc = new XMLDocument();
+		doc = new XMLDocument("html");
 		loadAllowList();
 		loadSeedURLList();
 		try {
-			File xmlFile = new File(localSaveDirectory + "\\Crawl.xml");
+			File xmlFile = new File(localSaveDirectory + "\\Crawl" + today() + ".html");
 			if (xmlFile.exists())
-				doc.loadFromFile(localSaveDirectory + "\\Crawl.xml");
+				doc.loadFromFile(localSaveDirectory +  "\\Crawl" + today() + ".html");
 		} catch (Exception e) {
 
 		}
@@ -118,7 +118,7 @@ public class FetchManager {
 					fetchTimes++;
 					if ((fetchTimes % 1000) == 200) {
 						saveFetchList();
-						doc.saveToFile(localSaveDirectory + "\\Crawl" + today() + ".xml");
+						doc.saveToFile(localSaveDirectory + "\\Crawl" + today() + ".html");
 						fetchTimes = 0;
 					}
 				}

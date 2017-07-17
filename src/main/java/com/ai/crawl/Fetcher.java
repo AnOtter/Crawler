@@ -70,11 +70,13 @@ public class Fetcher implements Runnable {
 					{
 						page.save();
 						synchronized (document) {
-							Element newNode= document.createNode("FetchedPage");
-							newNode.addAttribute("URL", page.getUrl().toString());
-							newNode.addAttribute("LocalFile", page.getLocalFilePath());
-							newNode.setText(page.getTitle());
-							document.appendNode(newNode);
+							Element p= document.createNode("p");
+							Element a=document.createNode("a");
+							a.addAttribute("OriginalURL", page.getUrl().toString());
+							a.addAttribute("href", page.getLocalFilePath());
+							a.setText(page.getTitle());
+							p.add(a);
+							document.appendNode(p);
 						}											
 					}					
 					addSubPageToFetchList(page);
