@@ -9,14 +9,14 @@ public class App {
 			//TODO 使用spring自动将初始目录加载进来
 			
 			logInfo("Crawler main begin");
-			String localSaveDir = "";			
+			String localSaveDir = "d:\\webpages";			
 			if (args.length == 1)
 				localSaveDir = args[0];
 			if (!localSaveDir.equals("")) {
 				localSaveDirectory=localSaveDir;
 				crawl();
 			}
-			logDebug("Crawler main end");
+			logInfo("Crawler main end");
 		} catch (Exception e) {
 			logError(e.getMessage());
 			e.printStackTrace();

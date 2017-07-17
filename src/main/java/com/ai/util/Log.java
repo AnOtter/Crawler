@@ -8,13 +8,13 @@ public class Log {
 	private static Logger defaultLogger;
 
 	private static void initializeLog() {
-		try {			
+		try {
 			if (defaultLogger == null) {
 				String currentPath = Log.class.getProtectionDomain().getCodeSource().getLocation().getPath();
 				String currentDirectory = new File(currentPath).getParent();
 				PropertyConfigurator.configure(currentDirectory + "/config/log4j.properties");
 				defaultLogger = Logger.getLogger("Crawler");
-				logInfo("Log setting file:"+currentDirectory + "/config/log4j.properties");
+				logInfo("Log setting file:" + currentDirectory + "/config/log4j.properties");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

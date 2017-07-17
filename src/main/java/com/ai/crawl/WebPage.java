@@ -12,7 +12,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import static com.ai.util.FileOperator.*;
-import static com.ai.util.Log.logInfo;
+import static com.ai.util.Log.*;
 import static com.ai.util.DateTime.*;
 
 public class WebPage implements Comparable<WebPage>, Serializable {
@@ -128,7 +128,7 @@ public class WebPage implements Comparable<WebPage>, Serializable {
 			document=Jsoup.parse(url, 3000);
 			return true;
 		} catch (Exception e) {
-			System.err.println("WebPage fetch Error:"+url.toString());
+			logError("WebPage.fetch Error:"+url.toString());
 			return false;
 		}
 				

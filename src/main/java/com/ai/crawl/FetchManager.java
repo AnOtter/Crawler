@@ -44,7 +44,7 @@ public class FetchManager {
 		fetchedList = new TreeMap<>();
 		allowList = new LinkedList<String>();
 		urlList = new LinkedList<>();
-		maxThreadCount = 50;
+		maxThreadCount = 100;
 		doc = new XMLDocument();
 		loadAllowList();
 		loadSeedURLList();
@@ -67,7 +67,7 @@ public class FetchManager {
 				allowList.add(url);
 			}
 		}
-		logDebug("allowList count:" + allowList.size());
+		logInfo("AllowList Count:" + allowList.size());
 	}
 
 	private void loadSeedURLList() {
@@ -79,7 +79,7 @@ public class FetchManager {
 				urlList.add(string);
 			}
 		}
-		logDebug("loadSeedURLList count:" + urlList.size());
+		logInfo("SeedURLList Count:" + urlList.size());
 	}
 
 	public static FetchManager getInstance() {
@@ -166,7 +166,7 @@ public class FetchManager {
 			logInfo("fetchList Count:" + fetchList.size());
 			logInfo("fetchedList Count:" + fetchedList.size());
 		} catch (Exception e) {
-			logError("FetchManager InitializeFetchList Error:" + e.getMessage());
+			e.printStackTrace();
 		}
 	}
 
