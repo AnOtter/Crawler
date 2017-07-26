@@ -1,34 +1,18 @@
 package com.ai.crawl;
 
-import static com.ai.util.Log.*;
-import static com.ai.crawl.GlobalVariants.*;
-
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+@SpringBootApplication
 public class App {
 		public static void main(String[] args) {
 		try {
-			//TODO 使用spring自动将初始目录加载进来
-			
-			logInfo("Crawler main begin");
-			String localSaveDir = "d:\\webpages";			
-			if (args.length == 1)
-				localSaveDir = args[0];
-			if (!localSaveDir.equals("")) {
-				localSaveDirectory=localSaveDir;
-				crawl();
-			}
-			logInfo("Crawler main end");
-		} catch (Exception e) {
-			logError(e.getMessage());
+			SpringApplication.run(App.class);
+		} catch (Exception e) {			
 			e.printStackTrace();
 		}
 	}
 
 	public static void crawl() {
-		logInfo("LocalSaveDirectory:" + localSaveDirectory);
-		if (localSaveDirectory.equals("")) {
-			logError("Illegal input parameter");
-			return;
-		}
 		FetchManager fetchManager = FetchManager.getInstance();
 		fetchManager.run();
 	}

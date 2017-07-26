@@ -6,8 +6,12 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.TreeMap;
+
+import javax.annotation.Resource;
+
 import java.lang.Runnable;
 import org.dom4j.Element;
+import org.springframework.stereotype.Component;
 
 import com.ai.xml.XMLDocument;
 import static com.ai.crawl.GlobalVariants.*;
@@ -21,6 +25,8 @@ public class Fetcher implements Runnable {
 	private List<String> allowList;
 	private XMLDocument document;
 	private String fetchURL;
+	@Resource
+	private GlobalVariants globalVariants;
 	
 	public void setDocment(XMLDocument document) {
 		this.document=document;
@@ -64,7 +70,7 @@ public class Fetcher implements Runnable {
 				else if(authority.contains("qq.com"))
 					page=new TencentPage();
 				page.setUrl(url2);
-				page.setLocalFilePath(getLocalSaveFile(page.getUrl(), localSaveDirectory));
+				page.setLocalFilePath(getLocalSaveFile(page.getUrl(), globalVariants.getLocalSaveDirectory()));
 				if(page.fetch()) {						
 					if(!page.getArticleContent().equals(""))
 					{
@@ -84,6 +90,7 @@ public class Fetcher implements Runnable {
 			}
 		} catch (Exception e) {
 			logError("Fetcher fetchPage error:"+url);
+			logError(e.getMessage());
 		}
 	}
 	

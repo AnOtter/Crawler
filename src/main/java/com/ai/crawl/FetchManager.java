@@ -13,6 +13,15 @@ import java.util.TreeMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+
+import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
+
+import org.springframework.beans.BeansException;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
+import org.springframework.stereotype.Component;
+
 import static com.ai.util.FileOperator.*;
 import static com.ai.util.DateTime.*;
 import static com.ai.util.Log.*;
@@ -26,40 +35,27 @@ import com.ai.xml.XMLDocument;
  * @version 1.0
  * @since 20170430
  */
-public class FetchManager {
+@Component
+public class FetchManager implements ApplicationContextAware {
 	private LinkedList<String> fetchList;
 	private TreeMap<String, Date> fetchedList;
 
 	private List<String> allowList;
 	private List<String> urlList;
 
-	private int maxThreadCount;
-
 	private XMLDocument doc;
+	@Resource
+	private GlobalVariants globalVariants;
 
 	private static FetchManager fetchManager;
 
 	private FetchManager() {
-		fetchList = new LinkedList<>();
-		fetchedList = new TreeMap<>();
-		allowList = new LinkedList<String>();
-		urlList = new LinkedList<>();
-		maxThreadCount = 100;
-		doc = new XMLDocument("html");
-		loadAllowList();
-		loadSeedURLList();
-		try {
-			File xmlFile = new File(localSaveDirectory + "\\Crawl" + today() + ".html");
-			if (xmlFile.exists())
-				doc.loadFromFile(localSaveDirectory +  "\\Crawl" + today() + ".html");
-		} catch (Exception e) {
-
-		}
+		
 	}
 
 	private void loadAllowList() {
 		logDebug("loadAllowList Begin");
-		String fileContent = readContent(localSaveDirectory + "\\config\\allow.list");
+		String fileContent = readContent(globalVariants.getLocalSaveDirectory() + "\\config\\allow.list");
 		if (!fileContent.equals("")) {
 			String[] urlList = fileContent.split("\n");
 			for (String url : urlList) {
@@ -72,7 +68,7 @@ public class FetchManager {
 
 	private void loadSeedURLList() {
 		logDebug("loadSeedURLList Begin");
-		String fileContent = readContent(localSaveDirectory + "\\config\\urls.list");
+		String fileContent = readContent(globalVariants.getLocalSaveDirectory() + "\\config\\urls.list");
 		if (!fileContent.equals("")) {
 			String[] liStrings = fileContent.split("\n");
 			for (String string : liStrings) {
@@ -93,21 +89,22 @@ public class FetchManager {
 	 * @since 20170430
 	 * @author OTTER
 	 */
+	@PostConstruct
 	public void run() {
 		try {
 			logDebug("FetchManager run begin");
-			if (!localSaveDirectory.equals("")) {
+			if (!globalVariants.getLocalSaveDirectory().equals("")) {
 				InitializeFetchList();
 
 				int fetchTimes = 0;
-				ExecutorService executor = Executors.newFixedThreadPool(maxThreadCount);
+				ExecutorService executor = Executors.newFixedThreadPool(globalVariants.getMaxThreadCount());
 				List<Future<?>> futures = new ArrayList<>();
 				while (fetchList.size() > 0) {
 					for (int i = 0; i < futures.size(); i++) {
 						if (futures.get(i).isDone())
 							futures.remove(i);
 					}
-					if (futures.size() < maxThreadCount + 5) {
+					if (futures.size() < globalVariants.getMaxThreadCount() + 5) {
 						String nextFetchURL = fetchList.pollFirst();
 						Fetcher fetcher = new Fetcher(fetchList, fetchedList, allowList);
 						fetcher.setFetchURL(nextFetchURL);
@@ -118,7 +115,7 @@ public class FetchManager {
 					fetchTimes++;
 					if ((fetchTimes % 1000) == 200) {
 						saveFetchList();
-						doc.saveToFile(localSaveDirectory + "\\Crawl" + today() + ".html");
+						doc.saveToFile(globalVariants.getLocalSaveDirectory() + "\\Crawl" + today() + ".html");
 						fetchTimes = 0;
 					}
 				}
@@ -146,13 +143,13 @@ public class FetchManager {
 	 */
 	private void InitializeFetchList() {
 		try {
-			File fetchingListFile = new File(localSaveDirectory + "\\Fetch.List");
+			File fetchingListFile = new File(globalVariants.getLocalSaveDirectory() + "\\Fetch.List");
 			if (fetchingListFile.exists()) {
 				ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(fetchingListFile));
 				fetchList = (LinkedList<String>) objectInputStream.readObject();
 				objectInputStream.close();
 			}
-			File fetchedListFile = new File(localSaveDirectory + "\\Fetched.List");
+			File fetchedListFile = new File(globalVariants.getLocalSaveDirectory() + "\\Fetched.List");
 			if (fetchedListFile.exists()) {
 				ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(fetchedListFile));
 				fetchedList = (TreeMap<String, Date>) objectInputStream.readObject();
@@ -177,7 +174,7 @@ public class FetchManager {
 	 */
 	private void saveFetchList() {
 		try {
-			File fetchingListFile = new File(localSaveDirectory + "\\Fetch.List");
+			File fetchingListFile = new File(globalVariants.getLocalSaveDirectory() + "\\Fetch.List");
 			if (fetchingListFile.exists()) {
 				fetchingListFile.delete();
 			}
@@ -189,7 +186,7 @@ public class FetchManager {
 				saveStream.close();
 			}
 
-			File fetchedListFile = new File(localSaveDirectory + "\\Fetched.List");
+			File fetchedListFile = new File(globalVariants.getLocalSaveDirectory() + "\\Fetched.List");
 			if (fetchedListFile.exists()) {
 				fetchedListFile.delete();
 			}
@@ -198,7 +195,6 @@ public class FetchManager {
 				saveStream.writeObject(fetchedList);
 				saveStream.close();
 			}
-
 		} catch (Exception e) {
 			logError("FetchManage saveFetchList error:" + e.getMessage());
 		}
@@ -208,11 +204,21 @@ public class FetchManager {
 		saveFetchList();
 	}
 
-	public int getMaxThreadCount() {
-		return maxThreadCount;
-	}
+	@Override
+	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+		fetchList = new LinkedList<>();
+		fetchedList = new TreeMap<>();
+		allowList = new LinkedList<String>();
+		urlList = new LinkedList<>();
+		doc = new XMLDocument("html");
+		loadAllowList();
+		loadSeedURLList();
+		try {
+			File xmlFile = new File(globalVariants.getLocalSaveDirectory() + "\\Crawl" + today() + ".html");
+			if (xmlFile.exists())
+				doc.loadFromFile(globalVariants.getLocalSaveDirectory() +  "\\Crawl" + today() + ".html");
+		} catch (Exception e) {
 
-	public void setMaxThreadCount(int maxThreadCount) {
-		this.maxThreadCount = maxThreadCount;
+		}		
 	}
 }
