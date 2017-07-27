@@ -106,7 +106,7 @@ public class FetchManager implements ApplicationContextAware {
 					}
 					if (futures.size() < globalVariants.getMaxThreadCount() + 5) {
 						String nextFetchURL = fetchList.pollFirst();
-						Fetcher fetcher = new Fetcher(fetchList, fetchedList, allowList);
+						Fetcher fetcher = new Fetcher(fetchList, fetchedList, allowList,globalVariants.getLocalSaveDirectory());
 						fetcher.setFetchURL(nextFetchURL);
 						fetcher.setDocment(doc);
 						Future<?> future = executor.submit(fetcher);

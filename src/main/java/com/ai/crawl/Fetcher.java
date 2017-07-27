@@ -11,6 +11,7 @@ import javax.annotation.Resource;
 
 import java.lang.Runnable;
 import org.dom4j.Element;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.ai.xml.XMLDocument;
@@ -25,17 +26,17 @@ public class Fetcher implements Runnable {
 	private List<String> allowList;
 	private XMLDocument document;
 	private String fetchURL;
-	@Resource
-	private GlobalVariants globalVariants;
+	private String localSaveDirectory;
 	
 	public void setDocment(XMLDocument document) {
 		this.document=document;
 	}
 	
-	public Fetcher(LinkedList<String> fetchList,TreeMap<String,Date> fetchedList,List<String> allowList) {
+	public Fetcher(LinkedList<String> fetchList,TreeMap<String,Date> fetchedList,List<String> allowList,String localSaveDirectory) {
 		this.allowList=allowList;
 		this.fetchList=fetchList;
 		this.fetchedList=fetchedList;		
+		this.localSaveDirectory=localSaveDirectory;
 	}
 	
 	@Override
@@ -70,7 +71,7 @@ public class Fetcher implements Runnable {
 				else if(authority.contains("qq.com"))
 					page=new TencentPage();
 				page.setUrl(url2);
-				page.setLocalFilePath(getLocalSaveFile(page.getUrl(), globalVariants.getLocalSaveDirectory()));
+				page.setLocalFilePath(getLocalSaveFile(page.getUrl(), localSaveDirectory));
 				if(page.fetch()) {						
 					if(!page.getArticleContent().equals(""))
 					{
