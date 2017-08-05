@@ -1,7 +1,5 @@
 package com.ai.crawl;
 
-import java.util.LinkedList;
-
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;

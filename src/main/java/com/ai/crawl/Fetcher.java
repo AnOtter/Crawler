@@ -7,15 +7,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.TreeMap;
 
-import javax.annotation.Resource;
-
 import java.lang.Runnable;
 import org.dom4j.Element;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import com.ai.xml.XMLDocument;
-import static com.ai.crawl.GlobalVariants.*;
 import static com.ai.util.Log.*;
 
 public class Fetcher implements Runnable {

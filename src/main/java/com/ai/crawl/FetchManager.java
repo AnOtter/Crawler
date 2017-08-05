@@ -25,7 +25,6 @@ import org.springframework.stereotype.Component;
 import static com.ai.util.FileOperator.*;
 import static com.ai.util.DateTime.*;
 import static com.ai.util.Log.*;
-import static com.ai.crawl.GlobalVariants.*; 
 import com.ai.xml.XMLDocument;
 
 /**
@@ -141,6 +140,7 @@ public class FetchManager implements ApplicationContextAware {
 	 * @author OTTER
 	 * @since 20170430
 	 */
+	@SuppressWarnings("unchecked")
 	private void InitializeFetchList() {
 		try {
 			File fetchingListFile = new File(globalVariants.getLocalSaveDirectory() + "\\Fetch.List");
