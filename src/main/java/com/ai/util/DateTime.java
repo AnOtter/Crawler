@@ -5,7 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class DateTime {
-	public static final String datePatter="yyyy-MM-dd HH:mm:ss SSS";
+	public static final String datePatter="yyyy-MM-dd HH:mm:ss";
 	
 	public static String now(){
 		   return formatDate(new Date());
@@ -18,9 +18,13 @@ public class DateTime {
 	}
 	
 	public static String formatDate(Date date){
-		SimpleDateFormat simpleDateFormat=new SimpleDateFormat(datePatter);
-		String formatedDate=simpleDateFormat.format(date);
-		return formatedDate;
+		if(date == null)
+			return "";
+		else {
+			SimpleDateFormat simpleDateFormat=new SimpleDateFormat(datePatter);
+			String formatedDate=simpleDateFormat.format(date);
+			return formatedDate;
+		}
 	}
 
 	public static Date parseDate(String formetedDate) throws ParseException{

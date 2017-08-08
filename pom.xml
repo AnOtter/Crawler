@@ -9,6 +9,10 @@
 		<version>1.5.4.RELEASE</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
+	<properties>
+	   <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	   <druid.version>1.1.1</druid.version>
+	</properties>
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -29,10 +33,17 @@
 	    	<artifactId>jsoup</artifactId>
 	    	<version>1.10.2</version>
 	    </dependency>
+	    <dependency>
+		    <groupId>mysql</groupId>
+		    <artifactId>mysql-connector-java</artifactId>
+		    <version>6.0.6</version>
+		</dependency>
+	    <dependency>
+		     <groupId>com.alibaba</groupId>
+		     <artifactId>druid</artifactId>
+		     <version>${druid.version}</version>
+		</dependency>
 	</dependencies>
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-	</properties>
 	<build>
 		<finalName>Crawler</finalName>
 		<plugins>
