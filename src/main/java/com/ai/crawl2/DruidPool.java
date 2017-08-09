@@ -109,10 +109,7 @@ public class DruidPool {
 			statement =connection.createStatement();
 			return statement.executeQuery(sql);
 		} finally {	
-			if(statement!=null)
-				statement.close();
-			if(connection!=null)
-				connection.close();
+			
 		}			
 	}
 	

@@ -49,7 +49,8 @@ public class PageFetcher {
 			if (!webPage.getUrl().equals("")) {
 				webPage.setLastFetchTime(new Date());
 				Document document = Jsoup.parse(new URL(webPage.getUrl()), 3000);
-				if (!document.equals(null)) {
+				if (document != null) {
+					System.err.println("fetch:"+webPage.getUrl());
 					webPage.setDocument(document);
 					updateObservers(webPage);
 				}

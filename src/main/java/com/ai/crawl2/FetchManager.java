@@ -1,5 +1,7 @@
 package com.ai.crawl2;
 
+import java.util.List;
+
 import javax.annotation.PostConstruct;
 
 import org.springframework.beans.BeansException;
@@ -12,6 +14,9 @@ public class FetchManager implements ApplicationContextAware {
 
 	@Autowired
 	PageFetcher pageFetcher;
+	@Autowired
+	FetchList fetchList;
+	
 	@Override
 	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
 				
@@ -20,11 +25,13 @@ public class FetchManager implements ApplicationContextAware {
 	@PostConstruct
 	public void run(){
 		try {
-			WebPage page=new WebPage("http://www.qq.com");
-			pageFetcher.fetch(page);
+			List<WebPage> nextFetchList=fetchList.getNextFetchPage();
+			for(WebPage webPage:nextFetchList)
+			{				
+				pageFetcher.fetch(webPage);
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}	
 	}
-
 }

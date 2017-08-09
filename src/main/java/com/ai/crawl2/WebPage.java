@@ -91,11 +91,13 @@ public class WebPage {
 		if(document!=null)
 		{
 			Elements titles=document.select("h1");
-			if(titles.size()==0){
+			if(titles.size()==0 && (!titlePattern.equals(""))){
 				titles=document.select(titlePattern);
 			}
-			if(titles.size()>=0)
-				return titles.get(0).text();				
+			if(titles.size()>0)
+				return titles.get(0).text();
+			else 
+				return "";
 		}
 		return "";
 	}

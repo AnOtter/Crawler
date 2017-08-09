@@ -36,9 +36,10 @@ public class LocalFileObserver implements FetcherObserver {
 		String articleMatchPattern = fetchedPage.getArticlePattern();
 		if (document != null && (!articleMatchPattern.equals(""))) {
 			Elements articles = document.select("div[" + articleMatchPattern + "]");
-			if (articles.size() > 0) {
+			if (articles.size() > 0)
 				return articles.get(0).outerHtml();
-			}
+			else
+				return "";
 		}
 		return "";
 	}
