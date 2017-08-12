@@ -72,7 +72,7 @@ public class WebPage {
 	public WebPage(String url) {
 		this.url = url;
 		this.lastFetchTime = null;
-		this.parentURL = "";
+		this.parentURL =null;
 		this.document = null;
 		this.titlePattern="";
 		this.articlePattern="";

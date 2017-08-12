@@ -22,8 +22,8 @@ import org.springframework.stereotype.Component;
 public class PageFetcher {
 	private LinkedList<FetcherObserver> observers = new LinkedList<>();
 	
-	@Autowired
-	LocalFileObserver localFileObserver;
+	//@Autowired
+	//LocalFileObserver localFileObserver;
 	
 	@Autowired 
 	SubPageObserver subPageObserver;
@@ -33,7 +33,7 @@ public class PageFetcher {
 	
 	@PostConstruct
 	private void addObservers(){
-		observers.add(localFileObserver);
+		//observers.add(localFileObserver);
 		observers.add(dbInfoObserver);
 		observers.add(subPageObserver);		
 	}

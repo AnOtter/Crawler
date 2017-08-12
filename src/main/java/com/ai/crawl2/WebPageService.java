@@ -5,19 +5,23 @@ import static com.ai.util.DateTime.formatDate;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
 public class WebPageService {
 	@Autowired
 	DruidPool druidPool;
-	@Value("select count(1) as cnt from ${Page.PageTableName} where ${Page.URLFieldName}='")
-	String existSQL;
+//	@Value(" ${Page.PageTableName} where ${Page.URLFieldName}='")
+//	String existSQL;
 
 	private boolean isPageExist(WebPage webPage) {
 		try{
-			String sql=existSQL+webPage.getUrl()+"'";
+			String sql="select count(1) as cnt from pages where URL='"+webPage.getUrl()+"'";
+			String parentURL=webPage.getParentURL();
+			if(parentURL==null)
+				sql+=" and ParentURL is null";
+			else
+				sql+=" and parentURL='"+parentURL+"'";
 			return druidPool.isExist(sql);
 		}
 		catch (Exception e) {
@@ -35,10 +39,13 @@ public class WebPageService {
 			String sql = "INSERT INTO Pages (url,title,fetchTime,parentURL) values ('"
 			+ pageURL + "','" + pageTitle;
 			if(fetchTime ==null)
-				sql +="',null,'";
+				sql +="',null";
 			else
-				sql +="','" + formatDate(fetchTime) + "','";
-			sql+=parentURL + "')";
+				sql +="','" + formatDate(fetchTime) + "'";
+			if(parentURL==null)
+				sql+=",null)";
+			else
+				sql+=",'"+parentURL + "')";
 			return druidPool.executeSQL(sql);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -52,12 +59,16 @@ public class WebPageService {
 			String pageURL = webPage.getUrl();
 			String parentURL = webPage.getParentURL();
 			Date fetchTime = webPage.getLastFetchTime();
-			String sql = "UPDATE Pages SET title = '"+pageTitle+"',parentURL ='"+parentURL+"' ";
+			String sql = "UPDATE Pages SET title = '"+pageTitle+"'";
 			if(fetchTime ==null)
 				sql +=",fetchTime=null";
 			else
 				sql +=",fetchTime='" + formatDate(fetchTime) + "'";
-			sql+= " WHERE fetchTime is null and  URL='"+pageURL+"'";
+			sql+= " WHERE URL='"+pageURL+"' and FetchTime is null ";
+			if(parentURL==null)
+				sql+=" and ParentURL is null";
+			else
+				sql+=" and ParentURL='"+parentURL+"'";
 			return druidPool.executeSQL(sql);
 		} catch (Exception e) {
 			e.printStackTrace();

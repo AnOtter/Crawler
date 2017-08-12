@@ -83,7 +83,7 @@
 						<manifest>  
 							<addClasspath>true</addClasspath>  
 							<classpathPrefix>lib/</classpathPrefix>
-							<mainClass>com.ai.crawl.App</mainClass>  
+							<mainClass>com.ai.crawl2.App</mainClass>  
 							<addDefaultImplementationEntries>true</addDefaultImplementationEntries>  
 	                        <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
 						</manifest>  

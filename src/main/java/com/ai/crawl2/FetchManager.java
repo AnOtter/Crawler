@@ -25,10 +25,14 @@ public class FetchManager implements ApplicationContextAware {
 	@PostConstruct
 	public void run(){
 		try {
-			List<WebPage> nextFetchList=fetchList.getNextFetchPage();
-			for(WebPage webPage:nextFetchList)
-			{				
-				pageFetcher.fetch(webPage);
+			List<WebPage> nextFetchList=null;
+			nextFetchList=fetchList.getNextFetchPage();
+			while(nextFetchList.size()>0){
+				for(WebPage webPage:nextFetchList)
+				{				
+					pageFetcher.fetch(webPage);
+				}
+				nextFetchList=fetchList.getNextFetchPage();
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

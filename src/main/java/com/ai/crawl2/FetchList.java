@@ -22,12 +22,15 @@ public class FetchList{
 				String sql="select * from pages where fetchTime is null limit "+fetchCount;
 				resultSet=druidPool.executeQuery(sql);
 				resultSet.first();
-				while(!resultSet.isAfterLast()){
-					String url=resultSet.getString("url");
-					String parentURL=resultSet.getString("parentURL");
-					WebPage webPage=new WebPage(url, parentURL);
-					pageList.add(webPage);	
-					resultSet.next();
+				int selectRowCount=resultSet.getRow();
+				if(selectRowCount>0){
+					while(!resultSet.isAfterLast()){
+						String url=resultSet.getString("url");
+						String parentURL=resultSet.getString("parentURL");
+						WebPage webPage=new WebPage(url, parentURL);
+						pageList.add(webPage);	
+						resultSet.next();
+					}
 				}
 			}	
 		}

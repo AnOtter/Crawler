@@ -101,7 +101,7 @@ public class DruidPool {
 		}		
 	}	
 	
-	public ResultSet executeQuery(String sql) throws SQLException{
+	public ResultSet executeQuery(String sql) throws SQLException{		
 		Statement statement =null;
 		Connection connection =null;
 		try {
