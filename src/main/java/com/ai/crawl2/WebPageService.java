@@ -65,7 +65,7 @@ public class WebPageService {
 				sql +=",fetchTime=null";
 			else
 				sql +=",fetchTime='" + formatDate(fetchTime) + "'";
-			sql+= " WHERE URL='"+pageURL+"' and FetchTime is null ";
+			sql+= " WHERE URL='"+pageURL+"'";
 			if(parentURL==null)
 				sql+=" and ParentURL is null";
 			else

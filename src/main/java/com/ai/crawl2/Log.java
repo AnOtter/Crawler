@@ -6,6 +6,7 @@ import javax.annotation.PostConstruct;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 import org.springframework.stereotype.Component;
+
 @Component
 public class Log {
 	private Logger defaultLogger=null;
