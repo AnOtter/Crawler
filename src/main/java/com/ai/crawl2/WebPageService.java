@@ -32,16 +32,15 @@ public class WebPageService {
 
 	private boolean insertPage(WebPage webPage) {
 		try {
-			String pageTitle = webPage.parserTitle();
 			String pageURL = webPage.getUrl();
 			String parentURL = webPage.getParentURL();
 			Date fetchTime = webPage.getLastFetchTime();
-			String sql = "INSERT INTO Pages (url,title,fetchTime,parentURL) values ('"
-			+ pageURL + "','" + pageTitle;
+			String sql = "INSERT INTO Pages (url,fetchTime,parentURL) values ('"
+			+ pageURL + "'";
 			if(fetchTime ==null)
-				sql +="',null";
+				sql +=",null";
 			else
-				sql +="','" + formatDate(fetchTime) + "'";
+				sql +=",'" + formatDate(fetchTime) + "'";
 			if(parentURL==null)
 				sql+=",null)";
 			else
@@ -59,7 +58,9 @@ public class WebPageService {
 			String pageURL = webPage.getUrl();
 			String parentURL = webPage.getParentURL();
 			Date fetchTime = webPage.getLastFetchTime();
-			String sql = "UPDATE Pages SET title = '"+pageTitle+"'";
+			if(pageTitle.contains("\'"))
+				pageTitle=pageTitle.replaceAll("'", "''");
+			String sql = "UPDATE Pages SET title = '"+pageTitle+"'";			
 			if(fetchTime ==null)
 				sql +=",fetchTime=null";
 			else

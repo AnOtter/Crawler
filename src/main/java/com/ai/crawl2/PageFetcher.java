@@ -44,20 +44,19 @@ public class PageFetcher {
 		}
 	}
 
-	public void fetch(WebPage webPage) {
+	public void fetch(WebPage webPage){
 		try {
-			if (!webPage.getUrl().equals("")) {
+			String fetchURL=webPage.getUrl();
+			if (!fetchURL.equals("")) {
+				Document document=null;
 				webPage.setLastFetchTime(new Date());
-				Document document = Jsoup.parse(new URL(webPage.getUrl()), 3000);
-				if (document != null) {
-					System.err.println("fetch:"+webPage.getUrl());
-					webPage.setDocument(document);
-					updateObservers(webPage);
-				}
+				document = Jsoup.parse(new URL(webPage.getUrl()), 3000);
+				webPage.setDocument(document);
+				updateObservers(webPage);
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
-		}
+			System.err.println("fetching ERROR:"+webPage);
+		}		
 	}
 
 }

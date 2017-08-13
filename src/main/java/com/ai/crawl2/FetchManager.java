@@ -29,8 +29,12 @@ public class FetchManager implements ApplicationContextAware {
 			nextFetchList=fetchList.getNextFetchPage();
 			while(nextFetchList.size()>0){
 				for(WebPage webPage:nextFetchList)
-				{				
-					pageFetcher.fetch(webPage);
+				{		
+					try {
+						pageFetcher.fetch(webPage);
+					} catch (Exception ex) {
+						ex.printStackTrace();
+					}					
 				}
 				nextFetchList=fetchList.getNextFetchPage();
 			}

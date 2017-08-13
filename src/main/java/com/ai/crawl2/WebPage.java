@@ -101,4 +101,10 @@ public class WebPage {
 		}
 		return "";
 	}
+	
+	@Override
+	public String toString(){
+		return "WebPage:URL("+this.url
+				+") ParentURL("+this.parentURL+")";
+	}
 }
