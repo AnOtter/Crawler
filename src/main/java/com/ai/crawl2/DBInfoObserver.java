@@ -12,6 +12,9 @@ public class DBInfoObserver implements FetcherObserver {
 	@Autowired
 	WebPageService webPageService;
 
+	/** 
+	 *@说明 将爬取到的页面的标题和爬取时间更新到数据库
+	 */
 	@Override
 	public void pageFetched(WebPage webPage) {
 		webPageService.savePage(webPage);

@@ -24,6 +24,10 @@ public class SubPageObserver implements FetcherObserver {
 		saveSubPageURLs(subPageURLs,webPage.getUrl());
 	}
 	
+	/**
+	 * @param fetchedPage 已爬取的页面
+	 * @return 已爬取的页面关联的链接列表
+	 */
 	private List<String> getSubPageURLs(WebPage fetchedPage){
 		List<String> subPageURLs=new LinkedList<>();
 		Document document =fetchedPage.getDocument();

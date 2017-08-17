@@ -87,6 +87,10 @@ public class WebPage {
 		this.articlePattern = "";
 	}
 
+	/**
+	 * @return 解析已爬取页面的标题
+	 * @流程 首先获取标签为h1的内容，如果为获取到则按设置的标题匹配模式 <code>titlePattern</code> 获取标题
+	 */
 	public String parserTitle() {
 		if (document != null) {
 			Elements titles = document.select("h1");

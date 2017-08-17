@@ -15,6 +15,11 @@ public class FetchList {
 	@Value("${FetchList.FetchCount}")
 	int fetchCount;
 
+	/**
+	 * @return 从数据库查询到的需要爬取的页面列表
+	 * @throws Exception
+	 * @说明 查询配置文件中设置个数为 <code>FetchList.FetchCount</code> 个未爬取的页面列表
+	 */
 	public List<WebPage> getNextFetchPage() throws Exception {
 		List<WebPage> pageList = new LinkedList<>();
 		ResultSet resultSet = null;

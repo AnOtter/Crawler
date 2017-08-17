@@ -86,6 +86,11 @@ public class DruidPool {
 		return dataSource.getConnection();
 	}
 
+	/**
+	 * @param sql 需要执行的SQL语句
+	 * @return 语句执行成功或失败
+	 * @throws SQLException
+	 */
 	public boolean executeSQL(String sql) throws SQLException {
 		Statement statement = null;
 		Connection connection = null;
@@ -101,6 +106,11 @@ public class DruidPool {
 		}
 	}
 
+	/**
+	 * @param sql 需要执行的查询语句
+	 * @return 查询到的结果集
+	 * @throws SQLException
+	 */
 	public ResultSet executeQuery(String sql) throws SQLException {
 		Statement statement = null;
 		Connection connection = null;
@@ -113,6 +123,12 @@ public class DruidPool {
 		}
 	}
 
+	/**
+	 * @param sql 查询个数的语句，第一个字段应为查询到的函数 如:
+	 * <p><code>select  count(1) as cnt from XXX </code></p>
+	 * @return 查询到的个数是否大于0
+	 * @throws SQLException
+	 */
 	public boolean isExist(String sql) throws SQLException {
 		Statement statement = null;
 		Connection connection = null;

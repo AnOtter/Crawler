@@ -10,6 +10,10 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
 
+/**
+ * @author OTTER
+ * @类说明 程序主入口类
+ */
 @Component
 public class FetchManager implements ApplicationContextAware {
 
@@ -23,6 +27,11 @@ public class FetchManager implements ApplicationContextAware {
 
 	}
 
+	/**
+	 * 程序主入口
+	 * @用处 循环获取数据库中的未爬取页面传递给pageFetcher执行页面爬取任务
+	 * @TODO 使用多线程加快执行速度
+	 */
 	@PostConstruct
 	public void run() {
 		try {
@@ -38,6 +47,10 @@ public class FetchManager implements ApplicationContextAware {
 		}
 	}
 
+	/**
+	 * @param webPage 需要爬取的页面信息
+	 * @用处 爬取网页
+	 */
 	private void fetchPage(WebPage webPage) {
 		try {
 			pageFetcher.fetch(webPage);
