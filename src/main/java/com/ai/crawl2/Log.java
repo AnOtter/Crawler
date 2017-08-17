@@ -1,4 +1,5 @@
 package com.ai.crawl2;
+
 import java.io.File;
 
 import javax.annotation.PostConstruct;
@@ -9,15 +10,16 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class Log {
-	private Logger defaultLogger=null;
+	private Logger defaultLogger = null;
+
 	@PostConstruct
 	private void initializeLog() {
 		try {
-				String currentPath = Log.class.getProtectionDomain().getCodeSource().getLocation().getPath();
-				String currentDirectory = new File(currentPath).getParent();
-				PropertyConfigurator.configure(currentDirectory + "/config/log4j.properties");
-				defaultLogger = Logger.getLogger("Crawler");
-				logInfo("Log setting file:" + currentDirectory + "/config/log4j.properties");
+			String currentPath = Log.class.getProtectionDomain().getCodeSource().getLocation().getPath();
+			String currentDirectory = new File(currentPath).getParent();
+			PropertyConfigurator.configure(currentDirectory + "/config/log4j.properties");
+			defaultLogger = Logger.getLogger("Crawler");
+			logInfo("Log setting file:" + currentDirectory + "/config/log4j.properties");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -72,10 +72,10 @@ public class WebPage {
 	public WebPage(String url) {
 		this.url = url;
 		this.lastFetchTime = null;
-		this.parentURL =null;
+		this.parentURL = null;
 		this.document = null;
-		this.titlePattern="";
-		this.articlePattern="";
+		this.titlePattern = "";
+		this.articlePattern = "";
 	}
 
 	public WebPage(String url, String parentURL) {
@@ -83,28 +83,26 @@ public class WebPage {
 		this.lastFetchTime = null;
 		this.parentURL = parentURL;
 		this.document = null;
-		this.titlePattern="";
-		this.articlePattern="";
+		this.titlePattern = "";
+		this.articlePattern = "";
 	}
-	
-	public String parserTitle(){
-		if(document!=null)
-		{
-			Elements titles=document.select("h1");
-			if(titles.size()==0 && (!titlePattern.equals(""))){
-				titles=document.select(titlePattern);
+
+	public String parserTitle() {
+		if (document != null) {
+			Elements titles = document.select("h1");
+			if (titles.size() == 0 && (!titlePattern.equals(""))) {
+				titles = document.select(titlePattern);
 			}
-			if(titles.size()>0)
+			if (titles.size() > 0)
 				return titles.get(0).text();
-			else 
+			else
 				return "";
 		}
 		return "";
 	}
-	
+
 	@Override
-	public String toString(){
-		return "WebPage:URL("+this.url
-				+") ParentURL("+this.parentURL+")";
+	public String toString() {
+		return "WebPage:URL(" + this.url + ") ParentURL(" + this.parentURL + ")";
 	}
 }

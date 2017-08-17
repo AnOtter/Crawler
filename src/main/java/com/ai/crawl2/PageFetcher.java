@@ -50,8 +50,10 @@ public class PageFetcher {
 			if (!fetchURL.equals("")) {
 				Document document=null;
 				webPage.setLastFetchTime(new Date());
+				URL url=new URL(fetchURL);				
 				try {
-					document = Jsoup.parse(new URL(webPage.getUrl()), 3000);
+					if(!url.getAuthority().contains("v.qq.com"))
+						document = Jsoup.parse(url, 3000);
 				} catch (Exception e) {					
 				}				
 				webPage.setDocument(document);

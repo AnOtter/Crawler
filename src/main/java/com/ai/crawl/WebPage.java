@@ -149,7 +149,7 @@ public class WebPage implements Comparable<WebPage>, Serializable {
 	protected void parseOuterLinks(){
 		if(document!=null)
 		{
-			Elements links=document.select("a[href~=(i?)http.+]");				
+			Elements links=document.select("a[href~=(i?)http.+(/|htm|html|cn|com)]");				
 			for (Element link : links) {
 				outerLinks.add(link.attr("href"));
 			}			

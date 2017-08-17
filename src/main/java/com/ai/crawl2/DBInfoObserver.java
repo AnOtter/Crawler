@@ -14,11 +14,6 @@ public class DBInfoObserver implements FetcherObserver {
 
 	@Override
 	public void pageFetched(WebPage webPage) {
-		savePageInfo(webPage);
+		webPageService.savePage(webPage);
 	}
-
-	private void savePageInfo(WebPage fetchedPage) {
-		webPageService.savePage(fetchedPage);
-	}
-
 }

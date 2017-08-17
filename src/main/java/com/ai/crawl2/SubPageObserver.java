@@ -29,7 +29,7 @@ public class SubPageObserver implements FetcherObserver {
 		Document document =fetchedPage.getDocument();
 		if(document!=null)
 		{
-			Elements links=document.select("a[href~=(i?)http.+]");				
+			Elements links=document.select("a[href~=(i?)http.+(/|htm|html|cn|com)$]");				
 			for (Element link : links) {
 				subPageURLs.add(link.attr("href"));
 			}			

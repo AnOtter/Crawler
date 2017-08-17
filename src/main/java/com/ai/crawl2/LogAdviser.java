@@ -30,6 +30,15 @@ public class LogAdviser {
 		}
 	}	
 	
+//	@Before("execution(* com.ai.crawl2.DruidPool.*(..))")
+//	public void logBeforeExecuteSQL(JoinPoint pjp){
+//		log.logInfo("execute SQL");
+//		Object[] args=pjp.getArgs();
+//		for(Object arg:args){
+//			log.logInfo(arg);
+//		}
+//	}	
+	
 	@AfterThrowing(pointcut="execution(* com.ai.crawl2.DruidPool.*(..))",
 			throwing="ex")
 	public void logExecuteSQL(Throwable ex){

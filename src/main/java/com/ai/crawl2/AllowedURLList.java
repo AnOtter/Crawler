@@ -15,13 +15,13 @@ public class AllowedURLList extends LinkedList<String> {
 
 	@Value("${Crawler.AllowedURLList}")
 	String allowedURLs;
-	
-	public LinkedList<String> getAllowedURLList() throws Exception{
-		LinkedList<String> allowedURLList=new LinkedList<>();
-		if(!allowedURLs.equals("")){
-			String[] urls=allowedURLs.split(";");
-			for(String url :urls){
-				if(!url.equals("")){
+
+	public LinkedList<String> getAllowedURLList() throws Exception {
+		LinkedList<String> allowedURLList = new LinkedList<>();
+		if (!allowedURLs.equals("")) {
+			String[] urls = allowedURLs.split(";");
+			for (String url : urls) {
+				if (!url.equals("")) {
 					allowedURLList.add(url);
 				}
 			}

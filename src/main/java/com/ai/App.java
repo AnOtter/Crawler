@@ -1,21 +1,23 @@
 package com.ai;
 
 import java.net.URL;
+import java.util.List;
 
-import com.ai.crawl.WebPage;
-import com.ai.crawl.XinHuaPage;;
+import com.ai.crawl.TencentPage;
+import com.ai.crawl.WebPage;;
 
 public class App {	
 	
 	public static void main(String[] args) {
-		WebPage page=new XinHuaPage();
+		WebPage page=new TencentPage();
 		try {
-			page.setUrl(new URL("http://news.xinhuanet.com/politics/2017-07/16/c_1121327252.htm"));
+			page.setUrl(new URL("http://www.qq.com"));
 			if(page.fetch())
 			{
-				page.getTitle();
-				page.getArticleContent();
-				page.save();
+				List<String> urList=page.getOuterLinks();
+				for(String url :urList){
+					System.out.println(url);
+				}
 			}
 		} catch (Exception e) {			
 			e.printStackTrace();

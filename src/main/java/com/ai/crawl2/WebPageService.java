@@ -60,17 +60,19 @@ public class WebPageService {
 			Date fetchTime = webPage.getLastFetchTime();
 			if(pageTitle.contains("\'"))
 				pageTitle=pageTitle.replaceAll("'", "''");
-			String sql = "UPDATE Pages SET title = '"+pageTitle+"'";			
-			if(fetchTime ==null)
-				sql +=",fetchTime=null";
-			else
-				sql +=",fetchTime='" + formatDate(fetchTime) + "'";
-			sql+= " WHERE URL='"+pageURL+"'";
-			if(parentURL==null)
-				sql+=" and ParentURL is null";
-			else
-				sql+=" and ParentURL='"+parentURL+"'";
-			return druidPool.executeSQL(sql);
+			if(pageTitle.equals("") && fetchTime==null)
+			  return false;
+			else{				
+				String sql = "UPDATE Pages SET title = '" + pageTitle + "'";
+				if (fetchTime != null)
+					sql += ",fetchTime='" + formatDate(fetchTime) + "'";
+				sql += " WHERE URL='" + pageURL + "'";
+				if (parentURL == null)
+					sql += " and ParentURL is null";
+				else
+					sql += " and ParentURL='" + parentURL + "'";
+				return druidPool.executeSQL(sql);
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			return false;

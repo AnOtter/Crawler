@@ -20,9 +20,9 @@ import com.alibaba.druid.pool.DruidDataSource;
  */
 @Configuration
 @ConfigurationProperties
-public class DruidPool {	
+public class DruidPool {
 	@Value("${Druid.jdbcDriver}")
-	String jdbcDriverName ;  
+	String jdbcDriverName;
 	@Value("${Druid.dbURL}")
 	String dburl;
 	@Value("${Druid.DBUserName}")
@@ -52,83 +52,82 @@ public class DruidPool {
 	@Value("${Druid.MaxOpenPreparedStatements}")
 	int maxOpenPreparedStatements;
 	@Value("${Druid.ValidationQuery}")
-	String validationQuery;	
-	
+	String validationQuery;
+
 	private DataSource dataSource;
-	
+
 	private DataSource getDataSource() throws SQLException {
-        DruidDataSource dataSource = new DruidDataSource();
-        dataSource.setDriverClassName(jdbcDriverName);
-        dataSource.setUrl(dburl);
-        dataSource.setUsername(userName);
-        dataSource.setPassword(password);
-        dataSource.setFilters(filter);
-        dataSource.setMaxActive(maxActive);
-        dataSource.setMaxWait(maxWait);
-        dataSource.setMinIdle(minIdle);
-        dataSource.setTimeBetweenEvictionRunsMillis(timeBetweenEvictionRunsMillis);
-        dataSource.setMinEvictableIdleTimeMillis(minEvictableIdleTimeMillis);
-        dataSource.setTestWhileIdle(testWhileIdle);
-        dataSource.setValidationQuery(validationQuery);
-        dataSource.setTestOnBorrow(testOnBorrow);
-        dataSource.setTestOnReturn(testOnReturn);
-        dataSource.setPoolPreparedStatements(poolPreparedStatements);
-        dataSource.setMaxOpenPreparedStatements(maxOpenPreparedStatements);
-        dataSource.setRemoveAbandoned(false);
-        dataSource.setRemoveAbandonedTimeout(180);
-        dataSource.init();
-        return dataSource;
-    }
-	
-	private Connection getConnection() throws SQLException{
-		if(dataSource==null)
-		  dataSource=getDataSource();
+		DruidDataSource dataSource = new DruidDataSource();
+		dataSource.setDriverClassName(jdbcDriverName);
+		dataSource.setUrl(dburl);
+		dataSource.setUsername(userName);
+		dataSource.setPassword(password);
+		dataSource.setFilters(filter);
+		dataSource.setMaxActive(maxActive);
+		dataSource.setMaxWait(maxWait);
+		dataSource.setMinIdle(minIdle);
+		dataSource.setTimeBetweenEvictionRunsMillis(timeBetweenEvictionRunsMillis);
+		dataSource.setMinEvictableIdleTimeMillis(minEvictableIdleTimeMillis);
+		dataSource.setTestWhileIdle(testWhileIdle);
+		dataSource.setValidationQuery(validationQuery);
+		dataSource.setTestOnBorrow(testOnBorrow);
+		dataSource.setTestOnReturn(testOnReturn);
+		dataSource.setPoolPreparedStatements(poolPreparedStatements);
+		dataSource.setMaxOpenPreparedStatements(maxOpenPreparedStatements);
+		dataSource.setRemoveAbandoned(false);
+		dataSource.setRemoveAbandonedTimeout(180);
+		dataSource.init();
+		return dataSource;
+	}
+
+	private Connection getConnection() throws SQLException {
+		if (dataSource == null)
+			dataSource = getDataSource();
 		return dataSource.getConnection();
 	}
-	
-	public boolean executeSQL(String sql) throws SQLException{
-		Statement statement =null;
-		Connection connection =null;
+
+	public boolean executeSQL(String sql) throws SQLException {
+		Statement statement = null;
+		Connection connection = null;
 		try {
-			connection=getConnection();
-			statement =connection.createStatement();
+			connection = getConnection();
+			statement = connection.createStatement();
 			return statement.execute(sql);
-		} finally {	
-			if(statement!=null)
+		} finally {
+			if (statement != null)
 				statement.close();
-			if(connection!=null)
+			if (connection != null)
 				connection.close();
-		}		
-	}	
-	
-	public ResultSet executeQuery(String sql) throws SQLException{		
-		Statement statement =null;
-		Connection connection =null;
-		try {
-			connection=getConnection();
-			statement =connection.createStatement();
-			return statement.executeQuery(sql);
-		} finally {	
-			
-		}			
+		}
 	}
-	
-	//select count(1) as cnt from 
-	public boolean isExist(String sql) throws SQLException{
-		Statement statement =null;
-		Connection connection =null;
+
+	public ResultSet executeQuery(String sql) throws SQLException {
+		Statement statement = null;
+		Connection connection = null;
 		try {
-			connection=getConnection();
-			statement =connection.createStatement();
+			connection = getConnection();
+			statement = connection.createStatement();
+			return statement.executeQuery(sql);
+		} finally {
+
+		}
+	}
+
+	public boolean isExist(String sql) throws SQLException {
+		Statement statement = null;
+		Connection connection = null;
+		try {
+			connection = getConnection();
+			statement = connection.createStatement();
 			ResultSet resultSet = statement.executeQuery(sql);
 			resultSet.first();
-			int selectRows=resultSet.getInt(1);
-			return (selectRows>0);
-		} finally {	
-			if(statement!=null)
+			int selectRows = resultSet.getInt(1);
+			return (selectRows > 0);
+		} finally {
+			if (statement != null)
 				statement.close();
-			if(connection!=null)
+			if (connection != null)
 				connection.close();
-		}			
+		}
 	}
 }
