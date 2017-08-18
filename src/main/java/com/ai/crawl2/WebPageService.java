@@ -5,9 +5,11 @@ import static com.ai.util.DateTime.formatDate;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 @Component
+@Scope("prototype")
 public class WebPageService {
 	@Autowired
 	DruidPool druidPool;

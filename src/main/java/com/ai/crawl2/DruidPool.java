@@ -23,34 +23,49 @@ import com.alibaba.druid.pool.DruidDataSource;
 public class DruidPool {
 	@Value("${Druid.jdbcDriver}")
 	String jdbcDriverName;
+	
 	@Value("${Druid.dbURL}")
 	String dburl;
+	
 	@Value("${Druid.DBUserName}")
 	String userName;
+	
 	@Value("${Druid.DBPassword}")
 	String password;
+	
 	@Value("${Druid.Filter}")
 	String filter;
+	
 	@Value("${Druid.MaxActive}")
 	int maxActive;
+	
 	@Value("${Druid.MaxWait}")
 	int maxWait;
+	
 	@Value("${Druid.MinIdle}")
 	int minIdle;
+	
 	@Value("${Druid.TimeBetweenEvictionRunsMillis}")
 	int timeBetweenEvictionRunsMillis;
+	
 	@Value("${Druid.MinEvictableIdleTimeMillis}")
 	int minEvictableIdleTimeMillis;
+	
 	@Value("${Druid.TestWhileIdle}")
 	boolean testWhileIdle;
+	
 	@Value("${Druid.TestOnBorrow}")
 	boolean testOnBorrow;
+	
 	@Value("${Druid.TestOnReturn}")
 	boolean testOnReturn;
+	
 	@Value("${Druid.PoolPreparedStatements}")
 	boolean poolPreparedStatements;
+	
 	@Value("${Druid.MaxOpenPreparedStatements}")
 	int maxOpenPreparedStatements;
+	
 	@Value("${Druid.ValidationQuery}")
 	String validationQuery;
 

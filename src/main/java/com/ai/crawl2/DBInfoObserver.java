@@ -1,6 +1,7 @@
 package com.ai.crawl2;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 /**
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Component;
  * @类说明 页面爬取之后将页面信息保存到数据库
  */
 @Component
+@Scope("prototype")
 public class DBInfoObserver implements FetcherObserver {
 	@Autowired
 	WebPageService webPageService;

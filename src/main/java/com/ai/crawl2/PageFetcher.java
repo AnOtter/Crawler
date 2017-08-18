@@ -9,6 +9,7 @@ import javax.annotation.PostConstruct;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 /**
@@ -16,11 +17,13 @@ import org.springframework.stereotype.Component;
  * @类说明 网页获取器(使用观察者模式)
  * @WebPage 要获取的页面
  * @Observers 观察者列表
- * @主要方法 fetch()
  */
 @Component
-public class PageFetcher {
+@Scope("prototype")
+public class PageFetcher implements Runnable {
 	private LinkedList<FetcherObserver> observers = new LinkedList<>();
+
+	private WebPage fetchingPage;
 
 	// @Autowired
 	// LocalFileObserver localFileObserver;
@@ -30,6 +33,14 @@ public class PageFetcher {
 
 	@Autowired
 	DBInfoObserver dbInfoObserver;
+
+	public WebPage getFetchingPage() {
+		return fetchingPage;
+	}
+
+	public void setFetchingPage(WebPage fetchingPage) {
+		this.fetchingPage = fetchingPage;
+	}
 
 	@PostConstruct
 	private void addObservers() {
@@ -45,10 +56,8 @@ public class PageFetcher {
 	}
 
 	/**
-	 * @param webPage
-	 *            需要爬取的网页
-	 * @用处 爬取网页
-	 * @流程说明 使用jsoup爬取网页内容，并通知观察者处理已爬取的内容
+	 * @param webPage 需要爬取的网页
+	 * @description 使用jsoup爬取网页内容，并通知观察者处理已爬取的内容
 	 */
 	public void fetch(WebPage webPage) {
 		try {
@@ -65,15 +74,26 @@ public class PageFetcher {
 		}
 	}
 
-	private Document fetchPage(URL url){
+	/**
+	 * @param url 爬取页面的url
+	 * @return 爬取到的文档
+	 * @description 爬取网页内容
+	 */
+	private Document fetchPage(URL url) {
 		Document document = null;
 		try {
 			if (!url.getAuthority().contains("v.qq.com"))
 				document = Jsoup.parse(url, 3000);
 		} catch (Exception e) {
 			e.printStackTrace();
-		}		
+		}
 		return document;
+	}
+
+	@Override
+	public void run() {
+		if (fetchingPage != null)
+			fetch(fetchingPage);
 	}
 
 }

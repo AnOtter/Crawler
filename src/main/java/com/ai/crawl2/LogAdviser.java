@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 import com.ai.crawl2.Log;
 
 @Aspect
-@Component
+//@Component
 public class LogAdviser {	
 	@Autowired
 	Log log;
