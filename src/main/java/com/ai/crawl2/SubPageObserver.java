@@ -1,7 +1,10 @@
 package com.ai.crawl2;
 
+import java.net.URL;
 import java.util.LinkedList;
 import java.util.List;
+
+import javax.annotation.PostConstruct;
 
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -19,11 +22,21 @@ import org.springframework.stereotype.Component;
 public class SubPageObserver implements FetcherObserver {
 	@Autowired
 	WebPageService webPageService;
+	
+	@Autowired 
+	AllowedURLList allowURLs;
+	
+	private List<String> allowedURLList;
 
 	@Override
 	public void pageFetched(WebPage webPage) {
 		List<String> subPageURLs=getSubPageURLs(webPage);
 		saveSubPageURLs(subPageURLs,webPage.getUrl());
+	}
+	
+	@PostConstruct
+	public void initAllowedURLList(){
+		allowedURLList=allowURLs.getAllowedURLList();
 	}
 	
 	/**
@@ -44,13 +57,31 @@ public class SubPageObserver implements FetcherObserver {
 	}
 	
 	private void saveSubPageURLs(List<String> subPageURLs,String pageURL){
-		for(String subPageURL:subPageURLs){			
-			WebPage subPage=new WebPage(subPageURL, pageURL);
-			saveSubPage(subPage);
+		for(String subPageURL:subPageURLs){		
+			if(isURLInAllowList(subPageURL)){
+				WebPage subPage=new WebPage(subPageURL, pageURL);
+				saveSubPage(subPage);
+			}
 		}
 	}
 	
 	private void saveSubPage(WebPage subPage){
 		webPageService.savePage(subPage);
+	}
+	
+	private boolean isURLInAllowList(String subPageURL){
+		URL url=null;
+		try {
+			url=new URL(subPageURL);
+		} catch (Exception e) {
+		}
+		if(url!=null){
+			String authority=url.getAuthority();
+			for(String allowURL:allowedURLList){
+				if(authority.contains(allowURL))
+					return true;
+			}
+		}
+		return false;
 	}
 }

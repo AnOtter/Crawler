@@ -2,6 +2,7 @@ package com.ai.crawl2;
 
 import static com.ai.util.DateTime.formatDate;
 
+import java.net.URL;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,11 +20,13 @@ public class WebPageService {
 	private boolean isPageExist(WebPage webPage) {
 		try{
 			String sql="select count(1) as cnt from pages where URL='"+webPage.getUrl()+"'";
-			String parentURL=webPage.getParentURL();
-			if(parentURL==null)
-				sql+=" and ParentURL is null";
-			else
-				sql+=" and parentURL='"+parentURL+"'";
+			if(!isPageDirectory(webPage)){
+				String parentURL=webPage.getParentURL();
+				if(parentURL==null)
+					sql+=" and ParentURL is null";
+				else
+					sql+=" and parentURL='"+parentURL+"'";
+			}
 			return druidPool.isExist(sql);
 		}
 		catch (Exception e) {
@@ -31,7 +34,7 @@ public class WebPageService {
 			return false;
 		}
 	}
-
+	
 	private boolean insertPage(WebPage webPage) {
 		try {
 			String pageURL = webPage.getUrl();
@@ -56,25 +59,28 @@ public class WebPageService {
 
 	private boolean updatePage(WebPage webPage) {
 		try {
-			String pageTitle = webPage.parserTitle();
-			String pageURL = webPage.getUrl();
-			String parentURL = webPage.getParentURL();
-			Date fetchTime = webPage.getLastFetchTime();
-			if(pageTitle.contains("\'"))
-				pageTitle=pageTitle.replaceAll("'", "''");
-			if(pageTitle.equals("") && fetchTime==null)
-			  return false;
-			else{				
-				String sql = "UPDATE Pages SET title = '" + pageTitle + "'";
-				if (fetchTime != null)
-					sql += ",fetchTime='" + formatDate(fetchTime) + "'";
-				sql += " WHERE URL='" + pageURL + "'";
-				if (parentURL == null)
-					sql += " and ParentURL is null";
-				else
-					sql += " and ParentURL='" + parentURL + "'";
-				return druidPool.executeSQL(sql);
+			if(!isPageDirectory(webPage)){
+				String pageTitle = webPage.parserTitle();
+				String pageURL = webPage.getUrl();
+				String parentURL = webPage.getParentURL();
+				Date fetchTime = webPage.getLastFetchTime();
+				if(pageTitle.contains("\'"))
+					pageTitle=pageTitle.replaceAll("'", "''");
+				if(pageTitle.equals("") && fetchTime==null)
+				  return false;
+				else{				
+					String sql = "UPDATE Pages SET title = '" + pageTitle + "'";
+					if (fetchTime != null)
+						sql += ",fetchTime='" + formatDate(fetchTime) + "'";
+					sql += " WHERE URL='" + pageURL + "'";
+					if (parentURL == null)
+						sql += " and ParentURL is null";
+					else
+						sql += " and ParentURL='" + parentURL + "'";
+					return druidPool.executeSQL(sql);
+				}
 			}
+			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
 			return false;
@@ -86,5 +92,10 @@ public class WebPageService {
 			return updatePage(webPage);
 		else
 			return insertPage(webPage);
+	}	
+	
+	private boolean isPageDirectory(WebPage webPage){
+		String url=webPage.getUrl();
+		return !(url.endsWith("html") || url.endsWith(".htm"));
 	}
 }

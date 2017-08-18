@@ -19,13 +19,15 @@ public class FetchList {
 	 * @return 从数据库查询到的需要爬取的页面列表
 	 * @throws Exception
 	 * @说明 查询配置文件中设置个数为 <code>FetchList.FetchCount</code> 个未爬取的页面列表
+	 * 网页为目录时，超过六小时爬取一次
 	 */
 	public List<WebPage> getNextFetchPage() throws Exception {
 		List<WebPage> pageList = new LinkedList<>();
 		ResultSet resultSet = null;
 		try {
 			if (fetchCount > 0) {
-				String sql = "select * from pages where fetchTime is null limit " + fetchCount;
+				String sql = "select * from pages where fetchTime is null "
+						+ " and (FetchingTime is null or timestampdiff(hour,fetchtime,now())>6) limit " + fetchCount;
 				resultSet = druidPool.executeQuery(sql);
 				pageList = convertDataSetToPageList(resultSet);
 			}
@@ -43,6 +45,7 @@ public class FetchList {
 				while (!resultSet.isAfterLast()) {
 					String url = resultSet.getString("url");
 					String parentURL = resultSet.getString("parentURL");
+					updateFetchingTime(url,parentURL);
 					WebPage webPage = new WebPage(url, parentURL);
 					pageList.add(webPage);
 					resultSet.next();
@@ -62,5 +65,19 @@ public class FetchList {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	private void updateFetchingTime(String url,String parentURL){
+		try {
+			String sql = "update pages set fetchingTime=now() where url ='"+url+"'";
+			if(parentURL.equals(""))
+				sql+=" and ParentURL is null";
+			else
+				sql+=" and ParentURL='"+parentURL+"'" ;
+			druidPool.executeSQL(sql);
+		} catch (Exception e) {
+			
+		}
+		
 	}
 }

@@ -63,6 +63,7 @@ public class PageFetcher implements Runnable {
 		try {
 			String fetchURL = webPage.getUrl();
 			if (!fetchURL.equals("")) {
+				System.out.println("fetching "+fetchURL);
 				webPage.setLastFetchTime(new Date());
 				URL url = new URL(fetchURL);
 				Document document = fetchPage(url);

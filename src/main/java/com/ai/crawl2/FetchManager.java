@@ -106,18 +106,4 @@ public class FetchManager implements ApplicationContextAware {
 		pageFetcher.setFetchingPage(nextFetchPage);
 		return executorService.submit(pageFetcher);
 	}
-
-	/**
-	 * @param webPage
-	 *            需要爬取的页面信息
-	 * @用处 爬取网页
-	 
-	private void fetchPage(WebPage webPage) {
-		try {
-			pageFetcher.fetch(webPage);
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
-	}
-	*/
 }
