@@ -1,4 +1,4 @@
-package com.ai.crawl2;
+package com.ai.crawler;
 
 import static com.ai.util.DateTime.now;
 import static com.ai.util.FileOperator.writeContent;

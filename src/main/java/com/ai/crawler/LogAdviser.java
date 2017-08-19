@@ -1,4 +1,4 @@
-package com.ai.crawl2;
+package com.ai.crawler;
 
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterThrowing;
@@ -7,7 +7,7 @@ import org.aspectj.lang.annotation.Before;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.ai.crawl2.Log;
+import com.ai.crawler.Log;
 
 @Aspect
 //@Component

@@ -1,4 +1,4 @@
-package com.ai.crawl2;
+package com.ai.crawler;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;

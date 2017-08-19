@@ -1,4 +1,4 @@
-package com.ai.crawl2;
+package com.ai.crawler;
 
 import java.util.ArrayList;
 import java.util.List;

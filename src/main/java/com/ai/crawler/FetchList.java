@@ -1,4 +1,4 @@
-package com.ai.crawl2;
+package com.ai.crawler;
 
 import java.util.List;
 import java.sql.ResultSet;
@@ -12,8 +12,12 @@ import org.springframework.stereotype.Component;
 public class FetchList {
 	@Autowired
 	DruidPool druidPool;
+	
 	@Value("${FetchList.FetchCount}")
 	int fetchCount;
+	
+	@Value("${Page.PageTableName}")
+	String pageTableName;
 
 	/**
 	 * @return 从数据库查询到的需要爬取的页面列表
@@ -26,7 +30,7 @@ public class FetchList {
 		ResultSet resultSet = null;
 		try {
 			if (fetchCount > 0) {
-				String sql = "select * from pages where fetchTime is null "
+				String sql = "select * from "+pageTableName+" where fetchTime is null "
 						+ " and (FetchingTime is null or timestampdiff(hour,fetchtime,now())>6) limit " + fetchCount;
 				resultSet = druidPool.executeQuery(sql);
 				pageList = convertDataSetToPageList(resultSet);
@@ -69,11 +73,7 @@ public class FetchList {
 	
 	private void updateFetchingTime(String url,String parentURL){
 		try {
-			String sql = "update pages set fetchingTime=now() where url ='"+url+"'";
-			if(parentURL.equals(""))
-				sql+=" and ParentURL is null";
-			else
-				sql+=" and ParentURL='"+parentURL+"'" ;
+			String sql = "update "+pageTableName+" set fetchingTime=now() where url ='"+url+"'";
 			druidPool.executeSQL(sql);
 		} catch (Exception e) {
 			

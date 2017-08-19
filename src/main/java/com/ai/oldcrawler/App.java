@@ -1,4 +1,4 @@
-package com.ai.crawl;
+package com.ai.oldcrawler;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

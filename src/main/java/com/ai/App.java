@@ -3,8 +3,8 @@ package com.ai;
 import java.net.URL;
 import java.util.List;
 
-import com.ai.crawl.TencentPage;
-import com.ai.crawl.WebPage;;
+import com.ai.oldcrawler.TencentPage;
+import com.ai.oldcrawler.WebPage;;
 
 public class App {	
 	

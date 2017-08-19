@@ -1,4 +1,4 @@
-package com.ai.crawl;
+package com.ai.oldcrawler;
 
 import java.io.Serializable;
 import java.net.URL;

@@ -1,4 +1,4 @@
-package com.ai.crawl2;
+package com.ai.crawler;
 
 import java.net.URL;
 import java.util.Date;
@@ -62,14 +62,12 @@ public class PageFetcher implements Runnable {
 	public void fetch(WebPage webPage) {
 		try {
 			String fetchURL = webPage.getUrl();
-			if (!fetchURL.equals("")) {
-				System.out.println("fetching "+fetchURL);
-				webPage.setLastFetchTime(new Date());
-				URL url = new URL(fetchURL);
-				Document document = fetchPage(url);
-				webPage.setDocument(document);
-				updateObservers(webPage);
-			}
+			System.out.println("fetching "+fetchURL);
+			webPage.setLastFetchTime(new Date());
+			URL url = new URL(fetchURL);
+			Document document = fetchPage(url);
+			webPage.setDocument(document);
+			updateObservers(webPage);
 		} catch (Exception e) {
 			System.err.println("fetching ERROR:" + webPage);
 		}
@@ -83,10 +81,9 @@ public class PageFetcher implements Runnable {
 	private Document fetchPage(URL url) {
 		Document document = null;
 		try {
-			if (!url.getAuthority().contains("v.qq.com"))
-				document = Jsoup.parse(url, 3000);
+			document = Jsoup.parse(url, 3000);
 		} catch (Exception e) {
-			e.printStackTrace();
+			System.err.println("FETCH ERROR:"+url.toString());
 		}
 		return document;
 	}
@@ -94,7 +91,8 @@ public class PageFetcher implements Runnable {
 	@Override
 	public void run() {
 		if (fetchingPage != null)
-			fetch(fetchingPage);
+			if(!fetchingPage.getUrl().equals(""))
+				fetch(fetchingPage);
 	}
 
 }
