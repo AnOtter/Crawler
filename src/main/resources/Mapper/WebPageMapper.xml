@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ai.demoes.mybatis.mapper.WebPageMapper" >
+  <resultMap id="BaseResultMap" type="com.ai.demoes.mybatis.entity.WebPage" >
+    <id column="PAGEIDENTITY" property="pageIdentity" jdbcType="DECIMAL" />
+    <result column="URL" property="url" jdbcType="VARCHAR" />
+    <result column="PARENTURL" property="parentURL" jdbcType="VARCHAR" />
+    <result column="FETCHTIME" property="fetchTime" jdbcType="TIMESTAMP" />
+    <result column="FETCHINGTIME" property="fetchingTime" jdbcType="TIMESTAMP" />
+    <result column="TITLE" property="title" jdbcType="VARCHAR" />    
+  </resultMap>
+  <sql id="Base_Column_List" >
+    PAGEIDENTITY,URL,PARENTURL,FETCHTIME,FETCHINGTIME,TITLE
+  </sql>
+  <select id="getPageList" resultMap="BaseResultMap" parameterType="int" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_WebPages
+    where FetchingTime is not null and fetchTime IS NOT NULL
+    Limit #{count,jdbcType=DECIMAL}
+  </select>
+</mapper>
