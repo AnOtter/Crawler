@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import com.ai.util.DateTime;
+
 /**
  * @author OTTER
  * @类说明 网页获取器(使用观察者模式)
@@ -25,8 +27,8 @@ public class PageFetcher implements Runnable {
 
 	private WebPage fetchingPage;
 
-	// @Autowired
-	// LocalFileObserver localFileObserver;
+	@Autowired
+	LocalFileObserver localFileObserver;
 
 	@Autowired
 	SubPageObserver subPageObserver;
@@ -44,7 +46,7 @@ public class PageFetcher implements Runnable {
 
 	@PostConstruct
 	private void addObservers() {
-		// observers.add(localFileObserver);
+		observers.add(localFileObserver);
 		observers.add(dbInfoObserver);
 		observers.add(subPageObserver);
 	}
@@ -62,7 +64,7 @@ public class PageFetcher implements Runnable {
 	public void fetch(WebPage webPage) {
 		try {
 			String fetchURL = webPage.getUrl();
-			System.out.println("fetching "+fetchURL);
+			printFetching(fetchURL);
 			webPage.setLastFetchTime(new Date());
 			URL url = new URL(fetchURL);
 			Document document = fetchPage(url);
@@ -71,6 +73,16 @@ public class PageFetcher implements Runnable {
 		} catch (Exception e) {
 			System.err.println("fetching ERROR:" + webPage);
 		}
+	}
+	
+	private void printFetching(String url){
+		StringBuilder sBuilder=new StringBuilder();
+		sBuilder.append(Thread.currentThread().getName());
+		sBuilder.append(" ");
+		sBuilder.append(DateTime.now());
+		sBuilder.append(" ");
+		sBuilder.append(url);
+		System.out.println(sBuilder);
 	}
 
 	/**
