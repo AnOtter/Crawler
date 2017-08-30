@@ -66,9 +66,9 @@ public class DataSourceConfig {
 
 	@Value("${Druid.ValidationQuery}")
 	String validationQuery;
-	private static final String MAPPER_PATH = "classpath*:/Mapper/*.xml";
+	private static final String Mapper_Path = "classpath*:/Mapper/*.xml";
 
-	private static final String ENTITY_PACKAGE = "com.ai.demoes.mybatis.entity";
+	private static final String Entity_Package = "com.ai.demoes.mybatis.entity";
 
 	@Bean(name = "webPageDataSource")
 	@Primary
@@ -103,8 +103,8 @@ public class DataSourceConfig {
 		final SqlSessionFactoryBean sessionFactory = new SqlSessionFactoryBean();
 		sessionFactory.setDataSource(webPageDataSource);
 		ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
-		sessionFactory.setMapperLocations(resolver.getResources(MAPPER_PATH));
-		sessionFactory.setTypeAliasesPackage(ENTITY_PACKAGE);
+		sessionFactory.setMapperLocations(resolver.getResources(Mapper_Path));
+		sessionFactory.setTypeAliasesPackage(Entity_Package);
 		return sessionFactory.getObject();
 	}
 }
