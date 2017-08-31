@@ -6,7 +6,6 @@ import javax.sql.DataSource;
 
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
-import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -17,7 +16,6 @@ import org.springframework.core.io.support.ResourcePatternResolver;
 import com.alibaba.druid.pool.DruidDataSource;
 
 @Configuration
-@MapperScan(basePackages = "com.ai.demoes.mybatis.mapper")
 public class DataSourceConfig {
 	@Value("${Druid.jdbcDriver}")
 	String jdbcDriverName;

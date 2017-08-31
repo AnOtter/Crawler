@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -14,6 +15,7 @@ import com.ai.demoes.mybatis.entity.WebPage;
 import com.ai.demoes.mybatis.service.WebPageService;
 
 @Component
+@MapperScan(basePackages = "com.ai.demoes.mybatis.mapper")
 public class Starter implements ApplicationContextAware {
 	@Autowired 
 	WebPageService webPageService;
