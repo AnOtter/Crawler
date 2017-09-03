@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import com.ai.crawler.entity.WebPage;
 import com.ai.util.DateTime;
 
 /**
@@ -34,7 +35,10 @@ public class PageFetcher implements Runnable {
 	SubPageObserver subPageObserver;
 
 	@Autowired
-	DBInfoObserver dbInfoObserver;
+	DBInfoObserver dbInfoObserver;	
+	
+	@Autowired
+	PageParser pageParser;
 
 	public WebPage getFetchingPage() {
 		return fetchingPage;
@@ -65,13 +69,14 @@ public class PageFetcher implements Runnable {
 		try {
 			String fetchURL = webPage.getUrl();
 			printFetching(fetchURL);
-			webPage.setLastFetchTime(new Date());
+			webPage.setFetchTime(new Date());
 			URL url = new URL(fetchURL);
 			Document document = fetchPage(url);
 			webPage.setDocument(document);
+			pageParser.parser(webPage);
 			updateObservers(webPage);
 		} catch (Exception e) {
-			System.err.println("fetching ERROR:" + webPage);
+			System.err.println("fetching ERROR:" + webPage.getUrl());			
 		}
 	}
 	

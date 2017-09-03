@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.ai.demoes.mybatis.mapper.WebPageMapper" >
-  <resultMap id="BaseResultMap" type="com.ai.demoes.mybatis.entity.WebPage" >
+<mapper namespace="com.ai.crawler.mapper.WebPageMapper" >
+  <resultMap id="BaseResultMap" type="com.ai.crawler.entity.WebPage" >
     <id column="PAGEIDENTITY" property="pageIdentity" jdbcType="DECIMAL" />
     <result column="URL" property="url" jdbcType="VARCHAR" />
     <result column="PARENTURL" property="parentURL" jdbcType="VARCHAR" />
@@ -12,11 +12,24 @@
   <sql id="Base_Column_List" >
     PAGEIDENTITY,URL,PARENTURL,FETCHTIME,FETCHINGTIME,TITLE
   </sql>
-  <select id="getPageList" resultMap="BaseResultMap" parameterType="int" >
+  <select id="getFetchList" resultMap="BaseResultMap" parameterType="int" >
     select 
     <include refid="Base_Column_List" />
     from T_WebPages
-    where FetchingTime is not null and fetchTime IS NOT NULL
+    where Title IS NULL AND (FetchingTime is null or timestampdiff(hour,FetchingTime,now())>3)
     Limit #{count,jdbcType=DECIMAL}
   </select>
+  <update id="updateFetchingTime" parameterType="com.ai.crawler.entity.WebPage" >
+  UPDATE T_WebPages SET FetchingTime=now() where URL=#{url,jdbcType=VARCHAR}
+  </update>
+  <select id="existCount" parameterType="com.ai.crawler.entity.WebPage" resultType="int">
+  SELECT count(1) as cnt FROM T_WebPages WHERE URL=#{url,jdbcType=VARCHAR}  
+  </select>
+  <insert id="insert" parameterType="com.ai.crawler.entity.WebPage">
+  INSERT INTO T_WebPages (URL,ParentURL) VALUES (#{url,jdbcType=VARCHAR},#{parentURL,jdbcType=VARCHAR})
+  </insert>
+  <update id="update" parameterType="com.ai.crawler.entity.WebPage">
+  UPDATE T_WebPages SET FetchTime=#{fetchTime,jdbcType=TIMESTAMP},TITLE=#{title,jdbcType=VARCHAR}
+  WHERE URL =#{url,jdbcType=VARCHAR}
+  </update>
 </mapper>

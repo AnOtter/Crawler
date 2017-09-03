@@ -14,18 +14,21 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import com.ai.crawler.entity.AllowedURL;
+import com.ai.crawler.entity.WebPage;
+import com.ai.crawler.service.WebPageService;
+
 /**
  * @author OTTER
  * @类说明 页面爬取之后获取关联页面地址列表
  */
 @Component
-@Scope("prototype")
 public class SubPageObserver implements FetcherObserver {
 	@Autowired
 	WebPageService webPageService;
 
 	@Autowired
-	AllowedURLList allowURLs;
+	AllowedURLs allowURLs;
 
 	@Value("${Crawler.OnlyFetchAllowedPages}")
 	boolean onlyFetchAllowedPages;
@@ -35,7 +38,7 @@ public class SubPageObserver implements FetcherObserver {
 	String subPageMatchPattern;
 	
 	private String subPagePattern;
-	private List<String> allowedURLList;
+	private List<AllowedURL> allowedURLList;
 
 	@Override
 	public void pageFetched(WebPage webPage) {
@@ -72,14 +75,16 @@ public class SubPageObserver implements FetcherObserver {
 	private void saveSubPageURLs(List<String> subPageURLs, String pageURL) {
 		for (String subPageURL : subPageURLs) {
 			if (isURLInAllowList(subPageURL)) {
-				WebPage subPage = new WebPage(subPageURL, pageURL);
+				WebPage subPage = new WebPage();
+				subPage.setUrl(subPageURL);
+				subPage.setParentURL(pageURL);
 				saveSubPage(subPage);
 			}
 		}
 	}
 
 	private void saveSubPage(WebPage subPage) {
-		webPageService.savePage(subPage);
+		webPageService.save(subPage);
 	}
 
 	private boolean isURLInAllowList(String subPageURL) {
@@ -91,8 +96,8 @@ public class SubPageObserver implements FetcherObserver {
 			}
 			if (url != null) {
 				String authority = url.getAuthority();
-				for (String allowURL : allowedURLList) {
-					if (authority.contains(allowURL))
+				for (AllowedURL allowURL : allowedURLList) {
+					if (authority.contains(allowURL.getAuthority()))
 						return true;
 				}
 			}

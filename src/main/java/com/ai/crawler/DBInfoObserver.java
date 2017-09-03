@@ -4,6 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import com.ai.crawler.entity.WebPage;
+import com.ai.crawler.service.WebPageService;
+
 /**
  * @author OTTER
  * @类说明 页面爬取之后将页面信息保存到数据库
@@ -19,6 +22,6 @@ public class DBInfoObserver implements FetcherObserver {
 	 */
 	@Override
 	public void pageFetched(WebPage webPage) {
-		webPageService.savePage(webPage);
+		webPageService.save(webPage);
 	}
 }

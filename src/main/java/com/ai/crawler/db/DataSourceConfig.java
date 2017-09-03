@@ -1,4 +1,4 @@
-package com.ai.demoes.mybatis;
+package com.ai.crawler.db;
 
 import java.sql.SQLException;
 
@@ -66,7 +66,7 @@ public class DataSourceConfig {
 	String validationQuery;
 	private static final String Mapper_Path = "classpath*:/Mapper/*.xml";
 
-	private static final String Entity_Package = "com.ai.demoes.mybatis.entity";
+	private static final String Entity_Package = "com.ai.crawler.entity";
 
 	@Bean(name = "webPageDataSource")
 	@Primary

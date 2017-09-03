@@ -1,16 +1,16 @@
 package com.ai.crawler;
 
-import static com.ai.util.DateTime.now;
+import static com.ai.util.DateTime.*;
 import static com.ai.util.FileOperator.writeContent;
 import java.net.URL;
 import java.nio.file.Paths;
 
-import org.jsoup.nodes.Document;
-import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
+
+import com.ai.crawler.entity.WebPage;
 
 /**
  * @author OTTER
@@ -31,19 +31,6 @@ public class LocalFileObserver implements FetcherObserver {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	}
-
-	private String parserArticle(WebPage fetchedPage) {
-		Document document = fetchedPage.getDocument();
-		String articleMatchPattern = fetchedPage.getArticlePattern();
-		if (document != null && (!articleMatchPattern.equals(""))) {
-			Elements articles = document.select("div[" + articleMatchPattern + "]");
-			if (articles.size() > 0)
-				return articles.get(0).outerHtml();
-			else
-				return "";
-		}
-		return "";
 	}
 
 	/**
@@ -74,12 +61,12 @@ public class LocalFileObserver implements FetcherObserver {
 
 	private void saveArticle(WebPage fetchedPage) throws Exception {
 		String localFilePath = getLocalSaveFile(new URL(fetchedPage.getUrl()));
-		String articleContent = parserArticle(fetchedPage);
+		String articleContent = fetchedPage.getContent();
+		String title = fetchedPage.getTitle();
 		if (!localFilePath.equals("") && !articleContent.equals("")) {
-			String content = "<html><head fetchTime=\"" + now() + "\">" + fetchedPage.parserTitle() + "</head><body>"
-					+ articleContent + "</body></html>";
+			String content = "<html><head fetchTime=\"" + formatDate(fetchedPage.getFetchTime()) + "\">" + title
+					+ "</head><body>" + articleContent + "</body></html>";
 			writeContent(localFilePath, content, false, false);
 		}
 	}
-
 }

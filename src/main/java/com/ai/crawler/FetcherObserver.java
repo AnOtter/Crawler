@@ -1,5 +1,7 @@
 package com.ai.crawler;
 
+import com.ai.crawler.entity.WebPage;
+
 /**
  * @author OTTER
  * @接口说明 网页获取器观察者接口

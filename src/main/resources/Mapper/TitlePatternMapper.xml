@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ai.crawler.mapper.TitlePatternMapper" >
+  <resultMap id="BaseResultMap" type="com.ai.crawler.entity.TitlePattern" >
+    <id column="ANTHORITY" property="authority" jdbcType="VARCHAR" />
+    <result column="MATCHPATTERN" property="matchPattern" jdbcType="VARCHAR" />        
+  </resultMap>
+  <sql id="Base_Column_List" >
+    AUTHORITY,MATCHPATTERN
+  </sql>
+  <select id="getPatterns" resultMap="BaseResultMap">
+  SELECT 
+  <include refid="Base_Column_List" />
+  FROM T_TitlePattern
+  </select>
+</mapper>  
+  

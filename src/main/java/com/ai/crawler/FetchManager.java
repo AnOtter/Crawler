@@ -15,6 +15,8 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
 
+import com.ai.crawler.entity.WebPage;
+
 /**
  * @author OTTER
  * @since 2017.7.7
