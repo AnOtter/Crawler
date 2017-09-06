@@ -29,7 +29,7 @@ public class ArticleMatchPatterns {
 			URL url = new URL(fetchingURL);
 			String urlAuthority = url.getAuthority();
 			for (ArticlePattern articleMatchPattern : articleMatchPatterns) {
-				String domain = articleMatchPattern.getAuthrity();
+				String domain = articleMatchPattern.getAuthority();
 				if (urlAuthority.contains(domain))
 					return articleMatchPattern.getMatchPattern();
 			}

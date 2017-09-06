@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.ai.crawler.mapper.ArticlePatternMapper" >
   <resultMap id="BaseResultMap" type="com.ai.crawler.entity.ArticlePattern" >
-    <id column="ANTHORITY" property="authority" jdbcType="VARCHAR" />
+    <id column="AUTHORITY" property="authority" jdbcType="VARCHAR" />
     <result column="MATCHPATTERN" property="matchPattern" jdbcType="VARCHAR" />        
   </resultMap>
   <sql id="Base_Column_List" >

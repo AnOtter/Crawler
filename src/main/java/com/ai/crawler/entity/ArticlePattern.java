@@ -1,14 +1,14 @@
 package com.ai.crawler.entity;
 
 public class ArticlePattern {
-	private String authrity;
+	private String authority;
 	private String matchPattern;
 	
-	public String getAuthrity() {
-		return authrity;
+	public String getAuthority() {
+		return authority;
 	}
-	public void setAuthrity(String authrity) {
-		this.authrity = authrity;
+	public void setAuthority(String authority) {
+		this.authority = authority;
 	}
 	public String getMatchPattern() {
 		return matchPattern;
