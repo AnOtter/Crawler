@@ -1,4 +1,4 @@
-package com.ai.crawler;
+package com.ai.crawler.obserers;
 
 import java.net.URL;
 import java.util.LinkedList;
@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import com.ai.crawler.AllowedURLs;
 import com.ai.crawler.entity.AllowedURL;
 import com.ai.crawler.entity.WebPage;
 import com.ai.crawler.service.WebPageService;
@@ -23,6 +24,7 @@ import com.ai.crawler.service.WebPageService;
  * @类说明 页面爬取之后获取关联页面地址列表
  */
 @Component
+@Scope("prototype")
 public class SubPageObserver implements FetcherObserver {
 	@Autowired
 	WebPageService webPageService;

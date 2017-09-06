@@ -1,4 +1,4 @@
-package com.ai.crawler;
+package com.ai.crawler.log;
 
 import java.io.File;
 

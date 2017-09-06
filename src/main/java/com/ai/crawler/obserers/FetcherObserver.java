@@ -1,4 +1,4 @@
-package com.ai.crawler;
+package com.ai.crawler.obserers;
 
 import com.ai.crawler.entity.WebPage;
 

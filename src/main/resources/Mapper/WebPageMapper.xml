@@ -15,8 +15,7 @@
   <select id="getFetchList" resultMap="BaseResultMap" parameterType="int" >
     select 
     <include refid="Base_Column_List" />
-    from T_WebPages
-    where Title IS NULL AND (FetchingTime is null or timestampdiff(hour,FetchingTime,now())>3)
+    FROM T_WebPages WHERE  fetchingTime IS NULL
     Limit #{count,jdbcType=DECIMAL}
   </select>
   <update id="updateFetchingTime" parameterType="com.ai.crawler.entity.WebPage" >
@@ -29,7 +28,7 @@
   INSERT INTO T_WebPages (URL,ParentURL) VALUES (#{url,jdbcType=VARCHAR},#{parentURL,jdbcType=VARCHAR})
   </insert>
   <update id="update" parameterType="com.ai.crawler.entity.WebPage">
-  UPDATE T_WebPages SET FetchTime=#{fetchTime,jdbcType=TIMESTAMP},TITLE=#{title,jdbcType=VARCHAR}
+  UPDATE T_WebPages SET FetchTime=now(),TITLE=#{title,jdbcType=VARCHAR}
   WHERE URL =#{url,jdbcType=VARCHAR}
   </update>
 </mapper>

@@ -1,4 +1,4 @@
-package com.ai.crawler;
+package com.ai.crawler.obserers;
 
 import static com.ai.util.DateTime.*;
 import static com.ai.util.FileOperator.writeContent;

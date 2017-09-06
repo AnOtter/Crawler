@@ -13,6 +13,10 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import com.ai.crawler.entity.WebPage;
+import com.ai.crawler.obserers.DBInfoObserver;
+import com.ai.crawler.obserers.FetcherObserver;
+import com.ai.crawler.obserers.LocalFileObserver;
+import com.ai.crawler.obserers.SubPageObserver;
 import com.ai.util.DateTime;
 
 /**
@@ -76,7 +80,8 @@ public class PageFetcher implements Runnable {
 			pageParser.parser(webPage);
 			updateObservers(webPage);
 		} catch (Exception e) {
-			System.err.println("fetching ERROR:" + webPage.getUrl());			
+			System.err.println("PageFetch.fetch() ERROR:" + webPage.getUrl());	
+			System.err.println(e.getMessage());
 		}
 	}
 	
@@ -100,7 +105,8 @@ public class PageFetcher implements Runnable {
 		try {
 			document = Jsoup.parse(url, 3000);
 		} catch (Exception e) {
-			System.err.println("FETCH ERROR:"+url.toString());
+			System.err.println("PageFetch.fetchPage() ERROR:"+url.toString());
+			System.err.println(e.getMessage());
 		}
 		return document;
 	}
