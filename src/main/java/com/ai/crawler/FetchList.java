@@ -23,11 +23,8 @@ public class FetchList {
 	 * @说明 查询配置文件中设置个数为 <code>FetchList.FetchCount</code> 个未爬取的页面列表
 	 */
 	public List<WebPage> getNextFetchPages() {
-		System.err.println(DateTime.now() +"getNextFetchPages begin");
 		List<WebPage> fetchList = webPageService.getFetchList(fetchCount);
-		System.err.println(DateTime.now() +"getNextFetchPages 1");
 		webPageService.updateFetchingTime(fetchList);
-		System.err.println(DateTime.now() +"getNextFetchPages end");
 		return fetchList;
 	}
 
