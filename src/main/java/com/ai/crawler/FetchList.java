@@ -8,7 +8,6 @@ import org.springframework.stereotype.Component;
 
 import com.ai.crawler.entity.WebPage;
 import com.ai.crawler.service.WebPageService;
-import com.ai.util.DateTime;
 @Component
 public class FetchList {
 	
