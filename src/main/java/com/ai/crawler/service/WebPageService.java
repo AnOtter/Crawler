@@ -19,8 +19,8 @@ public class WebPageService {
 		return webPageMapper.getFetchList(count);
 	}
 	
-	public boolean updateFetchingTime(WebPage webPage){
-		return webPageMapper.updateFetchingTime(webPage);
+	public boolean updateFetchingTime(List<WebPage> webPageList){
+		return webPageMapper.updateFetchingTime(webPageList);
 	}
 	
 	private boolean exist(WebPage webPage){

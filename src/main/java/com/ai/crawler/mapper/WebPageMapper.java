@@ -10,7 +10,7 @@ import com.ai.crawler.entity.WebPage;
 public interface WebPageMapper {
 	List<WebPage> getFetchList(int count);
 	
-	boolean updateFetchingTime(WebPage webPage);
+	boolean updateFetchingTime(List<WebPage> webPages);
 	
 	int existCount(WebPage webPage);
 	

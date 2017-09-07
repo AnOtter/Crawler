@@ -17,8 +17,7 @@ import com.ai.crawler.obserers.DBInfoObserver;
 import com.ai.crawler.obserers.FetcherObserver;
 import com.ai.crawler.obserers.LocalFileObserver;
 import com.ai.crawler.obserers.SubPageObserver;
-import com.ai.util.DateTime;
-
+import static com.ai.util.DateTime.*;
 /**
  * @author OTTER
  * @类说明 网页获取器(使用观察者模式)
@@ -78,9 +77,9 @@ public class PageFetcher implements Runnable {
 			Document document = fetchPage(url);
 			webPage.setDocument(document);
 			pageParser.parser(webPage);
-			updateObservers(webPage);
+			updateObservers(webPage);			
 		} catch (Exception e) {
-			System.err.println("PageFetch.fetch() ERROR:" + webPage.getUrl());	
+			System.err.println("PageFetch.fetch() ERROR:"+now()+"\t" + webPage.getUrl());	
 			System.err.println(e.getMessage());
 		}
 	}
@@ -89,7 +88,7 @@ public class PageFetcher implements Runnable {
 		StringBuilder sBuilder=new StringBuilder();
 		sBuilder.append(Thread.currentThread().getName());
 		sBuilder.append(" ");
-		sBuilder.append(DateTime.now());
+		sBuilder.append(now());
 		sBuilder.append(" ");
 		sBuilder.append(url);
 		System.out.println(sBuilder);

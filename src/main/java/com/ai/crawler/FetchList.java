@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 import com.ai.crawler.entity.WebPage;
 import com.ai.crawler.service.WebPageService;
-
+import com.ai.util.DateTime;
 @Component
 public class FetchList {
 	
@@ -22,11 +22,12 @@ public class FetchList {
 	 * @return 获取下次 需要爬取的页面列表
 	 * @说明 查询配置文件中设置个数为 <code>FetchList.FetchCount</code> 个未爬取的页面列表
 	 */
-	public List<WebPage> getNextFetchPage() {
+	public List<WebPage> getNextFetchPages() {
+		System.err.println(DateTime.now() +"getNextFetchPages begin");
 		List<WebPage> fetchList = webPageService.getFetchList(fetchCount);
-		for(WebPage webPage:fetchList){
-			webPageService.updateFetchingTime(webPage);
-		}
+		System.err.println(DateTime.now() +"getNextFetchPages 1");
+		webPageService.updateFetchingTime(fetchList);
+		System.err.println(DateTime.now() +"getNextFetchPages end");
 		return fetchList;
 	}
 

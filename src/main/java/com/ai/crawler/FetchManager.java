@@ -50,14 +50,14 @@ public class FetchManager implements ApplicationContextAware {
 	@PostConstruct
 	public void run() {
 		try {
-			List<WebPage> nextFetchList = fetchList.getNextFetchPage();
+			List<WebPage> nextFetchList = fetchList.getNextFetchPages();
 			ExecutorService executorService = Executors.newFixedThreadPool(maxThreadCount);
 			List<Future<?>> futures = new ArrayList<>();
 			while (!nextFetchList.isEmpty()) {
 				removeDoneExecutors(futures);
 				addFetchExecutor(nextFetchList, executorService, futures);
 				if (nextFetchList.isEmpty())
-					nextFetchList = fetchList.getNextFetchPage();
+					nextFetchList = fetchList.getNextFetchPages();
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -76,7 +76,7 @@ public class FetchManager implements ApplicationContextAware {
 	 */
 	private void addFetchExecutor(List<WebPage> nextFetchList, ExecutorService executorService,
 			List<Future<?>> futures) {
-		if (futures.size() < maxThreadCount + 5) {
+		if (futures.size() < maxThreadCount) {
 			WebPage nextFetchPage = nextFetchList.remove(0);
 			Future<?> future = getFetchFuture(executorService, nextFetchPage);
 			futures.add(future);

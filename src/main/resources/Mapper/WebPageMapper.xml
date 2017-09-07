@@ -18,8 +18,11 @@
     FROM T_WebPages WHERE  fetchingTime IS NULL
     Limit #{count,jdbcType=DECIMAL}
   </select>
-  <update id="updateFetchingTime" parameterType="com.ai.crawler.entity.WebPage" >
-  UPDATE T_WebPages SET FetchingTime=now() where URL=#{url,jdbcType=VARCHAR}
+  <update id="updateFetchingTime" parameterType="java.util.List" >
+    UPDATE T_WebPages SET FetchingTime=now() where URL in 
+  	<foreach collection="list" item="item"  index="index" open="(" close=")" separator=",">
+  		#{item.url,jdbcType=VARCHAR}
+  	</foreach>  
   </update>
   <select id="existCount" parameterType="com.ai.crawler.entity.WebPage" resultType="int">
   SELECT count(1) as cnt FROM T_WebPages WHERE URL=#{url,jdbcType=VARCHAR}  
