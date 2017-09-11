@@ -5,7 +5,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-@MapperScan(basePackages="com.ai.crawler")
+@MapperScan(basePackages = "com.ai.crawler")
 public class App {
 
 	public static void main(String[] args) {
@@ -17,3 +17,7 @@ public class App {
 	}
 
 }
+
+/**
+ * @todo 添加日志对多线程的支持
+ */

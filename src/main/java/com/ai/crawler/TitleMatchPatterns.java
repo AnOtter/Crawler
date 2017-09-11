@@ -14,9 +14,9 @@ import com.ai.crawler.service.TitlePatternService;
 
 @Component
 public class TitleMatchPatterns {
-	@Autowired 
+	@Autowired
 	TitlePatternService titlePatternService;
-	
+
 	private List<TitlePattern> titleMatchPatterns;
 
 	@PostConstruct
@@ -24,8 +24,12 @@ public class TitleMatchPatterns {
 		titleMatchPatterns = new LinkedList<>();
 		titleMatchPatterns = titlePatternService.getPatterns();
 	}
-	
-	public String getMatchPattern(String fetchingURL){
+
+	/**
+	 * @param fetchingURL
+	 * @return 页面的标题匹配正则式
+	 */
+	public String getMatchPattern(String fetchingURL) {
 		try {
 			URL url = new URL(fetchingURL);
 			String urlAuthority = url.getAuthority();
@@ -39,5 +43,5 @@ public class TitleMatchPatterns {
 			return "";
 		}
 	}
-	
+
 }

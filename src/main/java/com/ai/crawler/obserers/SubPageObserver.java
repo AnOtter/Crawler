@@ -35,10 +35,10 @@ public class SubPageObserver implements FetcherObserver {
 	@Value("${Crawler.OnlyFetchAllowedPages}")
 	boolean onlyFetchAllowedPages;
 
-	/** 子页面网址匹配正则式   */
+	/** 子页面网址匹配正则式 */
 	@Value("${Crawler.SubPageMatchPattern}")
 	String subPageMatchPattern;
-	
+
 	private String subPagePattern;
 	private List<AllowedURL> allowedURLList;
 
@@ -51,10 +51,10 @@ public class SubPageObserver implements FetcherObserver {
 	@PostConstruct
 	public void initAllowedURLList() {
 		allowedURLList = allowURLs.getAllowedURLList();
-		if(subPageMatchPattern.equals(""))
-			subPagePattern="a[href~=(?i)https?://.+(/|com|cn|org|\\.htm|\\.html|\\.shtml)$]";
+		if (subPageMatchPattern.equals(""))
+			subPagePattern = "a[href~=(?i)https?://.+(/|com|cn|org|\\.htm|\\.html|\\.shtml)$]";
 		else
-			subPagePattern="a[href~=" +subPageMatchPattern+"]";
+			subPagePattern = "a[href~=" + subPageMatchPattern + "]";
 	}
 
 	/**

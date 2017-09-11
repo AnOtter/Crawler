@@ -45,7 +45,6 @@ public class FetchManager implements ApplicationContextAware {
 	 * 程序主入口
 	 * 
 	 * @用处 循环获取数据库中的未爬取页面传递给pageFetcher执行页面爬取任务
-	 * @TODO 使用多线程加快执行速度
 	 */
 	@PostConstruct
 	public void run() {
@@ -66,7 +65,7 @@ public class FetchManager implements ApplicationContextAware {
 
 	/**
 	 * @param nextFetchList
-	 *            未爬取页面列表
+	 *            下一批爬取页面列表
 	 * @param executorService
 	 *            爬取页面线程池
 	 * @param futures
@@ -99,7 +98,7 @@ public class FetchManager implements ApplicationContextAware {
 	 * @param executorService
 	 *            爬取页面线程池
 	 * @param nextFetchPage
-	 *            未爬取页面列表
+	 *            下一批爬取页面列表
 	 * @return 新的爬取任务
 	 * @description 获取新的页面爬取任务
 	 */

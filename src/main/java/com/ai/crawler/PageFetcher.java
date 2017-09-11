@@ -18,6 +18,7 @@ import com.ai.crawler.obserers.FetcherObserver;
 import com.ai.crawler.obserers.LocalFileObserver;
 import com.ai.crawler.obserers.SubPageObserver;
 import static com.ai.util.DateTime.*;
+
 /**
  * @author OTTER
  * @类说明 网页获取器(使用观察者模式)
@@ -38,8 +39,8 @@ public class PageFetcher implements Runnable {
 	SubPageObserver subPageObserver;
 
 	@Autowired
-	DBInfoObserver dbInfoObserver;	
-	
+	DBInfoObserver dbInfoObserver;
+
 	@Autowired
 	PageParser pageParser;
 
@@ -65,7 +66,8 @@ public class PageFetcher implements Runnable {
 	}
 
 	/**
-	 * @param webPage 需要爬取的网页
+	 * @param webPage
+	 *            需要爬取的网页
 	 * @description 使用jsoup爬取网页内容，并通知观察者处理已爬取的内容
 	 */
 	public void fetch(WebPage webPage) {
@@ -77,15 +79,15 @@ public class PageFetcher implements Runnable {
 			Document document = fetchPage(url);
 			webPage.setDocument(document);
 			pageParser.parser(webPage);
-			updateObservers(webPage);			
+			updateObservers(webPage);
 		} catch (Exception e) {
-			System.err.println("PageFetch.fetch() ERROR:"+now()+"\t" + webPage.getUrl());	
+			System.err.println("PageFetch.fetch() ERROR:" + now() + "\t" + webPage.getUrl());
 			System.err.println(e.getMessage());
 		}
 	}
-	
-	private void printFetching(String url){
-		StringBuilder sBuilder=new StringBuilder();
+
+	private void printFetching(String url) {
+		StringBuilder sBuilder = new StringBuilder();
 		sBuilder.append(Thread.currentThread().getName());
 		sBuilder.append(" ");
 		sBuilder.append(now());
@@ -95,7 +97,8 @@ public class PageFetcher implements Runnable {
 	}
 
 	/**
-	 * @param url 爬取页面的url
+	 * @param url
+	 *            爬取页面的url
 	 * @return 爬取到的文档
 	 * @description 爬取网页内容
 	 */
@@ -104,7 +107,7 @@ public class PageFetcher implements Runnable {
 		try {
 			document = Jsoup.parse(url, 3000);
 		} catch (Exception e) {
-			System.err.println("PageFetch.fetchPage() ERROR:"+url.toString());
+			System.err.println("PageFetch.fetchPage() ERROR:" + url.toString());
 			System.err.println(e.getMessage());
 		}
 		return document;
@@ -113,7 +116,7 @@ public class PageFetcher implements Runnable {
 	@Override
 	public void run() {
 		if (fetchingPage != null)
-			if(!fetchingPage.getUrl().equals(""))
+			if (!fetchingPage.getUrl().equals(""))
 				fetch(fetchingPage);
 	}
 

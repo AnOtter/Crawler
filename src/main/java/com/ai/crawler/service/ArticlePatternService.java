@@ -12,8 +12,8 @@ import com.ai.crawler.mapper.ArticlePatternMapper;
 public class ArticlePatternService {
 	@Autowired
 	ArticlePatternMapper articlePatternMapper;
-	
-	public List<ArticlePattern> getPatterns(){
+
+	public List<ArticlePattern> getPatterns() {
 		return articlePatternMapper.getPatterns();
 	}
 }

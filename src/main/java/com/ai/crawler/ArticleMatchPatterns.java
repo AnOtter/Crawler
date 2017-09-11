@@ -23,7 +23,11 @@ public class ArticleMatchPatterns {
 		articleMatchPatterns = new LinkedList<>();
 		articleMatchPatterns = articleMatchPatternService.getPatterns();
 	}
-
+	
+	/**
+	 * @param fetchingURL
+	 * @return 页面的文章内容匹配正则式
+	 */
 	public String getMatchPattern(String fetchingURL) {
 		try {
 			URL url = new URL(fetchingURL);

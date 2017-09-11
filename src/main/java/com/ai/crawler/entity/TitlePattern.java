@@ -1,5 +1,9 @@
 package com.ai.crawler.entity;
 
+/**
+ * @author OTTER
+ * @description 网页标题匹配正则式实体类
+ */
 public class TitlePattern {
 	private String authrity;
 	private String matchPattern;

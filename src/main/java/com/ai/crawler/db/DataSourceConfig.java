@@ -15,6 +15,9 @@ import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
 import com.alibaba.druid.pool.DruidDataSource;
 
+/**
+ * @author OTTER 数据源 按配置文件生成DataSource返回给Mybatis执行数据库操作
+ */
 @Configuration
 public class DataSourceConfig {
 	@Value("${Druid.jdbcDriver}")

@@ -12,8 +12,8 @@ import com.ai.crawler.mapper.TitlePatternMapper;
 public class TitlePatternService {
 	@Autowired
 	TitlePatternMapper titlePatternMapper;
-	
-	public List<TitlePattern> getPatterns(){
+
+	public List<TitlePattern> getPatterns() {
 		return titlePatternMapper.getPatterns();
 	}
 }

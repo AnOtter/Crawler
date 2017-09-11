@@ -8,14 +8,15 @@ import org.springframework.stereotype.Component;
 
 import com.ai.crawler.entity.WebPage;
 import com.ai.crawler.service.WebPageService;
+
 @Component
 public class FetchList {
-	
-	@Autowired 
+
+	@Autowired
 	WebPageService webPageService;
-	
+
 	@Value("${FetchList.FetchCount}")
-	int fetchCount;	
+	int fetchCount;
 
 	/**
 	 * @return 获取下次 需要爬取的页面列表

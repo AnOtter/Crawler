@@ -8,6 +8,10 @@ import org.springframework.stereotype.Component;
 
 import com.ai.crawler.entity.WebPage;
 
+/**
+ * @author OTTER
+ * @description 页面解释器
+ */
 @Component
 @Scope("prototype")
 public class PageParser {
@@ -22,6 +26,16 @@ public class PageParser {
 		parserTitle(webPage);
 	}
 
+	/**
+	 * @param webPage
+	 *            获取webPage的标题
+	 *            <p>
+	 * 			1.从T_TitlePattern表查找网页标题的匹配正则式，匹配标题
+	 *            <p>
+	 * 			2.查找 <code>h1</code> 标签的作为页面标题
+	 *            <p>
+	 * 			3.查找 <code>title</code> 标签的作为页面标题
+	 */
 	private void parserTitle(WebPage webPage) {
 		Document document = webPage.getDocument();
 		if (document != null) {
@@ -40,6 +54,10 @@ public class PageParser {
 		}
 	}
 
+	/**
+	 * @param webPage
+	 * <p>从T_ArticlePattern表查找匹配正则式，匹配文章内容
+	 */
 	private void parserArticle(WebPage webPage) {
 		Document document = webPage.getDocument();
 		if (document != null) {

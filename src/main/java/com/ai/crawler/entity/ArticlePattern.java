@@ -1,5 +1,10 @@
 package com.ai.crawler.entity;
 
+/**
+ * @author OTTER
+ * @description 网页文章内容匹配正则表达式实体类
+ * @
+ */
 public class ArticlePattern {
 	private String authority;
 	private String matchPattern;

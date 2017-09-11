@@ -5,6 +5,17 @@ import java.util.Date;
 
 import org.jsoup.nodes.Document;
 
+/**
+ * @author OTTER
+ * @description 网页实体类
+ * @url 网页的url地址
+ * @parent URL 父页面url地址
+ * @fetchTime 爬取完成时间
+ * @fetchingTime 从数据库加载到任务时间
+ * @title 页面标题
+ * @document 爬取到的页面内容（JSoup）
+ * @content 匹配到的文章内容
+ */
 public class WebPage {
 	private String url;
 	private Date fetchTime;
@@ -56,7 +67,7 @@ public class WebPage {
 	}
 
 	public String getTitle() {
-		if(title == null)
+		if (title == null)
 			return "";
 		else
 			return title;
@@ -75,9 +86,9 @@ public class WebPage {
 	}
 
 	public String getContent() {
-		if(content == null)
+		if (content == null)
 			return "";
-		else 
+		else
 			return content;
 	}
 
