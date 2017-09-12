@@ -22,7 +22,7 @@ import com.ai.crawler.entity.WebPage;
  * @since 2017.7.7
  * @description 程序主入口类
  */
-@Component
+//@Component
 public class FetchManager implements ApplicationContextAware {
 
 	@Autowired
