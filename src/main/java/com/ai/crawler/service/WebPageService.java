@@ -42,11 +42,19 @@ public class WebPageService {
 			return webPageMapper.update(webPage);
 		return true;
 	}
+	
+	public WebPage getPageByURL(String url){
+		return webPageMapper.getPageByURL(url);
+	}
 
 	public boolean save(WebPage webPage) {
 		if (exist(webPage))
 			return update(webPage);
 		else
 			return insert(webPage);
+	}
+	
+	public WebPage getPageByIdentity(long pageIdentity){
+		return webPageMapper.getPageByIdentity(pageIdentity);
 	}
 }

@@ -34,4 +34,14 @@
   UPDATE T_WebPages SET FetchTime=now(),TITLE=#{title,jdbcType=VARCHAR}
   WHERE URL =#{url,jdbcType=VARCHAR}
   </update>
+  <select id="getPageByURL" parameterType="String" resultType="com.ai.crawler.entity.WebPage">
+  	SELECT 
+  	<include refid="Base_Column_List" />
+    FROM T_WebPages WHERE  URL=#{url,jdbcType=VARCHAR}
+  </select>
+  <select id="getPageByIdentity" parameterType="long" resultType="com.ai.crawler.entity.WebPage">
+  	SELECT 
+  	<include refid="Base_Column_List" />
+    FROM T_WebPages WHERE  PageIdentity=#{pageIdentity,jdbcType=DECIMAL}
+  </select>
 </mapper>

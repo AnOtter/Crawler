@@ -17,4 +17,8 @@ public interface WebPageMapper {
 	boolean insert(WebPage webPage);
 	
 	boolean update(WebPage webPage);
+	
+	WebPage getPageByURL(String url);
+	
+	WebPage getPageByIdentity(long pageIdentity);
 }
