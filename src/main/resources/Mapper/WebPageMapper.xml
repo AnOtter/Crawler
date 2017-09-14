@@ -10,45 +10,53 @@
     <result column="TITLE" property="title" jdbcType="VARCHAR" />    
   </resultMap>
   <sql id="Base_Column_List" >
-    PAGEIDENTITY,URL,PARENTURL,FETCHTIME,FETCHINGTIME,TITLE
+  PAGEIDENTITY,URL,PARENTURL,FETCHTIME,FETCHINGTIME,TITLE
   </sql>
   <select id="getFetchList" resultMap="BaseResultMap" parameterType="int" >
-    select 
-    <include refid="Base_Column_List" />
-    FROM T_WebPages WHERE  fetchingTime IS NULL
-    Limit #{count,jdbcType=DECIMAL}
+  SELECT 
+  <include refid="Base_Column_List" />
+  FROM T_WebPages 
+  WHERE  fetchingTime IS NULL
+  Limit #{count,jdbcType=DECIMAL}
   </select>
   <update id="updateFetchingTime" parameterType="java.util.List" >
-    UPDATE T_WebPages SET FetchingTime=now() where URL in 
-  	<foreach collection="list" item="item"  index="index" open="(" close=")" separator=",">
-  		#{item.url,jdbcType=VARCHAR}
-  	</foreach>  
+  UPDATE T_WebPages 
+  SET FetchingTime=now() 
+  WHERE URL in 
+  <foreach collection="list" item="item"  index="index" open="(" close=")" separator=",">
+  #{item.url,jdbcType=VARCHAR}
+  </foreach>  
   </update>
   <select id="existCount" parameterType="com.ai.crawler.entity.WebPage" resultType="int">
-  SELECT count(1) as cnt FROM T_WebPages WHERE URL=#{url,jdbcType=VARCHAR}  
+  SELECT count(1) as cnt 
+  FROM T_WebPages 
+  WHERE URL=#{url,jdbcType=VARCHAR}  
   </select>
   <insert id="insert" parameterType="com.ai.crawler.entity.WebPage">
   INSERT INTO T_WebPages (URL,ParentURL) VALUES (#{url,jdbcType=VARCHAR},#{parentURL,jdbcType=VARCHAR})
   </insert>
   <update id="update" parameterType="com.ai.crawler.entity.WebPage">
-  UPDATE T_WebPages SET FetchTime=now(),TITLE=#{title,jdbcType=VARCHAR}
+  UPDATE T_WebPages 
+  SET FetchTime=now(),TITLE=#{title,jdbcType=VARCHAR}
   WHERE URL =#{url,jdbcType=VARCHAR}
   </update>
   <select id="getPageByURL" parameterType="String" resultType="com.ai.crawler.entity.WebPage">
-  	SELECT 
-  	<include refid="Base_Column_List" />
-    FROM T_WebPages WHERE  URL=#{url,jdbcType=VARCHAR}
+  SELECT 
+  <include refid="Base_Column_List" />
+  FROM T_WebPages 
+  WHERE URL=#{url,jdbcType=VARCHAR}
   </select>
   <select id="getPageByIdentity" parameterType="long" resultType="com.ai.crawler.entity.WebPage">
-  	SELECT 
-  	<include refid="Base_Column_List" />
-    FROM T_WebPages WHERE  PageIdentity=#{pageIdentity,jdbcType=DECIMAL}
+  SELECT 
+  <include refid="Base_Column_List" />
+  FROM T_WebPages 
+  WHERE PageIdentity=#{pageIdentity,jdbcType=DECIMAL}
   </select>
   <select id="getPagesByKeyWord" resultMap="BaseResultMap">
-  	SELECT 
-  	<include refid="Base_Column_List" />
-    FROM T_WebPages 
-    WHERE Title like CONCAT('%',#{keyword,jdbcType=VARCHAR},'%')
-    LIMIT #{count,jdbcType=DECIMAL}
+  SELECT 
+  <include refid="Base_Column_List" />
+  FROM T_WebPages 
+  WHERE Title like CONCAT('%',#{keyword,jdbcType=VARCHAR},'%')
+  LIMIT #{count,jdbcType=DECIMAL}
   </select>
 </mapper>
