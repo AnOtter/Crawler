@@ -20,7 +20,7 @@ public class WebPages {
 	}
 
 	@RequestMapping(value="/p/{pageIdentity}",method = RequestMethod.GET)
-	public WebPage getPageByURL(@PathVariable("pageIdentity") long pageIdentity){
+	public WebPage getPageByIdentity(@PathVariable("pageIdentity") long pageIdentity){
 		return webPageService.getPageByIdentity(pageIdentity);
 	}
 
