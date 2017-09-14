@@ -57,4 +57,8 @@ public class WebPageService {
 	public WebPage getPageByIdentity(long pageIdentity){
 		return webPageMapper.getPageByIdentity(pageIdentity);
 	}
+	
+	public List<WebPage> getPagesByKeyWord(String keyWord,int count){
+		return webPageMapper.getPagesByKeyWord(keyWord, count);
+	}
 }

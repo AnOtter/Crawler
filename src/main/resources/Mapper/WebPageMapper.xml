@@ -44,4 +44,11 @@
   	<include refid="Base_Column_List" />
     FROM T_WebPages WHERE  PageIdentity=#{pageIdentity,jdbcType=DECIMAL}
   </select>
+  <select id="getPagesByKeyWord" resultMap="BaseResultMap">
+  	SELECT 
+  	<include refid="Base_Column_List" />
+    FROM T_WebPages 
+    WHERE Title like CONCAT('%',#{keyword,jdbcType=VARCHAR},'%')
+    LIMIT #{count,jdbcType=DECIMAL}
+  </select>
 </mapper>
