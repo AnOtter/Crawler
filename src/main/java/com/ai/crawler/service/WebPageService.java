@@ -16,35 +16,28 @@ public class WebPageService {
 	@Autowired
 	private WebPageMapper webPageMapper;
 
-	public List<WebPage> getFetchList(int count) {
-		return webPageMapper.getFetchList(count);
-	}
-
-	/**
-	 * @param webPageList
-	 * @return 
-	 * @description 批量更新fetchingTime
-	 */
-	public boolean updateFetchingTime(List<WebPage> webPageList) {
-		return webPageMapper.updateFetchingTime(webPageList);
-	}
-
 	private boolean exist(WebPage webPage) {
 		return webPageMapper.existCount(webPage) > 0;
 	}
 
-	private boolean insert(WebPage webPage) {
-		return webPageMapper.insert(webPage);
+	public List<WebPage> getFetchList(int count) {
+		return webPageMapper.getFetchList(count);
 	}
 
-	private boolean update(WebPage webPage) {
-		if (!PageURL.isDirectory(webPage.getUrl()))
-			return webPageMapper.update(webPage);
-		return true;
+	public WebPage getPageByIdentity(long pageIdentity) {
+		return webPageMapper.getPageByIdentity(pageIdentity);
 	}
-	
-	public WebPage getPageByURL(String url){
+
+	public WebPage getPageByURL(String url) {
 		return webPageMapper.getPageByURL(url);
+	}
+
+	public List<WebPage> getPagesByKeyWord(String keyWord, int count) {
+		return webPageMapper.getPagesByKeyWord(keyWord, count);
+	}
+
+	private boolean insert(WebPage webPage) {
+		return webPageMapper.insert(webPage);
 	}
 
 	public boolean save(WebPage webPage) {
@@ -53,12 +46,19 @@ public class WebPageService {
 		else
 			return insert(webPage);
 	}
-	
-	public WebPage getPageByIdentity(long pageIdentity){
-		return webPageMapper.getPageByIdentity(pageIdentity);
+
+	private boolean update(WebPage webPage) {
+		if (!PageURL.isDirectory(webPage.getUrl()))
+			return webPageMapper.update(webPage);
+		return true;
 	}
-	
-	public List<WebPage> getPagesByKeyWord(String keyWord,int count){
-		return webPageMapper.getPagesByKeyWord(keyWord, count);
+
+	/**
+	 * @param webPageList
+	 * @return
+	 * @description 批量更新fetchingTime
+	 */
+	public boolean updateFetchingTime(List<WebPage> webPageList) {
+		return webPageMapper.updateFetchingTime(webPageList);
 	}
 }

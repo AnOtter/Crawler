@@ -29,15 +29,15 @@ public class Log {
 		defaultLogger.debug(obj);
 	}
 
+	public void logError(Object obj) {
+		defaultLogger.error(obj);
+	}
+
 	public void logInfo(Object obj) {
 		defaultLogger.info(obj);
 	}
 
 	public void logWarn(Object obj) {
 		defaultLogger.warn(obj);
-	}
-
-	public void logError(Object obj) {
-		defaultLogger.error(obj);
 	}
 }

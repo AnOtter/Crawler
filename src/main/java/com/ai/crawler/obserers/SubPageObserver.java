@@ -42,21 +42,6 @@ public class SubPageObserver implements FetcherObserver {
 	private String subPagePattern;
 	private List<AllowedURL> allowedURLList;
 
-	@Override
-	public void pageFetched(WebPage webPage) {
-		List<String> subPageURLs = getSubPageURLs(webPage);
-		saveSubPageURLs(subPageURLs, webPage.getUrl());
-	}
-
-	@PostConstruct
-	public void initAllowedURLList() {
-		allowedURLList = allowURLs.getAllowedURLList();
-		if (subPageMatchPattern.equals(""))
-			subPagePattern = "a[href~=(?i)https?://.+(/|com|cn|org|\\.htm|\\.html|\\.shtml)$]";
-		else
-			subPagePattern = "a[href~=" + subPageMatchPattern + "]";
-	}
-
 	/**
 	 * @param fetchedPage
 	 *            已爬取的页面
@@ -74,19 +59,13 @@ public class SubPageObserver implements FetcherObserver {
 		return subPageURLs;
 	}
 
-	private void saveSubPageURLs(List<String> subPageURLs, String pageURL) {
-		for (String subPageURL : subPageURLs) {
-			if (isURLInAllowList(subPageURL)) {
-				WebPage subPage = new WebPage();
-				subPage.setUrl(subPageURL);
-				subPage.setParentURL(pageURL);
-				saveSubPage(subPage);
-			}
-		}
-	}
-
-	private void saveSubPage(WebPage subPage) {
-		webPageService.save(subPage);
+	@PostConstruct
+	public void initAllowedURLList() {
+		allowedURLList = allowURLs.getAllowedURLList();
+		if (subPageMatchPattern.equals(""))
+			subPagePattern = "a[href~=(?i)https?://.+(/|com|cn|org|\\.htm|\\.html|\\.shtml)$]";
+		else
+			subPagePattern = "a[href~=" + subPageMatchPattern + "]";
 	}
 
 	private boolean isURLInAllowList(String subPageURL) {
@@ -106,5 +85,26 @@ public class SubPageObserver implements FetcherObserver {
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	public void pageFetched(WebPage webPage) {
+		List<String> subPageURLs = getSubPageURLs(webPage);
+		saveSubPageURLs(subPageURLs, webPage.getUrl());
+	}
+
+	private void saveSubPage(WebPage subPage) {
+		webPageService.save(subPage);
+	}
+
+	private void saveSubPageURLs(List<String> subPageURLs, String pageURL) {
+		for (String subPageURL : subPageURLs) {
+			if (isURLInAllowList(subPageURL)) {
+				WebPage subPage = new WebPage();
+				subPage.setUrl(subPageURL);
+				subPage.setParentURL(pageURL);
+				saveSubPage(subPage);
+			}
+		}
 	}
 }

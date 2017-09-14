@@ -44,25 +44,11 @@ public class PageFetcher implements Runnable {
 	@Autowired
 	PageParser pageParser;
 
-	public WebPage getFetchingPage() {
-		return fetchingPage;
-	}
-
-	public void setFetchingPage(WebPage fetchingPage) {
-		this.fetchingPage = fetchingPage;
-	}
-
 	@PostConstruct
 	private void addObservers() {
 		observers.add(localFileObserver);
 		observers.add(dbInfoObserver);
 		observers.add(subPageObserver);
-	}
-
-	private void updateObservers(WebPage webPage) {
-		for (FetcherObserver observer : observers) {
-			observer.pageFetched(webPage);
-		}
 	}
 
 	/**
@@ -86,16 +72,6 @@ public class PageFetcher implements Runnable {
 		}
 	}
 
-	private void printFetching(String url) {
-		StringBuilder sBuilder = new StringBuilder();
-		sBuilder.append(Thread.currentThread().getName());
-		sBuilder.append(" ");
-		sBuilder.append(now());
-		sBuilder.append(" ");
-		sBuilder.append(url);
-		System.out.println(sBuilder);
-	}
-
 	/**
 	 * @param url
 	 *            爬取页面的url
@@ -113,11 +89,35 @@ public class PageFetcher implements Runnable {
 		return document;
 	}
 
+	public WebPage getFetchingPage() {
+		return fetchingPage;
+	}
+
+	private void printFetching(String url) {
+		StringBuilder sBuilder = new StringBuilder();
+		sBuilder.append(Thread.currentThread().getName());
+		sBuilder.append(" ");
+		sBuilder.append(now());
+		sBuilder.append(" ");
+		sBuilder.append(url);
+		System.out.println(sBuilder);
+	}
+
 	@Override
 	public void run() {
 		if (fetchingPage != null)
 			if (!fetchingPage.getUrl().equals(""))
 				fetch(fetchingPage);
+	}
+
+	public void setFetchingPage(WebPage fetchingPage) {
+		this.fetchingPage = fetchingPage;
+	}
+
+	private void updateObservers(WebPage webPage) {
+		for (FetcherObserver observer : observers) {
+			observer.pageFetched(webPage);
+		}
 	}
 
 }

@@ -24,15 +24,6 @@ public class LocalFileObserver implements FetcherObserver {
 	@Value("${Crawler.LocalSaveDirectory}")
 	private String localSaveDirectory;
 
-	@Override
-	public void pageFetched(WebPage webPage) {
-		try {
-			saveArticle(webPage);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
 	/**
 	 * @描述 获取网页地址对应的本地路径
 	 * @param url
@@ -57,6 +48,15 @@ public class LocalFileObserver implements FetcherObserver {
 		if (path.equals("") || path.endsWith("/"))
 			path += "index.html";
 		return Paths.get(localSaveDirectory, domain, path).toFile().toString();
+	}
+
+	@Override
+	public void pageFetched(WebPage webPage) {
+		try {
+			saveArticle(webPage);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	private void saveArticle(WebPage fetchedPage) throws Exception {

@@ -22,14 +22,14 @@ public class AllowedURLs {
 		return allowedList;
 	}
 
-	public void setAllowedList(List<AllowedURL> allowedList) {
-		this.allowedList = allowedList;
-	}
-
 	@PostConstruct
 	public void initlizeAllowedList() {
 		allowedList = new LinkedList<>();
 		allowedList = allowedURLService.getAllowedList();
+	}
+
+	public void setAllowedList(List<AllowedURL> allowedList) {
+		this.allowedList = allowedList;
 	}
 
 }

@@ -26,44 +26,31 @@ public class WebPage {
 	private Document document;
 	private String content;
 
-	public String getUrl() {
-		return url;
+	public String getContent() {
+		if (content == null)
+			return "";
+		else
+			return content;
 	}
 
-	public void setUrl(String url) {
-		this.url = url;
-	}
-
-	public Date getFetchTime() {
-		return fetchTime;
-	}
-
-	public void setFetchTime(Date fetchTime) {
-		this.fetchTime = fetchTime;
-	}
-
-	public String getParentURL() {
-		return parentURL;
-	}
-
-	public void setParentURL(String parentURL) {
-		this.parentURL = parentURL;
+	public Document getDocument() {
+		return document;
 	}
 
 	public Date getFetchingTime() {
 		return fetchingTime;
 	}
 
-	public void setFetchingTime(Date fetchingTime) {
-		this.fetchingTime = fetchingTime;
+	public Date getFetchTime() {
+		return fetchTime;
 	}
 
 	public BigInteger getPageIdentity() {
 		return pageIdentity;
 	}
 
-	public void setPageIdentity(BigInteger pageIdentity) {
-		this.pageIdentity = pageIdentity;
+	public String getParentURL() {
+		return parentURL;
 	}
 
 	public String getTitle() {
@@ -73,27 +60,40 @@ public class WebPage {
 			return title;
 	}
 
-	public void setTitle(String title) {
-		this.title = title;
+	public String getUrl() {
+		return url;
 	}
 
-	public Document getDocument() {
-		return document;
+	public void setContent(String content) {
+		this.content = content;
 	}
 
 	public void setDocument(Document document) {
 		this.document = document;
 	}
 
-	public String getContent() {
-		if (content == null)
-			return "";
-		else
-			return content;
+	public void setFetchingTime(Date fetchingTime) {
+		this.fetchingTime = fetchingTime;
 	}
 
-	public void setContent(String content) {
-		this.content = content;
+	public void setFetchTime(Date fetchTime) {
+		this.fetchTime = fetchTime;
+	}
+
+	public void setPageIdentity(BigInteger pageIdentity) {
+		this.pageIdentity = pageIdentity;
+	}
+
+	public void setParentURL(String parentURL) {
+		this.parentURL = parentURL;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
 	}
 
 	@Override

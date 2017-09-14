@@ -20,13 +20,12 @@ import com.ai.crawler.service.WebPageService;
 @ComponentScan(basePackages = "com.ai")
 @MapperScan(basePackages = "com.ai.crawler")
 public class App {
+	public static void main(String[] args) {
+		SpringApplication.run(App.class, args);
+	}
+
 	@Autowired
 	WebPageService webPageService;
-
-	@RequestMapping("/")
-	String index() {
-		return "Hello Spring Web";
-	}
 
 	@RequestMapping("/date")
 	String date() {
@@ -48,8 +47,9 @@ public class App {
 		return webPageService.getPagesByKeyWord(keyword, count);
 	}
 
-	public static void main(String[] args) {
-		SpringApplication.run(App.class, args);
+	@RequestMapping("/")
+	String index() {
+		return "Hello Spring Web";
 	}
 
 }

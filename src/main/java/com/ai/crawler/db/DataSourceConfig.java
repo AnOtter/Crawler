@@ -20,6 +20,10 @@ import com.alibaba.druid.pool.DruidDataSource;
  */
 @Configuration
 public class DataSourceConfig {
+	private static final String Mapper_Path = "classpath*:/Mapper/*.xml";
+
+	private static final String Entity_Package = "com.ai.crawler.entity";
+
 	@Value("${Druid.jdbcDriver}")
 	String jdbcDriverName;
 
@@ -61,15 +65,11 @@ public class DataSourceConfig {
 
 	@Value("${Druid.PoolPreparedStatements}")
 	boolean poolPreparedStatements;
-
 	@Value("${Druid.MaxOpenPreparedStatements}")
 	int maxOpenPreparedStatements;
 
 	@Value("${Druid.ValidationQuery}")
 	String validationQuery;
-	private static final String Mapper_Path = "classpath*:/Mapper/*.xml";
-
-	private static final String Entity_Package = "com.ai.crawler.entity";
 
 	@Bean(name = "webPageDataSource")
 	@Primary

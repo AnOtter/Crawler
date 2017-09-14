@@ -18,12 +18,6 @@ public class ArticleMatchPatterns {
 
 	private List<ArticlePattern> articleMatchPatterns;
 
-	@PostConstruct
-	public void initlize() throws Exception {
-		articleMatchPatterns = new LinkedList<>();
-		articleMatchPatterns = articleMatchPatternService.getPatterns();
-	}
-	
 	/**
 	 * @param fetchingURL
 	 * @return 页面的文章内容匹配正则式
@@ -41,5 +35,11 @@ public class ArticleMatchPatterns {
 		} catch (Exception e) {
 			return "";
 		}
+	}
+
+	@PostConstruct
+	public void initlize() throws Exception {
+		articleMatchPatterns = new LinkedList<>();
+		articleMatchPatterns = articleMatchPatternService.getPatterns();
 	}
 }

@@ -19,12 +19,6 @@ public class TitleMatchPatterns {
 
 	private List<TitlePattern> titleMatchPatterns;
 
-	@PostConstruct
-	public void initlize() throws Exception {
-		titleMatchPatterns = new LinkedList<>();
-		titleMatchPatterns = titlePatternService.getPatterns();
-	}
-
 	/**
 	 * @param fetchingURL
 	 * @return 页面的标题匹配正则式
@@ -42,6 +36,12 @@ public class TitleMatchPatterns {
 		} catch (Exception e) {
 			return "";
 		}
+	}
+
+	@PostConstruct
+	public void initlize() throws Exception {
+		titleMatchPatterns = new LinkedList<>();
+		titleMatchPatterns = titlePatternService.getPatterns();
 	}
 
 }

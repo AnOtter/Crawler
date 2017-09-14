@@ -36,9 +36,49 @@ public class FetchManager implements ApplicationContextAware {
 
 	private ApplicationContext appContext;
 
-	@Override
-	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-		appContext = applicationContext;
+	/**
+	 * @param nextFetchList
+	 *            下一批爬取页面列表
+	 * @param executorService
+	 *            爬取页面线程池
+	 * @param futures
+	 *            线程池结果列表
+	 * 
+	 * @description 向线程池加入新的爬取任务
+	 */
+	private void addFetchExecutor(List<WebPage> nextFetchList, ExecutorService executorService,
+			List<Future<?>> futures) {
+		if (futures.size() < maxThreadCount) {
+			WebPage nextFetchPage = nextFetchList.remove(0);
+			Future<?> future = getFetchFuture(executorService, nextFetchPage);
+			futures.add(future);
+		}
+	}
+
+	/**
+	 * @param executorService
+	 *            爬取页面线程池
+	 * @param nextFetchPage
+	 *            下一批爬取页面列表
+	 * @return 新的爬取任务
+	 * @description 获取新的页面爬取任务
+	 */
+	private Future<?> getFetchFuture(ExecutorService executorService, WebPage nextFetchPage) {
+		pageFetcher = appContext.getBean(PageFetcher.class);
+		pageFetcher.setFetchingPage(nextFetchPage);
+		return executorService.submit(pageFetcher);
+	}
+
+	/**
+	 * @param futures
+	 *            线程池结果列表
+	 * @description 移除已完成的线程
+	 */
+	private void removeDoneExecutors(List<Future<?>> futures) {
+		for (int i = 0; i < futures.size(); i++) {
+			if (futures.get(i).isDone())
+				futures.remove(i);
+		}
 	}
 
 	/**
@@ -63,48 +103,8 @@ public class FetchManager implements ApplicationContextAware {
 		}
 	}
 
-	/**
-	 * @param nextFetchList
-	 *            下一批爬取页面列表
-	 * @param executorService
-	 *            爬取页面线程池
-	 * @param futures
-	 *            线程池结果列表
-	 * 
-	 * @description 向线程池加入新的爬取任务
-	 */
-	private void addFetchExecutor(List<WebPage> nextFetchList, ExecutorService executorService,
-			List<Future<?>> futures) {
-		if (futures.size() < maxThreadCount) {
-			WebPage nextFetchPage = nextFetchList.remove(0);
-			Future<?> future = getFetchFuture(executorService, nextFetchPage);
-			futures.add(future);
-		}
-	}
-
-	/**
-	 * @param futures
-	 *            线程池结果列表
-	 * @description 移除已完成的线程
-	 */
-	private void removeDoneExecutors(List<Future<?>> futures) {
-		for (int i = 0; i < futures.size(); i++) {
-			if (futures.get(i).isDone())
-				futures.remove(i);
-		}
-	}
-
-	/**
-	 * @param executorService
-	 *            爬取页面线程池
-	 * @param nextFetchPage
-	 *            下一批爬取页面列表
-	 * @return 新的爬取任务
-	 * @description 获取新的页面爬取任务
-	 */
-	private Future<?> getFetchFuture(ExecutorService executorService, WebPage nextFetchPage) {
-		pageFetcher = appContext.getBean(PageFetcher.class);
-		pageFetcher.setFetchingPage(nextFetchPage);
-		return executorService.submit(pageFetcher);
+	@Override
+	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+		appContext = applicationContext;
 	}
 }

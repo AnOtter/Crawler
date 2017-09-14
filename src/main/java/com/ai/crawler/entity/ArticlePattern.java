@@ -12,11 +12,11 @@ public class ArticlePattern {
 	public String getAuthority() {
 		return authority;
 	}
-	public void setAuthority(String authority) {
-		this.authority = authority;
-	}
 	public String getMatchPattern() {
 		return matchPattern;
+	}
+	public void setAuthority(String authority) {
+		this.authority = authority;
 	}
 	public void setMatchPattern(String matchPattern) {
 		this.matchPattern = matchPattern;

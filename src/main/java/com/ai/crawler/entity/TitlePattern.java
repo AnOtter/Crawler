@@ -11,11 +11,11 @@ public class TitlePattern {
 	public String getAuthrity() {
 		return authrity;
 	}
-	public void setAuthrity(String authrity) {
-		this.authrity = authrity;
-	}
 	public String getMatchPattern() {
 		return matchPattern;
+	}
+	public void setAuthrity(String authrity) {
+		this.authrity = authrity;
 	}
 	public void setMatchPattern(String matchPattern) {
 		this.matchPattern = matchPattern;
