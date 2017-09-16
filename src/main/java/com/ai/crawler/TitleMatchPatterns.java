@@ -28,7 +28,7 @@ public class TitleMatchPatterns {
 			URL url = new URL(fetchingURL);
 			String urlAuthority = url.getAuthority();
 			for (TitlePattern titleMatchPattern : titleMatchPatterns) {
-				String domain = titleMatchPattern.getAuthrity();
+				String domain = titleMatchPattern.getAuthority();
 				if (urlAuthority.contains(domain))
 					return titleMatchPattern.getMatchPattern();
 			}
