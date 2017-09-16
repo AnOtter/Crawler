@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -25,9 +27,9 @@ public class App {
 	}
 
 	@Autowired
-	WebPageService webPageService;
+	WebPageService webPageService;	
 
-	@RequestMapping("/date")
+	@RequestMapping("/qq")
 	String date() {
 		return "<html><title>你好</title><body><a href='http://www.qq.com'>腾讯网</a></body></html>";
 	}
@@ -38,18 +40,20 @@ public class App {
 	}
 
 	@RequestMapping(value = "/page", method = RequestMethod.GET)
-	public WebPage getPageByURL(@RequestParam("pageIdentity") long pageIdentity) {
-		return webPageService.getPageByIdentity(pageIdentity);
+	public ResponseEntity<WebPage> getPageByIdentity(@RequestParam("pageIdentity") long pageIdentity) {
+		WebPage webPage =webPageService.getPageByIdentity(pageIdentity);
+		HttpStatus responseStatus= webPage ==null ?HttpStatus.NOT_FOUND:HttpStatus.OK;
+		return new ResponseEntity<WebPage>(webPage, responseStatus);
 	}
 
 	@RequestMapping(value = "/word", method = RequestMethod.GET)
-	public List<WebPage> getPageByURL(@RequestParam("keyword") String keyword, @RequestParam("count") int count) {
+	public List<WebPage> getPageByKeyWord(@RequestParam("keyword") String keyword, @RequestParam("count") int count) {
 		return webPageService.getPagesByKeyWord(keyword, count);
 	}
 
 	@RequestMapping("/")
 	String index() {
-		return "Hello Spring Web";
+		return "Welcome to Spring RESTful MVC ";
 	}
 
 }
