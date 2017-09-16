@@ -27,7 +27,7 @@ public class App {
 	}
 
 	@Autowired
-	WebPageService webPageService;	
+	WebPageService webPageService;
 
 	@RequestMapping("/qq")
 	String date() {
@@ -41,19 +41,20 @@ public class App {
 
 	@RequestMapping(value = "/page", method = RequestMethod.GET)
 	public ResponseEntity<WebPage> getPageByIdentity(@RequestParam("pageIdentity") long pageIdentity) {
-		WebPage webPage =webPageService.getPageByIdentity(pageIdentity);
-		HttpStatus responseStatus= webPage ==null ?HttpStatus.NOT_FOUND:HttpStatus.OK;
+		WebPage webPage = webPageService.getPageByIdentity(pageIdentity);
+		HttpStatus responseStatus = webPage == null ? HttpStatus.NOT_FOUND : HttpStatus.OK;
 		return new ResponseEntity<WebPage>(webPage, responseStatus);
 	}
 
 	@RequestMapping(value = "/word", method = RequestMethod.GET)
-	public List<WebPage> getPageByKeyWord(@RequestParam("keyword") String keyword, @RequestParam("count") int count) {
+	public List<WebPage> getPageByKeyWord(@RequestParam("keyword") String keyword,
+			@RequestParam(value = "count", defaultValue = "5") int count) {
 		return webPageService.getPagesByKeyWord(keyword, count);
 	}
 
 	@RequestMapping("/")
-	String index() {
-		return "Welcome to Spring RESTful MVC ";
+	String home() {
+		return "Welcome to Spring RESTful MVC";
 	}
 
 }
