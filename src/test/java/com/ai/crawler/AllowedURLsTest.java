@@ -3,20 +3,15 @@ package com.ai.crawler;
 import static org.junit.Assert.*;
 
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@SpringBootTest
-public class AllowedURLsTest{
+public class AllowedURLsTest extends CrawlerUnitTest{
 	@Autowired
 	private AllowedURLs allowedURLs;
 	
 	@Test
 	public void testGetAllowedURLs(){
-		assertNotNull(allowedURLs.getAllowedURLList());
+		assertTrue(allowedURLs.getAllowedURLList().size()>0);
 	}
 	
 }
