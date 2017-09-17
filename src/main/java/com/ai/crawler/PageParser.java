@@ -1,5 +1,7 @@
 package com.ai.crawler;
 
+import java.util.List;
+
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,14 +36,18 @@ public class PageParser {
 	private void parserArticle(WebPage webPage) {
 		Document document = webPage.getDocument();
 		if (document != null) {
-			String articleMatchPattern = articleMatchPatterns.getMatchPattern(webPage.getUrl());
-			if (!articleMatchPattern.equals("")) {
-				Elements articles = document.select("div[" + articleMatchPattern + "]");
-				if (articles.size() > 0) {
-					String content = articles.get(0).outerHtml();
-					webPage.setContent(content);
+			List<String> matchPatterns = articleMatchPatterns.getMatchPatterns(webPage.getUrl());
+			for (String matchPattern : matchPatterns) {
+				if (!matchPattern.equals("")) {
+					Elements articles = document.select("div[" + matchPattern + "]");
+					if (articles.size() > 0) {
+						String content = articles.get(0).outerHtml();
+						webPage.setContent(content);
+						break;
+					}
 				}
 			}
+			
 		}
 	}
 
@@ -58,10 +64,16 @@ public class PageParser {
 	private void parserTitle(WebPage webPage) {
 		Document document = webPage.getDocument();
 		if (document != null) {
-			String titleMatchPattern = titleMatchPatterns.getMatchPattern(webPage.getUrl());
+			List<String> matchPatterns = titleMatchPatterns.getMatchPatterns(webPage.getUrl());
 			Elements titles = null;
-			if (!titleMatchPattern.equals(""))
-				titles = document.select("div[" + titleMatchPattern + "]");
+			for(String titleMatchPattern:matchPatterns){
+				if (!titleMatchPattern.equals("")){
+					titles = document.select("div[" + titleMatchPattern + "]");	
+					if (titles != null && titles.size() > 0)
+						break;
+				}
+			}
+			
 			if (titles == null || titles.size() == 0)
 				titles = document.select("h1");
 			if (titles == null || titles.size() == 0)

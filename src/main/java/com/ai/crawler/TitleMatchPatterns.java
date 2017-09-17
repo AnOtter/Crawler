@@ -1,6 +1,5 @@
 package com.ai.crawler;
 
-import java.net.URL;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -23,18 +22,17 @@ public class TitleMatchPatterns {
 	 * @param fetchingURL
 	 * @return 页面的标题匹配正则式
 	 */
-	public String getMatchPattern(String fetchingURL) {
+	public List<String> getMatchPatterns(String fetchingURL) {
+		List<String> matchPatterns=new LinkedList<>();
 		try {
-			URL url = new URL(fetchingURL);
-			String urlAuthority = url.getAuthority();
 			for (TitlePattern titleMatchPattern : titleMatchPatterns) {
-				String domain = titleMatchPattern.getAuthority();
-				if (urlAuthority.contains(domain))
-					return titleMatchPattern.getMatchPattern();
+				String authority = titleMatchPattern.getAuthority();
+				if (fetchingURL.contains(authority))
+				  matchPatterns.add(titleMatchPattern.getMatchPattern());
 			}
-			return "";
+			return matchPatterns;
 		} catch (Exception e) {
-			return "";
+			return matchPatterns;
 		}
 	}
 
