@@ -36,9 +36,17 @@ public class LocalFileObserver implements FetcherObserver {
 		String articleContent = fetchedPage.getContent();
 		String title = fetchedPage.getTitle();
 		if (!localFilePath.equals("") && !articleContent.equals("")) {
-			String content = "<html><head fetchTime=\"" + formatDate(fetchedPage.getFetchTime()) + "\">" + title
-					+ "</head><body>" + articleContent + "</body></html>";
-			writeContent(localFilePath, content, false, false);
+			StringBuilder stringBuilder = new StringBuilder();
+			stringBuilder.append("<html><head fetchTime=\"");
+			stringBuilder.append(formatDate(fetchedPage.getFetchTime()));
+			stringBuilder.append("\" originalURL=\"");
+			stringBuilder.append(fetchedPage.getUrl());
+			stringBuilder.append("\">");
+			stringBuilder.append(title);
+			stringBuilder.append("</head><body>");
+			stringBuilder.append(articleContent);
+			stringBuilder.append("</body></html>");
+			writeContent(localFilePath, stringBuilder.toString(), false, false);
 		}
 	}
 }
