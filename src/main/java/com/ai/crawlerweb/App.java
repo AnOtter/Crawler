@@ -7,14 +7,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ai.crawler.ArticleReader;
 import com.ai.crawler.entity.WebPage;
 import com.ai.crawler.service.WebPageService;
 
@@ -29,6 +28,9 @@ public class App {
 
 	@Autowired
 	WebPageService webPageService;
+	
+	@Autowired
+	ArticleReader articleReader;
 
 	@RequestMapping("/qq")
 	String date() {
@@ -41,10 +43,12 @@ public class App {
 	}
 
 	@RequestMapping(value = "/page/{pageIdentity}", method = RequestMethod.GET)
-	public ResponseEntity<WebPage> getPageByIdentity(@PathVariable("pageIdentity") long pageIdentity) {
+	public String getPageByIdentity(@PathVariable("pageIdentity") long pageIdentity) {
 		WebPage webPage = webPageService.getPageByIdentity(pageIdentity);
-		HttpStatus responseStatus = webPage == null ? HttpStatus.NOT_FOUND : HttpStatus.OK;
-		return new ResponseEntity<WebPage>(webPage, responseStatus);
+		if(webPage!=null)
+			return articleReader.read(webPage);//TODO 编码方式
+		else 
+			return "Page NOT found";
 	}
 
 	@RequestMapping(value = "/word", method = RequestMethod.GET)
