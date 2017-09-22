@@ -1,5 +1,6 @@
 package com.ai.crawler.mapper;
 
+import java.util.Date;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
@@ -24,4 +25,8 @@ public interface WebPageMapper {
 	boolean update(WebPage webPage);
 
 	boolean updateFetchingTime(List<WebPage> webPages);
+	
+	long getMaxPageIdentity();
+	
+//	Date getLastFetchTime();
 }

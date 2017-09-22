@@ -1,5 +1,6 @@
 package com.ai.crawler.service;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,14 @@ public class WebPageService {
 
 	public List<WebPage> getFetchList(int count) {
 		return webPageMapper.getFetchList(count);
+	}
+
+//	public Date getLastFetchTime() {
+//		return webPageMapper.getLastFetchTime();
+//	}
+
+	public long getMaxPageIdentity() {
+		return webPageMapper.getMaxPageIdentity();
 	}
 
 	public WebPage getPageByIdentity(long pageIdentity) {

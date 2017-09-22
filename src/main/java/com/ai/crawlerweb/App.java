@@ -1,5 +1,6 @@
 package com.ai.crawlerweb;
 
+import java.util.Date;
 import java.util.List;
 
 import org.mybatis.spring.annotation.MapperScan;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ai.crawler.ArticleReader;
 import com.ai.crawler.entity.WebPage;
 import com.ai.crawler.service.WebPageService;
+import com.ai.util.DateTime;
 
 @RestController
 @SpringBootApplication
@@ -59,7 +61,19 @@ public class App {
 
 	@RequestMapping("/")
 	String home() {
-		return "Welcome to Spring RESTful MVC";
+		return "<html><head><title>Crawler Board</title></head><body>"
+				+"<h1>Welcome to Spring RESTful MVC</h1>"
+				+"<h2>/stat</h2>Get the latest pageIdentity"
+				+"<h2>/word?keyword=keyword&count=count</h2>Query by keyword</p>"
+				+"<h2>/page/pageIdentity</h2>Query specific page"
+				+"<h2>/fetchList</h2>Query next 5 webpage to fetch"
+				+"<h2>/qq</h2>Visit www.qq.com</body></html>";
+	}
+	
+	@RequestMapping("/stat")
+	String stat(){
+		long maxPageIdentity=webPageService.getMaxPageIdentity();		
+		return "MaxPageIdentity:"+maxPageIdentity;
 	}
 
 }

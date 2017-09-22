@@ -59,4 +59,8 @@
   WHERE Title like CONCAT('%',#{keyword,jdbcType=VARCHAR},'%')
   LIMIT #{count,jdbcType=DECIMAL}
   </select>
+  <select id="getMaxPageIdentity" resultType="long">
+  SELECT MAX(PageIdentity) as maxPageIdentity
+  FROM T_WebPages
+  </select>
 </mapper>
