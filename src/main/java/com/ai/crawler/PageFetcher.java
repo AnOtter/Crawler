@@ -58,14 +58,14 @@ public class PageFetcher implements Runnable {
 	 */
 	public void fetch(WebPage webPage) {
 		try {
-			String fetchURL = webPage.getUrl();
-			printFetching(fetchURL);
+			String fetchURL = webPage.getUrl();	
 			webPage.setFetchTime(new Date());
 			URL url = new URL(fetchURL);
 			Document document = fetchPage(url);
 			webPage.setDocument(document);
 			pageParser.parser(webPage);
 			updateObservers(webPage);
+			printFetching(webPage);
 		} catch (Exception e) {
 			System.err.println("PageFetch.fetch() ERROR:" + now() + "\t" + webPage.getUrl());
 			System.err.println(e.getMessage());
@@ -93,13 +93,15 @@ public class PageFetcher implements Runnable {
 		return fetchingPage;
 	}
 
-	private void printFetching(String url) {
+	private void printFetching(WebPage fetchedPage) {
 		StringBuilder sBuilder = new StringBuilder();
 		sBuilder.append(Thread.currentThread().getName());
 		sBuilder.append(" ");
 		sBuilder.append(now());
 		sBuilder.append(" ");
-		sBuilder.append(url);
+		sBuilder.append(fetchedPage.getUrl());
+		sBuilder.append(" --> ");
+		sBuilder.append(fetchedPage.getTitle());
 		System.out.println(sBuilder);
 	}
 

@@ -46,8 +46,7 @@ public class PageParser {
 						break;
 					}
 				}
-			}
-			
+			}			
 		}
 	}
 

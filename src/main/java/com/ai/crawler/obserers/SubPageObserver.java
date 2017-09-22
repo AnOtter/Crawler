@@ -1,6 +1,5 @@
 package com.ai.crawler.obserers;
 
-import java.net.URL;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -12,6 +11,7 @@ import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Component;
 
 import com.ai.crawler.AllowedURLs;
@@ -70,15 +70,9 @@ public class SubPageObserver implements FetcherObserver {
 
 	private boolean isURLInAllowList(String subPageURL) {
 		if (onlyFetchAllowedPages) {
-			URL url = null;
-			try {
-				url = new URL(subPageURL);
-			} catch (Exception e) {
-			}
-			if (url != null) {
-				String authority = url.getAuthority();
+			if (!subPageURL.equals("")) {
 				for (AllowedURL allowURL : allowedURLList) {
-					if (authority.contains(allowURL.getAuthority()))
+					if (subPageURL.contains(allowURL.getAuthority()))
 						return true;
 				}
 			}
@@ -94,7 +88,16 @@ public class SubPageObserver implements FetcherObserver {
 	}
 
 	private void saveSubPage(WebPage subPage) {
-		webPageService.insert(subPage);
+		try {
+			webPageService.insert(subPage);
+		} 
+		catch (DuplicateKeyException e) {
+			//重复键异常很常见 不处理
+		}
+		catch (Exception e) {
+			System.err.println("saveSubPage ERROR:"+subPage.getUrl());
+			System.err.println(e.getMessage());
+		} 		
 	}
 
 	private void saveSubPageURLs(List<String> subPageURLs, String pageURL) {

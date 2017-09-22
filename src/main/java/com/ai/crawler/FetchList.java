@@ -24,7 +24,8 @@ public class FetchList {
 	 */
 	public List<WebPage> getNextFetchPages() {
 		List<WebPage> fetchList = webPageService.getFetchList(fetchCount);
-		webPageService.updateFetchingTime(fetchList);
+		if(fetchList.size()>0)
+			webPageService.updateFetchingTime(fetchList);
 		return fetchList;
 	}
 
