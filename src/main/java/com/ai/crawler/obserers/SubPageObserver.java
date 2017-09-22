@@ -94,7 +94,7 @@ public class SubPageObserver implements FetcherObserver {
 	}
 
 	private void saveSubPage(WebPage subPage) {
-		webPageService.save(subPage);
+		webPageService.insert(subPage);
 	}
 
 	private void saveSubPageURLs(List<String> subPageURLs, String pageURL) {

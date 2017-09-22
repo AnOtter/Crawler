@@ -36,7 +36,7 @@ public class WebPageService {
 		return webPageMapper.getPagesByKeyWord(keyWord, count);
 	}
 
-	private boolean insert(WebPage webPage) {
+	public boolean insert(WebPage webPage) {
 		return webPageMapper.insert(webPage);
 	}
 
@@ -47,7 +47,7 @@ public class WebPageService {
 			return insert(webPage);
 	}
 
-	private boolean update(WebPage webPage) {
+	public boolean update(WebPage webPage) {
 		if (!PageURL.isDirectory(webPage.getUrl()))
 			return webPageMapper.update(webPage);
 		return true;
