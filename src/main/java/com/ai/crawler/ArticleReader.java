@@ -13,13 +13,13 @@ public class ArticleReader {
 	@Value("${Crawler.LocalSaveDirectory}")
 	private String localSaveDirectory;
 
-	public String read(WebPage webPage) {
+	public String read(WebPage webPage,Charset charset) {
 		if (webPage != null) {
 			try {
 				String pageURL = webPage.getUrl();
 				if (!pageURL.equals("")) {
 					String localFilePath = getLocalSaveFile(localSaveDirectory, pageURL);
-					return readContent(localFilePath,Charset.forName("GB2312"));
+					return readContent(localFilePath,charset);
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
