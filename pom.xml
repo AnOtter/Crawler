@@ -73,7 +73,7 @@
 		</dependency>
 	</dependencies>
 	<build>
-		<finalName>crawlerweb</finalName>
+		<finalName>Crawler</finalName>
 		<plugins>
 	  		<plugin>
         		<groupId>org.apache.maven.plugins</groupId>
@@ -110,7 +110,7 @@
 						<manifest>  
 							<addClasspath>true</addClasspath>  
 							<classpathPrefix>lib/</classpathPrefix>
-							<mainClass>com.ai.crawlerweb.App</mainClass>  
+							<mainClass>com.ai.crawler.App</mainClass>  
 							<addDefaultImplementationEntries>true</addDefaultImplementationEntries>  
 	                        <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
 						</manifest>  

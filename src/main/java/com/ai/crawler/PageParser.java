@@ -3,6 +3,7 @@ package com.ai.crawler;
 import java.util.List;
 
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -40,14 +41,31 @@ public class PageParser {
 			for (String matchPattern : matchPatterns) {
 				if (!matchPattern.equals("")) {
 					Elements articles = document.select("div[" + matchPattern + "]");
-					if (articles.size() > 0) {
-						String content = articles.get(0).outerHtml();
+					String content=parseContent(articles);
+					if(!content.equals("")){
 						webPage.setContent(content);
 						break;
 					}
 				}
 			}			
 		}
+	}
+	
+	private String parseContent(Elements article){
+		StringBuilder content=new StringBuilder();				
+		if(article !=null && article.size()>0){
+			Elements lines=article.get(0).select("p");
+			for(Element line:lines){
+				content.append("<p>");
+				content.append(line.text());
+				content.append("</p>");
+			}
+			if(content.length()>0){
+				content.insert(0, "<div>");
+				content.append("</div>");
+			}
+		}
+		return content.toString();
 	}
 
 	/**
