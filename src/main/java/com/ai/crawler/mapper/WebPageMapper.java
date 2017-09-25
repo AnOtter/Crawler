@@ -27,5 +27,7 @@ public interface WebPageMapper {
 	
 	long getMaxPageIdentity();
 	
+	boolean updatSeedURL();
+	
 //	Date getLastFetchTime();
 }

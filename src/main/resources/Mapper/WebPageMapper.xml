@@ -63,4 +63,9 @@
   SELECT MAX(PageIdentity) as maxPageIdentity
   FROM T_WebPages
   </select>
+  <update id="updatSeedURL">
+  UPDATE T_WebPages
+  SET FetchingTime=null
+  WHERE PageIdentity &lt; 20 and title is null
+  </update>
 </mapper>

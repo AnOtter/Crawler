@@ -24,9 +24,9 @@ public class WebPageService {
 		return webPageMapper.getFetchList(count);
 	}
 
-//	public Date getLastFetchTime() {
-//		return webPageMapper.getLastFetchTime();
-//	}
+	// public Date getLastFetchTime() {
+	// return webPageMapper.getLastFetchTime();
+	// }
 
 	public long getMaxPageIdentity() {
 		return webPageMapper.getMaxPageIdentity();
@@ -68,5 +68,9 @@ public class WebPageService {
 	 */
 	public boolean updateFetchingTime(List<WebPage> webPageList) {
 		return webPageMapper.updateFetchingTime(webPageList);
+	}
+
+	public boolean updatSeedURL() {
+		return webPageMapper.updatSeedURL();
 	}
 }
