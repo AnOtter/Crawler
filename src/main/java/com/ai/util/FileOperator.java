@@ -102,23 +102,28 @@ public class FileOperator {
 	 * @author OTTER
 	 * @since 20170430
 	 */
-	public static String getLocalSaveFile(String localSaveDirectory, String pageURL) throws Exception {
-		URL url = new URL(pageURL);
-		String authority = url.getAuthority();
-		String[] dir = authority.split("\\.");
-		String domain = "";
-		if (dir.length > 1) {
-			for (int i = dir.length - 1; i >= 0; i--) {
-				domain += dir[i] + "/";
+	public static String getLocalSaveFile(String localSaveDirectory, String pageURL){
+		try {
+			URL url = new URL(pageURL);
+			String authority = url.getAuthority();
+			String[] dir = authority.split("\\.");
+			String domain = "";
+			if (dir.length > 1) {
+				for (int i = dir.length - 1; i >= 0; i--) {
+					domain += dir[i] + "/";
+				}
 			}
+			if (domain.equals("")) {
+				domain = authority;
+			}
+			String path = url.getPath();
+			if (path.equals("") || path.endsWith("/"))
+				path += "index.html";
+			return Paths.get(localSaveDirectory, domain, path).toFile().toString();
+		} catch (Exception e) {
+			return "";
 		}
-		if (domain.equals("")) {
-			domain = authority;
-		}
-		String path = url.getPath();
-		if (path.equals("") || path.endsWith("/"))
-			path += "index.html";
-		return Paths.get(localSaveDirectory, domain, path).toFile().toString();
+		
 	}
 
 }

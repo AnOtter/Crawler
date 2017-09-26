@@ -9,12 +9,12 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Component;
 
 import com.ai.crawler.AllowedURLs;
+import com.ai.crawler.config.CrawlerConfiguration;
 import com.ai.crawler.entity.AllowedURL;
 import com.ai.crawler.entity.WebPage;
 import com.ai.crawler.service.WebPageService;
@@ -31,13 +31,9 @@ public class SubPageObserver implements FetcherObserver {
 
 	@Autowired
 	AllowedURLs allowURLs;
-
-	@Value("${Crawler.OnlyFetchAllowedPages}")
-	boolean onlyFetchAllowedPages;
-
-	/** 子页面网址匹配正则式 */
-	@Value("${Crawler.SubPageMatchPattern}")
-	String subPageMatchPattern;
+	
+	@Autowired
+	CrawlerConfiguration crawlerConfig;
 
 	private String subPagePattern;
 	private List<AllowedURL> allowedURLList;
@@ -62,6 +58,7 @@ public class SubPageObserver implements FetcherObserver {
 	@PostConstruct
 	public void initAllowedURLList() {
 		allowedURLList = allowURLs.getAllowedURLList();
+		String subPageMatchPattern=crawlerConfig.getSubPageMatchPattern();
 		if (subPageMatchPattern.equals(""))
 			subPagePattern = "a[href~=(?i)https?://.+(/|com|cn|org|\\.htm|\\.html|\\.shtml)$]";
 		else
@@ -69,6 +66,7 @@ public class SubPageObserver implements FetcherObserver {
 	}
 
 	private boolean isURLInAllowList(String subPageURL) {
+		boolean onlyFetchAllowedPages =crawlerConfig.isOnlyFetchAllowedPages();
 		if (onlyFetchAllowedPages) {
 			if (!subPageURL.equals("")) {
 				for (AllowedURL allowURL : allowedURLList) {
