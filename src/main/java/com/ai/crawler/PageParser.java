@@ -95,7 +95,7 @@ public class PageParser {
 				titles = document.select("h1");
 			if (titles == null || titles.size() == 0)
 				titles = document.select("title");
-			if (titles.size() >= 0) {
+			if (titles.size() > 0) {
 				String title = titles.get(0).text();
 				webPage.setTitle(title);
 			}
