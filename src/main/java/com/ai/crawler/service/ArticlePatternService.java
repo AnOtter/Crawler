@@ -13,7 +13,20 @@ public class ArticlePatternService {
 	@Autowired
 	ArticlePatternMapper articlePatternMapper;
 
+	public boolean delete(ArticlePattern articlePattern) {
+		return articlePatternMapper.delete(articlePattern);
+	}
+
 	public List<ArticlePattern> getPatterns() {
 		return articlePatternMapper.getPatterns();
 	}
+
+	public boolean insert(ArticlePattern articlePattern) {
+		return articlePatternMapper.insert(articlePattern);
+	}
+
+	public boolean update(ArticlePattern articlePattern) {
+		return articlePatternMapper.update(articlePattern);
+	}
+
 }

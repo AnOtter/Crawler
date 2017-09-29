@@ -13,4 +13,20 @@
   <include refid="Base_Column_List" />
   FROM T_ArticlePattern
   </select>
+  <insert id="insert" parameterType="com.ai.crawler.entity.ArticlePattern">
+  INSERT INTO T_ArticlePattern 
+  (Authority,MatchPattern)
+  values 
+  (#{authority,jdbcType=VARCHAR},#{matchPattern,jdbcType=VARCHAR})
+  </insert>
+  <delete id="delete" parameterType="com.ai.crawler.entity.ArticlePattern">
+  DELETE 
+  FROM T_ArticlePattern
+  WHERE Authority=#{authority,jdbcType=VARCHAR} AND MatchPattern=#{matchPattern,jdbcType=VARCHAR}  
+  </delete>
+  <update id="update" parameterType="com.ai.crawler.entity.ArticlePattern">
+  UPDATE T_ArticlePattern 
+  SET MatchPattern=#{matchPattern,jdbcType=VARCHAR} 
+  WHERE Authority=#{authority,jdbcType=VARCHAR}
+  </update>
 </mapper> 
