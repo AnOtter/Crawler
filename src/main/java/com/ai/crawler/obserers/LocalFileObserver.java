@@ -61,8 +61,10 @@ public class LocalFileObserver implements FetcherObserver {
 		if(PageURL.isDirectory(fetchedPage.getUrl()))
 			return;
 		String localFilePath = FileOperator.getLocalSaveFile(crawlerConfig.getRawPageSaveDirectory(), fetchedPage.getUrl());
+		if(localFilePath.equals(""))
+			return;
 		Document rawPage=fetchedPage.getDocument();
-		if(!localFilePath.equals("") && fetchedPage.getDocument() !=null){
+		if(fetchedPage.getDocument() !=null){
 			writeContent(localFilePath,rawPage.toString(),false,false);
 		}		
 	}

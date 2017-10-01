@@ -104,6 +104,8 @@ public class FileOperator {
 	 */
 	public static String getLocalSaveFile(String localSaveDirectory, String pageURL){
 		try {
+			if(localSaveDirectory.equals(""))
+				return "";
 			URL url = new URL(pageURL);
 			String authority = url.getAuthority();
 			String[] dir = authority.split("\\.");

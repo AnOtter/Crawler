@@ -1,5 +1,6 @@
 package com.ai.crawler.obserers;
 
+import java.net.URL;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -31,7 +32,7 @@ public class SubPageObserver implements FetcherObserver {
 
 	@Autowired
 	AllowedURLs allowURLs;
-	
+
 	@Autowired
 	CrawlerConfiguration crawlerConfig;
 
@@ -58,7 +59,7 @@ public class SubPageObserver implements FetcherObserver {
 	@PostConstruct
 	public void initAllowedURLList() {
 		allowedURLList = allowURLs.getAllowedURLList();
-		String subPageMatchPattern=crawlerConfig.getSubPageMatchPattern();
+		String subPageMatchPattern = crawlerConfig.getSubPageMatchPattern();
 		if (subPageMatchPattern.equals(""))
 			subPagePattern = "a[href~=(?i)https?://.+(/|com|cn|org|\\.htm|\\.html|\\.shtml)$]";
 		else
@@ -66,15 +67,16 @@ public class SubPageObserver implements FetcherObserver {
 	}
 
 	private boolean isURLInAllowList(String subPageURL) {
-		boolean onlyFetchAllowedPages =crawlerConfig.isOnlyFetchAllowedPages();
-		if (onlyFetchAllowedPages) {
-			if (!subPageURL.equals("")) {
+		if (crawlerConfig.isOnlyFetchAllowedPages() && !subPageURL.equals("")) {
+			try {
+				URL url = new URL(subPageURL);
 				for (AllowedURL allowURL : allowedURLList) {
-					if (subPageURL.contains(allowURL.getAuthority()))
+					if (url.getAuthority().contains(allowURL.getAuthority()))
 						return true;
 				}
+			} catch (Exception e) {
+				return false;
 			}
-			return false;
 		}
 		return true;
 	}
@@ -88,14 +90,12 @@ public class SubPageObserver implements FetcherObserver {
 	private void saveSubPage(WebPage subPage) {
 		try {
 			webPageService.insert(subPage);
-		} 
-		catch (DuplicateKeyException e) {
-			//重复键异常很常见 不处理
-		}
-		catch (Exception e) {
-			System.err.println("saveSubPage ERROR:"+subPage.getUrl());
+		} catch (DuplicateKeyException e) {
+			// 重复键异常很常见 不处理
+		} catch (Exception e) {
+			System.err.println("saveSubPage ERROR:" + subPage.getUrl());
 			System.err.println(e.getMessage());
-		} 		
+		}
 	}
 
 	private void saveSubPageURLs(List<String> subPageURLs, String pageURL) {

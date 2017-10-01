@@ -66,6 +66,7 @@ public class PageFetcher implements Runnable {
 			pageParser.parser(webPage);
 			updateObservers(webPage);
 			printFetching(webPage);
+			webPage =null;
 		} catch (Exception e) {
 			System.err.println("PageFetch.fetch() ERROR:" + now() + "\t" + webPage.getUrl());
 			System.err.println(e.getMessage());
@@ -81,7 +82,7 @@ public class PageFetcher implements Runnable {
 	private Document fetchPage(URL url) {
 		Document document = null;
 		try {
-			document = Jsoup.parse(url, 3000);
+			document = Jsoup.parse(url, 6000);
 		} catch (Exception e) {
 			System.err.println("PageFetch.fetchPage() ERROR:" + url.toString());
 			System.err.println(e.getMessage());
