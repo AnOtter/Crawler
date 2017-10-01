@@ -63,7 +63,7 @@ public class PageFetcher implements Runnable {
 			URL url = new URL(fetchURL);
 			Document document = fetchPage(url);
 			webPage.setDocument(document);
-			pageParser.parser(webPage);
+			pageParser.parse(webPage);
 			updateObservers(webPage);
 			printFetching(webPage);
 			webPage =null;

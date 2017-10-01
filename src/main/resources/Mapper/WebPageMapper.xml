@@ -7,16 +7,18 @@
     <result column="PARENTURL" property="parentURL" jdbcType="VARCHAR" />
     <result column="FETCHTIME" property="fetchTime" jdbcType="TIMESTAMP" />
     <result column="FETCHINGTIME" property="fetchingTime" jdbcType="TIMESTAMP" />
-    <result column="TITLE" property="title" jdbcType="VARCHAR" />    
+    <result column="TITLE" property="title" jdbcType="VARCHAR" />   
+	<result column="PUBLISHDATE" property="publishDate" jdbcType="VARCHAR"/>
   </resultMap>
   <sql id="Base_Column_List" >
-  PAGEIDENTITY,URL,PARENTURL,FETCHTIME,FETCHINGTIME,TITLE
+  PAGEIDENTITY,URL,PARENTURL,FETCHTIME,FETCHINGTIME,TITLE,PUBLISHDATE
   </sql>
   <select id="getFetchList" resultMap="BaseResultMap" parameterType="int" >
   SELECT 
   <include refid="Base_Column_List" />
   FROM T_WebPages 
-  WHERE  fetchingTime IS NULL
+  WHERE fetchingTime IS NULL
+  ORDER BY PublishDate DESC
   Limit #{count,jdbcType=DECIMAL}
   </select>
   <update id="updateFetchingTime" parameterType="java.util.List" >
@@ -33,7 +35,20 @@
   WHERE URL=#{url,jdbcType=VARCHAR}  
   </select>
   <insert id="insert" parameterType="com.ai.crawler.entity.WebPage">
-  INSERT INTO T_WebPages (URL,ParentURL) VALUES (#{url,jdbcType=VARCHAR},#{parentURL,jdbcType=VARCHAR})
+  INSERT INTO T_WebPages 
+  (
+  URL,ParentURL
+  <if test="publishDate != null and publishDate !=''">
+  ,PUBLISHDATE
+  </if>
+  ) 
+  VALUES 
+  (
+  #{url,jdbcType=VARCHAR},#{parentURL,jdbcType=VARCHAR}
+   <if test="publishDate != null and publishDate !=''">
+  ,#{publishDate,jdbcType=VARCHAR}
+  </if>
+  )
   </insert>
   <update id="update" parameterType="com.ai.crawler.entity.WebPage">
   UPDATE T_WebPages 
@@ -65,7 +80,7 @@
   </select>
   <update id="updatSeedURL">
   UPDATE T_WebPages
-  SET FetchingTime=null
+  SET FetchingTime=null,PublishDate=DATE_FORMAT(NOW(),'%Y%m%d')
   WHERE PageIdentity &lt; 20 and title is null
   </update>
 </mapper>

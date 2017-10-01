@@ -25,6 +25,7 @@ public class WebPage {
 	private String title;
 	private Document document;
 	private String content;
+	private String publishDate;
 
 	public String getContent() {
 		if (content == null)
@@ -51,6 +52,10 @@ public class WebPage {
 
 	public String getParentURL() {
 		return parentURL;
+	}
+
+	public String getPublishDate() {
+		return publishDate;
 	}
 
 	public String getTitle() {
@@ -86,6 +91,10 @@ public class WebPage {
 
 	public void setParentURL(String parentURL) {
 		this.parentURL = parentURL;
+	}
+
+	public void setPublishDate(String publishDate) {
+		this.publishDate = publishDate;
 	}
 
 	public void setTitle(String title) {

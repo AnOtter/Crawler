@@ -15,6 +15,7 @@ import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Component;
 
 import com.ai.crawler.AllowedURLs;
+import static com.ai.crawler.PageURL.*;
 import com.ai.crawler.config.CrawlerConfiguration;
 import com.ai.crawler.entity.AllowedURL;
 import com.ai.crawler.entity.WebPage;
@@ -78,7 +79,7 @@ public class SubPageObserver implements FetcherObserver {
 				return false;
 			}
 		}
-		return true;
+		return false;
 	}
 
 	@Override
@@ -104,6 +105,7 @@ public class SubPageObserver implements FetcherObserver {
 				WebPage subPage = new WebPage();
 				subPage.setUrl(subPageURL);
 				subPage.setParentURL(pageURL);
+				subPage.setPublishDate(matchPublishDate(subPageURL));
 				saveSubPage(subPage);
 			}
 		}

@@ -28,18 +28,19 @@ public class LocalFileObserver implements FetcherObserver {
 	@Override
 	public void pageFetched(WebPage webPage) {
 		try {
-			String localFilePath = FileOperator.getLocalSaveFile(crawlerConfig.getLocalSaveDirectory(), webPage.getUrl());
+			String localFilePath = FileOperator.getLocalSaveFile(crawlerConfig.getLocalSaveDirectory(),
+					webPage.getUrl());
 			String articleContent = webPage.getContent();
 			if (!localFilePath.equals("") && !articleContent.equals(""))
-				saveParserdPage(webPage,localFilePath);
-			else
-				saveRawPage(webPage);			
+				saveParserdPage(webPage, localFilePath);
+			else if (!crawlerConfig.getRawPageSaveDirectory().equals(""))
+				saveRawPage(webPage);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
-	private void saveParserdPage(WebPage fetchedPage,String localFilePath){
+	private void saveParserdPage(WebPage fetchedPage, String localFilePath) {
 		String articleContent = fetchedPage.getContent();
 		String title = fetchedPage.getTitle();
 		if (!localFilePath.equals("") && !articleContent.equals("")) {
@@ -56,16 +57,17 @@ public class LocalFileObserver implements FetcherObserver {
 			writeContent(localFilePath, stringBuilder.toString(), false, false);
 		}
 	}
-	
-	private void saveRawPage(WebPage fetchedPage){
-		if(PageURL.isDirectory(fetchedPage.getUrl()))
+
+	private void saveRawPage(WebPage fetchedPage) {
+		if (PageURL.isDirectory(fetchedPage.getUrl()))
 			return;
-		String localFilePath = FileOperator.getLocalSaveFile(crawlerConfig.getRawPageSaveDirectory(), fetchedPage.getUrl());
-		if(localFilePath.equals(""))
+		String localFilePath = FileOperator.getLocalSaveFile(crawlerConfig.getRawPageSaveDirectory(),
+				fetchedPage.getUrl());
+		if (localFilePath.equals(""))
 			return;
-		Document rawPage=fetchedPage.getDocument();
-		if(fetchedPage.getDocument() !=null){
-			writeContent(localFilePath,rawPage.toString(),false,false);
-		}		
+		Document rawPage = fetchedPage.getDocument();
+		if (fetchedPage.getDocument() != null) {
+			writeContent(localFilePath, rawPage.toString(), false, false);
+		}
 	}
 }
