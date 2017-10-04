@@ -17,7 +17,7 @@
   SELECT 
   <include refid="Base_Column_List" />
   FROM T_WebPages 
-  WHERE fetchingTime IS NULL
+  WHERE fetchingTime='2000-01-01'
   ORDER BY PublishDate DESC
   Limit #{count,jdbcType=DECIMAL}
   </select>
@@ -80,7 +80,7 @@
   </select>
   <update id="updatSeedURL">
   UPDATE T_WebPages
-  SET FetchingTime=null,PublishDate=DATE_FORMAT(NOW(),'%Y%m%d')
+  SET FetchingTime='2000-01-01',PublishDate=DATE_FORMAT(NOW(),'%Y%m%d')
   WHERE PageIdentity &lt; 20 and title is null
   </update>
 </mapper>
