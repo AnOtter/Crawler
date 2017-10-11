@@ -25,6 +25,20 @@ public class LocalFileObserver implements FetcherObserver {
 	@Autowired
 	CrawlerConfiguration crawlerConfig;
 
+	private String formatHTMLPage(WebPage fetchedPage) {
+		StringBuilder htmlContent = new StringBuilder();
+		htmlContent.append("<html><head fetchTime=\"");
+		htmlContent.append(formatDate(fetchedPage.getFetchTime()));
+		htmlContent.append("\" originalURL=\"");
+		htmlContent.append(fetchedPage.getUrl());
+		htmlContent.append("\">");
+		htmlContent.append(fetchedPage.getTitle());
+		htmlContent.append("</head><body>");
+		htmlContent.append(fetchedPage.getContent());
+		htmlContent.append("</body></html>");
+		return htmlContent.toString();
+	}
+
 	@Override
 	public void pageFetched(WebPage webPage) {
 		try {
@@ -42,19 +56,9 @@ public class LocalFileObserver implements FetcherObserver {
 
 	private void saveParserdPage(WebPage fetchedPage, String localFilePath) {
 		String articleContent = fetchedPage.getContent();
-		String title = fetchedPage.getTitle();
 		if (!localFilePath.equals("") && !articleContent.equals("")) {
-			StringBuilder stringBuilder = new StringBuilder();
-			stringBuilder.append("<html><head fetchTime=\"");
-			stringBuilder.append(formatDate(fetchedPage.getFetchTime()));
-			stringBuilder.append("\" originalURL=\"");
-			stringBuilder.append(fetchedPage.getUrl());
-			stringBuilder.append("\">");
-			stringBuilder.append(title);
-			stringBuilder.append("</head><body>");
-			stringBuilder.append(articleContent);
-			stringBuilder.append("</body></html>");
-			writeContent(localFilePath, stringBuilder.toString(), false, false);
+			String htmlPage = formatHTMLPage(fetchedPage);
+			writeContent(localFilePath, htmlPage, false, false);
 		}
 	}
 
