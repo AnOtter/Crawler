@@ -34,6 +34,9 @@ public class FetchManager implements ApplicationContextAware {
 
 	@Value("${Crawler.MaxThreadCount}")
 	int maxThreadCount;
+	
+	@Value("${Crawler.ExecuteCrawler}")
+	boolean executeCrawler;
 
 	private ApplicationContext appContext;
 
@@ -90,14 +93,16 @@ public class FetchManager implements ApplicationContextAware {
 	@PostConstruct
 	public void run() {
 		try {
-			List<WebPage> nextFetchList = fetchList.getNextFetchPages();
-			ExecutorService executorService = Executors.newFixedThreadPool(maxThreadCount);
-			List<Future<?>> futures = new ArrayList<>();
-			while (!nextFetchList.isEmpty()) {
-				removeDoneExecutors(futures);
-				addFetchExecutor(nextFetchList, executorService, futures);
-				if (nextFetchList.isEmpty())
-					nextFetchList = fetchList.getNextFetchPages();
+			if(executeCrawler){
+				List<WebPage> nextFetchList = fetchList.getNextFetchPages();
+				ExecutorService executorService = Executors.newFixedThreadPool(maxThreadCount);
+				List<Future<?>> futures = new ArrayList<>();
+				while (!nextFetchList.isEmpty()) {
+					removeDoneExecutors(futures);
+					addFetchExecutor(nextFetchList, executorService, futures);
+					if (nextFetchList.isEmpty())
+						nextFetchList = fetchList.getNextFetchPages();
+				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
