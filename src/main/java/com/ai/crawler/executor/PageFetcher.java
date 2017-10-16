@@ -1,4 +1,4 @@
-package com.ai.crawler;
+package com.ai.crawler.executor;
 
 import java.net.URL;
 import java.util.Date;

@@ -7,6 +7,8 @@ import java.util.List;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.ai.crawler.controller.TitleMatchPatterns;
+
 public class TitleMatchPatternsTest extends CrawlerUnitTest {
 	@Autowired
 	TitleMatchPatterns titleMatchPatterns;

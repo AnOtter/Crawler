@@ -1,5 +1,7 @@
 package com.ai.crawler.obserers;
 
+import static com.ai.util.PageURL.*;
+
 import java.net.URL;
 import java.util.LinkedList;
 import java.util.List;
@@ -14,9 +16,8 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Component;
 
-import com.ai.crawler.AllowedURLs;
-import static com.ai.crawler.PageURL.*;
 import com.ai.crawler.config.CrawlerConfiguration;
+import com.ai.crawler.controller.AllowedURLs;
 import com.ai.crawler.entity.AllowedURL;
 import com.ai.crawler.entity.WebPage;
 import com.ai.crawler.service.WebPageService;

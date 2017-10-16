@@ -9,10 +9,10 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
 
-import com.ai.crawler.PageURL;
 import com.ai.crawler.config.CrawlerConfiguration;
 import com.ai.crawler.entity.WebPage;
 import com.ai.util.FileOperator;
+import com.ai.util.PageURL;
 
 /**
  * @author OTTER

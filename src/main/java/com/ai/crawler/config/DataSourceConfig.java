@@ -1,4 +1,4 @@
-package com.ai.crawler.db;
+package com.ai.crawler.config;
 
 import java.sql.SQLException;
 

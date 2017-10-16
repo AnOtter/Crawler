@@ -4,6 +4,8 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+import com.ai.util.PageURL;
+
 public class PageURLTest {
 	@Test
 	public void testIsDirectory(){

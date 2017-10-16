@@ -1,4 +1,4 @@
-package com.ai.crawler;
+package com.ai.crawler.executor;
 
 import java.util.List;
 import org.jsoup.nodes.Document;
@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import com.ai.crawler.controller.ArticleMatchPatterns;
+import com.ai.crawler.controller.TitleMatchPatterns;
 import com.ai.crawler.entity.WebPage;
 
 /**

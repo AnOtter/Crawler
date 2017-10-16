@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 import com.ai.crawler.mapper.WebPageMapper;
-import com.ai.crawler.PageURL;
+import com.ai.util.PageURL;
 import com.ai.crawler.entity.WebPage;
 
 @Service

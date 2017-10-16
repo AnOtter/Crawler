@@ -1,4 +1,4 @@
-package com.ai.crawler;
+package com.ai.crawler.executor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +15,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
 
+import com.ai.crawler.controller.FetchList;
 import com.ai.crawler.entity.WebPage;
 
 /**

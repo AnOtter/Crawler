@@ -1,4 +1,4 @@
-package com.ai.crawler;
+package com.ai.crawler.controller;
 
 import java.util.Date;
 import java.util.List;

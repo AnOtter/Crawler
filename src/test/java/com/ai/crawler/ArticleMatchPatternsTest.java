@@ -7,6 +7,8 @@ import java.util.List;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.ai.crawler.controller.ArticleMatchPatterns;
+
 public class ArticleMatchPatternsTest extends CrawlerUnitTest {
 	@Autowired
 	ArticleMatchPatterns articleMatchPatterns;

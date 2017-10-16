@@ -1,12 +1,12 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.ai</groupId>
-	<artifactId>Crawler</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<artifactId>crawler</artifactId>
+	<version>17.10.11</version>
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>1.5.4.RELEASE</version>
+		<version>1.5.7.RELEASE</version>
 		<relativePath/>
 	</parent>
 	<properties>
@@ -17,10 +17,6 @@
 	   <jsoup.version>1.10.2</jsoup.version>
 	</properties>
 	<dependencies>
-		<dependency>
-  			<groupId>org.springframework.boot</groupId>
-  			<artifactId>spring-boot-starter-web</artifactId>
-  		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter</artifactId>
@@ -72,76 +68,28 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
-	<build>
+	<build>	
 		<finalName>crawler</finalName>
 		<plugins>
-	  		<plugin>
-        		<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-dependency-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>copy-dependencies</id>
-						<phase>prepare-package</phase>
-						<goals>
-							<goal>copy-dependencies</goal>
-						</goals>
-						<configuration>
-							<outputDirectory>${project.build.directory}/lib</outputDirectory>
-							<overWriteReleases>false</overWriteReleases>
-							<overWriteSnapshots>false</overWriteSnapshots>
-							<overWriteIfNewer>true</overWriteIfNewer>
-						</configuration>
-					</execution>
-				</executions>
-	  		</plugin>	
-	  		<plugin>
+			<!-- 指定jdk版本 -->
+			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<configuration>
 					<source>1.8</source>
 					<target>1.8</target>
 				</configuration>
-			</plugin>  
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-jar-plugin</artifactId>
-				<configuration>
-					<archive>  
-						<manifest>  
-							<addClasspath>true</addClasspath>  
-							<classpathPrefix>lib/</classpathPrefix>
-							<mainClass>com.ai.crawler.App</mainClass>  
-							<addDefaultImplementationEntries>true</addDefaultImplementationEntries>  
-	                        <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
-						</manifest>  
-					</archive>
-				</configuration>
-			</plugin>
-			<plugin>  
-	            <artifactId>maven-resources-plugin</artifactId>  
-	            <executions>  
-	                <execution>  
-	                    <id>copy-xmls</id>  
-	                    <phase>process-sources</phase>  
-	                    <goals>  
-	                        <goal>copy-resources</goal>  
-	                    </goals>  
-	                    <configuration>  
-	                        <outputDirectory>${basedir}/target/config</outputDirectory>  
-	                        <resources>  
-	                            <resource>  
-	                                <directory>${basedir}/src/main/resources</directory>  
-	                            </resource>  
-	                        </resources>  
-	                    </configuration>  
-	                </execution>  
-	            </executions>  
-	        </plugin>  
+			</plugin> 			
+	        <plugin>
+          		<groupId>org.springframework.boot</groupId>
+          		<artifactId>spring-boot-maven-plugin</artifactId>
+       		</plugin>
+			<!-- 跳过测试 -->
 	        <plugin>
 	          <groupId>org.apache.maven.plugins</groupId>
 	          <artifactId>maven-surefire-plugin</artifactId>
 	          <configuration>
-	          <skipTests>true</skipTests>
+	          	<skipTests>true</skipTests>
 	          </configuration>
 	        </plugin>	           						
 		</plugins>
