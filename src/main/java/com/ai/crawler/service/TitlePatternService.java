@@ -16,4 +16,16 @@ public class TitlePatternService {
 	public List<TitlePattern> getPatterns() {
 		return titlePatternMapper.getPatterns();
 	}
+	
+	public boolean delete(TitlePattern titlePattern) {
+		return titlePatternMapper.delete(titlePattern);
+	}
+
+	public boolean insert(TitlePattern titlePattern) {
+		return titlePatternMapper.insert(titlePattern);
+	}
+
+	public boolean update(TitlePattern titlePattern) {
+		return titlePatternMapper.update(titlePattern);
+	}
 }

@@ -12,4 +12,10 @@
   <include refid="Base_Column_List" />
   FROM T_AllowedURLList
   </select>
+  <insert id="insert" parameterType="com.ai.crawler.entity.AllowedURL" >
+  INSERT INTO T_AllowedURLList (Authority, values (#{authority,jdbcType=VARCHAR})
+  </insert>
+  <delete id="delete" parameterType="com.ai.crawler.entity.AllowedURL">
+  DELETE FROM T_AllowedURLList WHERE Authority = #{authority,jdbcType=VARCHAR}
+  </delete>
 </mapper> 

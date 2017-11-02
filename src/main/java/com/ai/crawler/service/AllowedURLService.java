@@ -13,7 +13,15 @@ public class AllowedURLService {
 	@Autowired
 	AllowedURLMapper allowedURLMapper;
 
+	public boolean delete(AllowedURL allowedURL) {
+		return allowedURLMapper.delete(allowedURL);
+	}
+
 	public List<AllowedURL> getAllowedList() {
 		return allowedURLMapper.getAllowedList();
+	}
+
+	public boolean insert(AllowedURL allowedURL) {
+		return allowedURLMapper.insert(allowedURL);
 	}
 }
